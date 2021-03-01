@@ -9,6 +9,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float fastMoveFactor;
     [SerializeField] private float climbSpeed;
     [SerializeField] private float cameraSensitivity;
+    [SerializeField] private float waterheight;
 
     private float _rotationX;
     private float _rotationY;
@@ -43,6 +44,9 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.Q)) upAxis = -0.5f;
         if (Input.GetKey(KeyCode.E)) upAxis = 0.5f;
         transform.position += transform.up * movementSpeed * speedFactor * upAxis * Time.deltaTime;
+
+        //If the player is underwater then enable the underwater fog
+        if (transform.position.y <= waterheight) { RenderSettings.fog = true; } else { RenderSettings.fog = false; }
     }
 
 
