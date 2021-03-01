@@ -10,13 +10,16 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float climbSpeed;
     [SerializeField] private float cameraSensitivity;
     [SerializeField] private float waterheight;
+    [SerializeField] private float worldBottomLevel;
 
+    private float spawnHeight;
     private float _rotationX;
     private float _rotationY;
 
     void Start()
     {
         _rotationX = transform.eulerAngles.y;
+        spawnHeight = transform.position.y;
     }
 
     void Update()
@@ -47,6 +50,7 @@ public class CameraMovement : MonoBehaviour
 
         //If the player is underwater then enable the underwater fog
         if (transform.position.y <= waterheight) { RenderSettings.fog = true; } else { RenderSettings.fog = false; }
+        if (transform.position.y <= worldBottomLevel) { transform.position = new Vector3(transform.position.x, spawnHeight, transform.position.z); }
     }
 
 
