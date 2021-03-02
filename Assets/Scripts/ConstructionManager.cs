@@ -51,7 +51,10 @@ public class ConstructionManager : MonoBehaviour
 
     private void PlaceDownBuilding()
     {
+        //The main object doesnt have the collider so get the actual building with its mesh and collider
         Transform buildingMesh = currentSelectedBuild.GetComponent<ConstructionBuilding>().GetBuilding().transform;
+
+        //Check if an existing building is already located at this position
         RaycastHit[] hits = Physics.BoxCastAll(buildingMesh.position, buildingMesh.localScale / 4, transform.up, transform.rotation, 1);
         for(int i = 0; i < hits.Length; i++)
         {
