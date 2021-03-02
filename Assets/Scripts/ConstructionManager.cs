@@ -15,6 +15,11 @@ public class ConstructionManager : MonoBehaviour
     //This function is called by a button that uses a string to determine what building to instantiate
     public void SpawnNewBuilding(string buildingName)
     {
+        if (currentSelectedBuild)
+        {
+            Destroy(currentSelectedBuild);
+        }
+
         GameObject newObject = Resources.Load("Buildings/" + buildingName) as GameObject;
         currentSelectedBuild = Instantiate(newObject);
     }
@@ -32,6 +37,31 @@ public class ConstructionManager : MonoBehaviour
             {
                 currentSelectedBuild.transform.position = gridObject.GetNearestPointOnGrid(hit.point);
             }
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                PlaceDownBuilding();   
+            }
+            if (Input.GetButtonDown("Fire2"))
+            {
+                Destroy(currentSelectedBuild);
+            }
         }
+    }
+
+    private void PlaceDownBuilding()
+    {
+        RaycastHit[] hits = Physics.BoxCastAll(currentSelectedBuild.transform.position, currentSelectedBuild.transform.localScale, transform.up, transform.rotation, 1);
+        for(int i = 0; i < hits.Length; i++)
+        {
+            if(hits[i].transform.tag == "Building")
+            {
+                Debug.Log("Object was obstructed");
+                return;
+            }
+        }
+
+        currentSelectedBuild.tag = "Building";
+        currentSelectedBuild = null;
     }
 }
