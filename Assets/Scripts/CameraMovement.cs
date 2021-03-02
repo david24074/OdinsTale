@@ -49,8 +49,11 @@ public class CameraMovement : MonoBehaviour
         transform.position += transform.up * movementSpeed * speedFactor * upAxis * Time.deltaTime;
 
         //If the player is underwater then enable the underwater fog
-        if (transform.position.y <= waterheight) { RenderSettings.fog = true; } else { RenderSettings.fog = false; }
-        if (transform.position.y <= worldBottomLevel) { transform.position = new Vector3(transform.position.x, spawnHeight, transform.position.z); }
+        if (transform.position.y <= waterheight) { RenderSettings.fog = true; } else
+        {
+            RenderSettings.fog = false;
+            if (transform.position.y <= worldBottomLevel) { transform.position = new Vector3(transform.position.x, spawnHeight, transform.position.z); }
+        }
     }
 
 
