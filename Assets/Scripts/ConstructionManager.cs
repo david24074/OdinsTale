@@ -51,7 +51,8 @@ public class ConstructionManager : MonoBehaviour
 
     private void PlaceDownBuilding()
     {
-        RaycastHit[] hits = Physics.BoxCastAll(currentSelectedBuild.transform.position, currentSelectedBuild.transform.localScale, transform.up, transform.rotation, 1);
+        Transform buildingMesh = currentSelectedBuild.GetComponent<ConstructionBuilding>().GetBuilding().transform;
+        RaycastHit[] hits = Physics.BoxCastAll(buildingMesh.position, buildingMesh.localScale / 4, transform.up, transform.rotation, 1);
         for(int i = 0; i < hits.Length; i++)
         {
             if(hits[i].transform.tag == "Building")
@@ -61,7 +62,7 @@ public class ConstructionManager : MonoBehaviour
             }
         }
 
-        currentSelectedBuild.tag = "Building";
+        buildingMesh.tag = "Building";
         currentSelectedBuild = null;
     }
 }
