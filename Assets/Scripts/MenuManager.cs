@@ -37,8 +37,14 @@ public class MenuManager : MonoBehaviour
             }
         }
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
+
+        if (!ES3.KeyExists("ResolutionIndex"))
+        {
+            resolutionDropdown.value = currentResolutionIndex;
+            resolutionDropdown.RefreshShownValue();
+        }
+
+        LoadSettings();
     }
 
     public void QuitGame()
@@ -55,26 +61,68 @@ public class MenuManager : MonoBehaviour
     public void SetMusicVolume(float volume)
     {
         audioMixer.SetFloat("MusicVolume", volume);
+        ES3.Save("MusicVolume", volume);
     }
 
     public void SetFxVolume(float volume)
     {
         audioMixer.SetFloat("FxVolume", volume);
+        ES3.Save("FxVolume", volume);
+    }
+
+    private void LoadSettings()
+    {
+        if (ES3.KeyExists("MusicVolume"))
+        {
+            float volume = ES3.Load<float>("MusicVolume");
+            audioMixer.SetFloat("MusicVolume", volume);
+            musicSlider.SetValueWithoutNotify(volume);
+        }
+        if (ES3.KeyExists("FxVolume"))
+        {
+            float volume = ES3.Load<float>("FxVolume");
+            audioMixer.SetFloat("FxVolume", volume);
+            fxSlider.SetValueWithoutNotify(volume);
+        }
+        if (ES3.KeyExists("GraphicsIndex"))
+        {
+            int index = ES3.Load<int>("GraphicsIndex");
+            QualitySettings.SetQualityLevel(index);
+            graphicsDropdown.SetValueWithoutNotify(index);
+            graphicsDropdown.RefreshShownValue();
+        }
+        if (ES3.KeyExists("IsFullscreen"))
+        {
+            bool isFullscreen = ES3.Load<bool>("IsFullscreen");
+            Screen.fullScreen = isFullscreen;
+            fullscreenToggle.SetIsOnWithoutNotify(isFullscreen);
+        }
+        if (ES3.KeyExists("ResolutionIndex"))
+        {
+            int index = ES3.Load<int>("ResolutionIndex");
+            Resolution resolution = resolutions[index];
+            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+            resolutionDropdown.SetValueWithoutNotify(index);
+            resolutionDropdown.RefreshShownValue();
+        }
     }
 
     public void SetGraphicsLevel(int graphicsIndex)
     {
         QualitySettings.SetQualityLevel(graphicsIndex);
+        ES3.Save("GraphicsIndex", graphicsIndex);
     }
 
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+        ES3.Save("IsFullscreen", isFullscreen);
     }
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        ES3.Save("ResolutionIndex", resolutionIndex);
     }
 }
