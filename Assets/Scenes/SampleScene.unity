@@ -252,7 +252,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 96, y: 21.6}
+  m_AnchoredPosition: {x: 96, y: 21.599976}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &177029567
@@ -651,6 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb8517a79b26684abad1ec982e2f3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectYPlacement: 14.75
 --- !u!1 &837763078
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &837763079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1359,7 +1360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 276.4, y: 21.6}
+  m_AnchoredPosition: {x: 276.40002, y: 21.599976}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2031898231
@@ -1464,6 +1465,7 @@ GameObject:
   - component: {fileID: 2101969546}
   - component: {fileID: 2101969549}
   - component: {fileID: 2101969548}
+  - component: {fileID: 2101969547}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -1485,6 +1487,19 @@ Transform:
   m_Father: {fileID: 1264261981}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2101969547
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101969545}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0.0000000018626451, z: 0}
 --- !u!23 &2101969548
 MeshRenderer:
   m_ObjectHideFlags: 0

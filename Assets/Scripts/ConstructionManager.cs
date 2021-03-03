@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ConstructionManager : MonoBehaviour
 {
+    [SerializeField] private float objectYPlacement;
+
     private GameObject currentSelectedBuild;
     private Grid gridObject;
 
@@ -35,7 +37,7 @@ public class ConstructionManager : MonoBehaviour
             int layerMask = 1 << 8;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
             {
-                currentSelectedBuild.transform.position = gridObject.GetNearestPointOnGrid(hit.point);
+                currentSelectedBuild.transform.position = gridObject.GetNearestPointOnGrid(new Vector3(hit.point.x, objectYPlacement, hit.point.z));
             }
 
             if (Input.GetButtonDown("Fire1"))
