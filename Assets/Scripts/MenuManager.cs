@@ -15,8 +15,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private Toggle fullscreenToggle;
 
+    [Header("Audio")]
     [SerializeField] private AudioMixer audioMixer;
-
     private Resolution[] resolutions;
 
     private void Start()

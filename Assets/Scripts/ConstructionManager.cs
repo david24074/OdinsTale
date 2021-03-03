@@ -5,6 +5,7 @@ using UnityEngine;
 public class ConstructionManager : MonoBehaviour
 {
     [SerializeField] private float objectYPlacement;
+    [SerializeField] private GameObject buildingsMenu;
 
     private GameObject currentSelectedBuild;
     private Grid gridObject;
@@ -22,6 +23,7 @@ public class ConstructionManager : MonoBehaviour
             Destroy(currentSelectedBuild);
         }
 
+        buildingsMenu.SetActive(false);
         GameObject newObject = Resources.Load("Buildings/" + buildingName) as GameObject;
         currentSelectedBuild = Instantiate(newObject);
     }
@@ -47,6 +49,7 @@ public class ConstructionManager : MonoBehaviour
             if (Input.GetButtonDown("Fire2"))
             {
                 Destroy(currentSelectedBuild);
+                buildingsMenu.SetActive(true);
             }
         }
     }
@@ -67,7 +70,13 @@ public class ConstructionManager : MonoBehaviour
             }
         }
 
+        buildingsMenu.SetActive(true);
         buildingMesh.tag = "Building";
         currentSelectedBuild = null;
+    }
+
+    public void ToggleBuildingsMenu()
+    {
+        buildingsMenu.SetActive(!buildingsMenu.activeInHierarchy);
     }
 }
