@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown graphicsDropdown;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private Toggle fullscreenToggle;
+
+    [SerializeField] private AudioMixer audioMixer;
 
     public void QuitGame()
     {
@@ -25,4 +28,23 @@ public class MenuManager : MonoBehaviour
     }
 
     //--------------Settings menu--------------\\
+    public void SetMusicVolume(float volume)
+    {
+        audioMixer.SetFloat("MusicVolume", volume);
+    }
+
+    public void SetFxVolume(float volume)
+    {
+        audioMixer.SetFloat("FxVolume", volume);
+    }
+
+    public void SetGraphicsLevel(int graphicsIndex)
+    {
+        QualitySettings.SetQualityLevel(graphicsIndex);
+    }
+
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+    }
 }
