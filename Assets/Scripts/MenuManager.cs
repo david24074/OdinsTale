@@ -15,6 +15,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private Toggle fullscreenToggle;
 
+    [Header("Scene Loading")]
+    [SerializeField] private GameObject loadingScreen;
+
     [Header("Audio")]
     [SerializeField] private AudioMixer audioMixer;
     private Resolution[] resolutions;
@@ -54,7 +57,17 @@ public class MenuManager : MonoBehaviour
 
     public void LoadScene(int sceneIndex)
     {
-        SceneManager.LoadScene(sceneIndex);
+        StartCoroutine(LoadSceneAsync(sceneIndex));
+    }
+
+    private IEnumerator LoadSceneAsync(int sceneIndex)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+        loadingScreen.SetActive(true);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 
     //--------------Settings menu--------------\\
