@@ -3726,10 +3726,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b1aff881e10624089bae420a1f5205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  fastMoveFactor: 2
-  climbSpeed: 4
-  cameraSensitivity: 1000
+  levelArea: 1000
+  dragSpeed: 30
+  zoomMin: 20
+  zoomMax: 120
   waterheight: 14
   worldBottomLevel: 5
 --- !u!114 &963194232
