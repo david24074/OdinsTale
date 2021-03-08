@@ -22,6 +22,7 @@ public class ConstructionManager : MonoBehaviour
     public void AddNewJob(JobActivator newJob)
     {
         allJobs.Add(newJob);
+        AssignSpecificJob(newJob);
     }
 
     public void RemoveNewJob(JobActivator oldJob)
@@ -32,6 +33,23 @@ public class ConstructionManager : MonoBehaviour
     public void AddNewCitizen(Citizen citizen)
     {
         allCitizens.Add(citizen);
+    }
+
+    private void AssignSpecificJob(JobActivator job)
+    {
+        int allocatedJobs = job.GetCurrentWorkers();
+        for (int i = 0; i < allCitizens.Count; i++)
+        {
+            if (allocatedJobs >= job.GetMaxJobWorkers())
+            {
+                return;
+            }
+            if (!allCitizens[i].GetComponent<Citizen>().HasActiveJob())
+            {
+                allocatedJobs++;
+                allCitizens[i].GetComponent<Citizen>().GiveNewJob(job);
+            }
+        }
     }
 
     public GameObject GetBuildingByID(string id)
@@ -78,7 +96,7 @@ public class ConstructionManager : MonoBehaviour
             {
                 if (hit.transform.GetComponent<JobActivator>())
                 {
-
+                    AssignSpecificJob(hit.transform.GetComponent<JobActivator>());
                 }
             }
         }

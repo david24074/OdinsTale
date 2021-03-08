@@ -7,10 +7,12 @@ public class Citizen : MonoBehaviour
 {
     private NavMeshAgent navmeshAgent;
     private GameObject citizenHouse;
+    private Animator animator;
 
     private void Start()
     {
         navmeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     //Mainly used for moving towards new jobs
@@ -22,6 +24,20 @@ public class Citizen : MonoBehaviour
     public void SetVectorTarget(Vector3 target)
     {
         navmeshAgent.SetDestination(target);
+    }
+
+    public bool HasActiveJob()
+    {
+        if(animator.GetInteger("JobIndex") == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public void GiveNewJob(JobActivator job)
+    {
+        SetTransformTarget(job.transform);
     }
 
     //Used for the idle behaviour, we dont want the citizen to move too far away from his house so
