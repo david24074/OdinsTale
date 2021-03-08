@@ -8,6 +8,7 @@ public class Citizen : MonoBehaviour
     private NavMeshAgent navmeshAgent;
     private GameObject citizenHouse;
     private Animator animator;
+    private Transform targetObject;
 
     private void Start()
     {
@@ -39,7 +40,20 @@ public class Citizen : MonoBehaviour
 
     public void GiveNewJob(JobActivator job)
     {
+        targetObject = job.transform;
         SetTransformTarget(job.transform);
+        animator.SetInteger("JobIndex", job.GetJobIndex());
+    }
+
+    public void TryMineResource()
+    {
+        if (!targetObject)
+        {
+            animator.SetInteger("JobIndex", 0);
+            return;
+        }
+
+        targetObject.GetComponent<Harvestable>().MineResource(20);
     }
 
     //Used for the idle behaviour, we dont want the citizen to move too far away from his house so
