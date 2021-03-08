@@ -90,9 +90,7 @@ public class ConstructionManager : MonoBehaviour
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            //Use the ground layer for the raycast
-            int layerMask = 1 << 8;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 if (hit.transform.GetComponent<JobActivator>())
                 {

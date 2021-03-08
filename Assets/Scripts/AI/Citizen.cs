@@ -13,6 +13,8 @@ public class Citizen : MonoBehaviour
     {
         navmeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<ConstructionManager>().AddNewCitizen(this);
     }
 
     //Mainly used for moving towards new jobs
