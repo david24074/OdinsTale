@@ -10,6 +10,8 @@ public class ConstructionManager : MonoBehaviour
     private GameObject currentSelectedBuild;
     private Grid gridObject;
 
+    private List<GameObject> allBuildings = new List<GameObject>();
+
     private void Start()
     {
         gridObject = GetComponent<Grid>();
@@ -72,10 +74,11 @@ public class ConstructionManager : MonoBehaviour
 
         buildingsMenu.SetActive(true);
         buildingMesh.tag = "Building";
+        allBuildings.Add(currentSelectedBuild);
         currentSelectedBuild = null;
     }
 
-    public void ToggleBuildingsMenu()
+    private void ToggleBuildingsMenu()
     {
         buildingsMenu.SetActive(!buildingsMenu.activeInHierarchy);
     }

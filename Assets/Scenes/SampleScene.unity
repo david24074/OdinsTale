@@ -107,21 +107,21 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
+    agentRadius: 0.2
+    agentHeight: 0.8
     agentSlope: 45
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.06666667
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 6463d1a8b6e5dcd429eaf9d54d8c084d, type: 2}
 --- !u!1 &14229554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2025,7 +2025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000028664044, y: 0}
+  m_AnchoredPosition: {x: 0.00028031366, y: 0}
   m_SizeDelta: {x: 0, y: 83}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &538735188
@@ -7529,6 +7529,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Citizen
+      objectReference: {fileID: 0}
+    - target: {fileID: 527486501800498769, guid: 566f731ff752d6e42b4be1e684a33d68,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 527486501800498783, guid: 566f731ff752d6e42b4be1e684a33d68,
         type: 3}
