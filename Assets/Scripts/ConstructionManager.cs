@@ -17,6 +17,18 @@ public class ConstructionManager : MonoBehaviour
         gridObject = GetComponent<Grid>();
     }
 
+    public GameObject GetBuildingByID(string id)
+    {
+        for(int i = 0; i < allBuildings.Count; i++)
+        {
+            if(allBuildings[i].GetComponent<CitizenHouse>().GetBuildingID() == id)
+            {
+                return allBuildings[i];
+            }
+        }
+        return null;
+    }
+
     //This function is called by a button that uses a string to determine what building to instantiate
     public void SpawnNewBuilding(string buildingName)
     {

@@ -2025,7 +2025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00028031366, y: 0}
+  m_AnchoredPosition: {x: -0.000015258789, y: 0}
   m_SizeDelta: {x: 0, y: 83}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &538735188
@@ -7529,11 +7529,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Citizen
-      objectReference: {fileID: 0}
-    - target: {fileID: 527486501800498769, guid: 566f731ff752d6e42b4be1e684a33d68,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 527486501800498783, guid: 566f731ff752d6e42b4be1e684a33d68,
         type: 3}
