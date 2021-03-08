@@ -11,10 +11,27 @@ public class ConstructionManager : MonoBehaviour
     private Grid gridObject;
 
     private List<GameObject> allBuildings = new List<GameObject>();
+    private List<Citizen> allCitizens = new List<Citizen>();
+    private List<JobActivator> allJobs = new List<JobActivator>();
 
     private void Start()
     {
         gridObject = GetComponent<Grid>();
+    }
+
+    public void AddNewJob(JobActivator newJob)
+    {
+        allJobs.Add(newJob);
+    }
+
+    public void RemoveNewJob(JobActivator oldJob)
+    {
+        allJobs.Remove(oldJob);
+    }
+
+    public void AddNewCitizen(Citizen citizen)
+    {
+        allCitizens.Add(citizen);
     }
 
     public GameObject GetBuildingByID(string id)
@@ -46,6 +63,12 @@ public class ConstructionManager : MonoBehaviour
     {
         if (currentSelectedBuild)
         {
+            UpdateBuildingPlacement();
+            return;
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -53,18 +76,34 @@ public class ConstructionManager : MonoBehaviour
             int layerMask = 1 << 8;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
             {
-                currentSelectedBuild.transform.position = gridObject.GetNearestPointOnGrid(new Vector3(hit.point.x, objectYPlacement, hit.point.z));
-            }
+                if (hit.transform.GetComponent<JobActivator>())
+                {
 
-            if (Input.GetButtonDown("Fire1"))
-            {
-                PlaceDownBuilding();   
+                }
             }
-            if (Input.GetButtonDown("Fire2"))
-            {
-                Destroy(currentSelectedBuild);
-                buildingsMenu.SetActive(true);
-            }
+        }
+    }
+
+    private void UpdateBuildingPlacement()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        //Use the ground layer for the raycast
+        int layerMask = 1 << 8;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        {
+            currentSelectedBuild.transform.position = gridObject.GetNearestPointOnGrid(new Vector3(hit.point.x, objectYPlacement, hit.point.z));
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            PlaceDownBuilding();
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            Destroy(currentSelectedBuild);
+            buildingsMenu.SetActive(true);
         }
     }
 
