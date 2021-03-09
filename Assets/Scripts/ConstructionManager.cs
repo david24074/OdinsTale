@@ -6,6 +6,7 @@ public class ConstructionManager : MonoBehaviour
 {
     [SerializeField] private float objectYPlacement;
     [SerializeField] private GameObject buildingsMenu;
+    [SerializeField] private float checkForJobsInterval = 1;
 
     private GameObject currentSelectedBuild;
     private Grid gridObject;
@@ -17,6 +18,18 @@ public class ConstructionManager : MonoBehaviour
     private void Start()
     {
         gridObject = GetComponent<Grid>();
+        StartCoroutine(CheckIfJobsAvailable());
+    }
+
+    //Check if theres jobs available every couple seconds
+    private IEnumerator CheckIfJobsAvailable()
+    {
+        for(int i = 0; i < allJobs.Count; i++)
+        {
+            AssignSpecificJob(allJobs[i]);
+        }
+        yield return new WaitForSeconds(checkForJobsInterval);
+        StartCoroutine(CheckIfJobsAvailable());
     }
 
     public void AddNewJob(JobActivator newJob)
@@ -94,7 +107,7 @@ public class ConstructionManager : MonoBehaviour
             {
                 if (hit.transform.GetComponent<JobActivator>())
                 {
-                    AssignSpecificJob(hit.transform.GetComponent<JobActivator>());
+                    AddNewJob(hit.transform.GetComponent<JobActivator>());
                 }
             }
         }

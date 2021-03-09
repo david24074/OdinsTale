@@ -40,6 +40,7 @@ public class Citizen : MonoBehaviour
 
     public void GiveNewJob(JobActivator job)
     {
+        job.AddNewWorker();
         targetObject = job.transform;
         SetTransformTarget(job.transform);
         animator.SetInteger("JobIndex", job.GetJobIndex());
