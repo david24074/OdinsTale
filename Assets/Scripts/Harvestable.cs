@@ -14,11 +14,11 @@ public class Harvestable : MonoBehaviour
     {
         transform.DOComplete();
         transform.DOShakeScale(.5f, .2f, 10, 90, true);
-        Debug.Log("Hit resource");
         resourceHealth -= damageAmount;
 
         if(resourceHealth <= 0)
         {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<ConstructionManager>().RemoveOldJob(GetComponent<JobActivator>());
             Destroy(gameObject);
         }
     }

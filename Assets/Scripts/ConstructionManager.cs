@@ -12,7 +12,7 @@ public class ConstructionManager : MonoBehaviour
 
     private List<GameObject> allBuildings = new List<GameObject>();
     private List<Citizen> allCitizens = new List<Citizen>();
-    private List<JobActivator> allJobs = new List<JobActivator>();
+    [SerializeField] private List<JobActivator> allJobs = new List<JobActivator>();
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class ConstructionManager : MonoBehaviour
         AssignSpecificJob(newJob);
     }
 
-    public void RemoveNewJob(JobActivator oldJob)
+    public void RemoveOldJob(JobActivator oldJob)
     {
         allJobs.Remove(oldJob);
     }
