@@ -9,16 +9,23 @@ public class Harvestable : MonoBehaviour
 
     [SerializeField] private resourceTypes activeResource;
     [SerializeField] private int resourceHealth = 500;
+    [SerializeField] private float jiggleStrength = 2;
 
+    [Header("Resource gain")]
+    [SerializeField] private int minAmount = 5;
+    [SerializeField] private int maxAmount = 10;
+    
     public void MineResource(int damageAmount)
     {
         transform.DOComplete();
-        transform.DOShakeScale(.5f, .2f, 10, 90, true);
+        transform.DOShakeScale(.5f, jiggleStrength, 10, 90, true);
         resourceHealth -= damageAmount;
 
         if(resourceHealth <= 0)
         {
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<ConstructionManager>().RemoveOldJob(GetComponent<JobActivator>());
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<ConstructionManager>().AddResource(Random.Range(minAmount, maxAmount),
+                activeResource.ToString(),
+                GetComponent<JobActivator>());
             Destroy(gameObject);
         }
     }

@@ -1,12 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ConstructionManager : MonoBehaviour
 {
+    [Header("Building Settings")]
     [SerializeField] private float objectYPlacement;
     [SerializeField] private GameObject buildingsMenu;
     [SerializeField] private float checkForJobsInterval = 1;
+
+    [Header("UI settings")]
+    [SerializeField] private TextMeshProUGUI woodText;
+    [SerializeField] private TextMeshProUGUI stoneText;
+
+    public enum resourceTypes { Wood, Stone, Metal };
+    private int currentWoodAmount = 0;
+    private int currentStoneAmount = 0;
 
     private GameObject currentSelectedBuild;
     private Grid gridObject;
@@ -30,6 +40,26 @@ public class ConstructionManager : MonoBehaviour
         }
         yield return new WaitForSeconds(checkForJobsInterval);
         StartCoroutine(CheckIfJobsAvailable());
+    }
+
+    public void AddResource(int amount, string resourceType, JobActivator optionalJobRemove = default)
+    {
+        switch (resourceType)
+        {
+            case "Wood":
+                currentWoodAmount += amount;
+                woodText.text = currentWoodAmount + " Wood";
+                break;
+            case "Stone":
+                currentStoneAmount += amount;
+                woodText.text = currentStoneAmount + " Stone";
+                break;
+        }
+
+        if (optionalJobRemove)
+        {
+            allJobs.Remove(optionalJobRemove);
+        }
     }
 
     public void AddNewJob(JobActivator newJob)
