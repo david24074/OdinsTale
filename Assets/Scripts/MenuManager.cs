@@ -22,6 +22,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private AudioMixer audioMixer;
     private Resolution[] resolutions;
 
+    [Header("Debug")]
+    [SerializeField] private TextMeshProUGUI fpsCounter;
+
     private void Start()
     {
         resolutions = Screen.resolutions;
@@ -48,6 +51,12 @@ public class MenuManager : MonoBehaviour
         }
 
         LoadSettings();
+    }
+
+    private void Update()
+    {
+        int current = (int)(1f / Time.unscaledDeltaTime);
+        fpsCounter.text = current + " FPS";
     }
 
     public void QuitGame()
