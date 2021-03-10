@@ -83,6 +83,8 @@ public class ConstructionManager : MonoBehaviour
 
     public void RemoveOldJob(JobActivator oldJob)
     {
+        oldJob.ToggleJobActiveObject(false);
+        oldJob.RemoveAllWorkers();
         allJobs.Remove(oldJob);
     }
 

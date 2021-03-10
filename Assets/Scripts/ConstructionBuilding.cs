@@ -6,7 +6,7 @@ using DG.Tweening;
 public class ConstructionBuilding : MonoBehaviour
 {
     //We want to move the mesh object downwards when the building is instantiated
-    [SerializeField] private float moveDownYLevel, buildHealth = 1000;
+    [SerializeField] private float moveDownYLevel, buildHealth = 100;
     private Transform meshObject;
     [SerializeField] private float amountMoveEachHit;
 
@@ -26,6 +26,8 @@ public class ConstructionBuilding : MonoBehaviour
 
         if(buildHealth <= 0)
         {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<ConstructionManager>().RemoveOldJob(GetComponent<JobActivator>());
+            Destroy(GetComponent<JobActivator>());
             transform.DOComplete();
             Destroy(this);
         }

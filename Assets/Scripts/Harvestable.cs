@@ -8,7 +8,7 @@ public class Harvestable : MonoBehaviour
     private enum resourceTypes { Wood, Stone, Metal };
 
     [SerializeField] private resourceTypes activeResource;
-    [SerializeField] private int resourceHealth = 500;
+    [SerializeField] private int resourceHealth = 50;
     [SerializeField] private float jiggleStrength = 2;
 
     [Header("Resource gain")]

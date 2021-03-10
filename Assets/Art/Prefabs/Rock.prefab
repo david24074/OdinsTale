@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeResource: 1
-  resourceHealth: 500
+  resourceHealth: 50
   jiggleStrength: 5
   minAmount: 5
   maxAmount: 10

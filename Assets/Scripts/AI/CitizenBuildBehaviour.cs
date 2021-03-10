@@ -27,7 +27,7 @@ public class CitizenBuildBehaviour : StateMachineBehaviour
         if (currentTimer <= 0)
         {
             currentTimer = mineInterval;
-            targetBuilding.BuildObject(20);
+            if (targetBuilding) { targetBuilding.BuildObject(1); }
         }
     }
 

@@ -27,7 +27,7 @@ public class CitizenMineResourceBehaviour : StateMachineBehaviour
         if(currentTimer <= 0)
         {
             currentTimer = mineInterval;
-            targetHarvestable.DoDamageToResource(20);
+            if (targetHarvestable) { targetHarvestable.DoDamageToResource(1); }
         }
     }
 
