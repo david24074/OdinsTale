@@ -61,17 +61,6 @@ public class Citizen : MonoBehaviour
         animator.SetInteger("JobIndex", job.GetJobIndex());
     }
 
-    public void TryMineResource()
-    {
-        if (!targetObject)
-        {
-            animator.SetInteger("JobIndex", 0);
-            return;
-        }
-
-        targetObject.GetComponent<Harvestable>().MineResource(20);
-    }
-
     //Used for the idle behaviour, we dont want the citizen to move too far away from his house so
     //thats why we select a random position around his home, if he doesnt have a home then just move to a random position around him
     public void SetRandomTarget()

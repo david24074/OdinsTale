@@ -5,7 +5,7 @@ using UnityEngine;
 public class CitizenMineResourceBehaviour : StateMachineBehaviour
 {
     private Harvestable targetHarvestable;
-    private float mineInterval = 2, currentTimer;
+    private float mineInterval = 1, currentTimer;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,12 +17,17 @@ public class CitizenMineResourceBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (!targetHarvestable)
+        {
+            animator.GetComponent<Citizen>().QuitJob();
+        }
+
         currentTimer -= 1 * Time.deltaTime;
 
         if(currentTimer <= 0)
         {
             currentTimer = mineInterval;
-
+            targetHarvestable.DoDamageToResource(20);
         }
     }
 

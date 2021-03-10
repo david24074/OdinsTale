@@ -15,7 +15,7 @@ public class Harvestable : MonoBehaviour
     [SerializeField] private int minAmount = 5;
     [SerializeField] private int maxAmount = 10;
     
-    public void MineResource(int damageAmount)
+    public void DoDamageToResource(int damageAmount)
     {
         transform.DOComplete();
         transform.DOShakeScale(.5f, jiggleStrength, 10, 90, true);
