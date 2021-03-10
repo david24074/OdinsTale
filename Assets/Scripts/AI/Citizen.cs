@@ -18,6 +18,11 @@ public class Citizen : MonoBehaviour
         GameObject.FindGameObjectWithTag("GameManager").GetComponent<ConstructionManager>().AddNewCitizen(this);
     }
 
+    public Transform GetCurrentTarget()
+    {
+        return targetObject;
+    }
+
     //Mainly used for moving towards new jobs
     public void SetTransformTarget(Transform target)
     {

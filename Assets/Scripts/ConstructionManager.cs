@@ -52,7 +52,7 @@ public class ConstructionManager : MonoBehaviour
                 break;
             case "Stone":
                 currentStoneAmount += amount;
-                woodText.text = currentStoneAmount + " Stone";
+                stoneText.text = currentStoneAmount + " Stone";
                 break;
         }
 
