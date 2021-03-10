@@ -8,12 +8,12 @@ public class ConstructionBuilding : MonoBehaviour
     //We want to move the mesh object downwards when the building is instantiated
     [SerializeField] private float moveDownYLevel, buildHealth = 1000;
     private Transform meshObject;
-    private float amountMoveEachHit;
+    [SerializeField] private float amountMoveEachHit;
 
     private void Start()
     {
         meshObject = transform.GetChild(0);
-        meshObject.transform.position = new Vector3(meshObject.position.x, meshObject.position.y + moveDownYLevel, meshObject.position.z);
+        meshObject.transform.localPosition = new Vector3(meshObject.localPosition.x, meshObject.localPosition.y - moveDownYLevel, meshObject.localPosition.z);
         amountMoveEachHit = moveDownYLevel / buildHealth;
     }
 
@@ -22,7 +22,13 @@ public class ConstructionBuilding : MonoBehaviour
         transform.DOComplete();
         transform.DOShakeScale(.5f, .2f, 10, 90, true);
         buildHealth -= amount;
-        meshObject.transform.localPosition = new Vector3(meshObject.transform.localPosition.x, meshObject.transform.localPosition.y + amountMoveEachHit, meshObject.transform.localPosition.z);
+        meshObject.localPosition = new Vector3(meshObject.localPosition.x, meshObject.localPosition.y + amountMoveEachHit * amount, meshObject.localPosition.z);
+
+        if(buildHealth <= 0)
+        {
+            transform.DOComplete();
+            Destroy(this);
+        }
     }
 
     public GameObject GetBuilding()

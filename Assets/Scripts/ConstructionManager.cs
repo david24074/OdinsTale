@@ -166,6 +166,7 @@ public class ConstructionManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             currentSelectedBuild.transform.position = gridObject.GetNearestPointOnGrid(new Vector3(hit.point.x, objectYPlacement, hit.point.z));
+            currentSelectedBuild.transform.position = new Vector3(currentSelectedBuild.transform.position.x, objectYPlacement, currentSelectedBuild.transform.position.z);
         }
 
         if (Input.GetButtonDown("Fire1"))
@@ -181,11 +182,8 @@ public class ConstructionManager : MonoBehaviour
 
     private void PlaceDownBuilding()
     {
-        //The main object doesnt have the collider so get the actual building with its mesh and collider
-        Transform buildingMesh = currentSelectedBuild.GetComponent<ConstructionBuilding>().GetBuilding().transform;
-
         //Check if an existing building is already located at this position
-        RaycastHit[] hits = Physics.BoxCastAll(buildingMesh.position, buildingMesh.localScale / 4, transform.up, transform.rotation, 1);
+        RaycastHit[] hits = Physics.BoxCastAll(currentSelectedBuild.transform.position, currentSelectedBuild.transform.localScale / 4, transform.up, transform.rotation, 1);
         for(int i = 0; i < hits.Length; i++)
         {
             if(hits[i].transform.tag == "Building")
@@ -196,7 +194,9 @@ public class ConstructionManager : MonoBehaviour
         }
 
         buildingsMenu.SetActive(true);
-        buildingMesh.tag = "Building";
+        currentSelectedBuild.tag = "Building";
+        currentSelectedBuild.GetComponent<ConstructionBuilding>().enabled = true;
+        AddNewJob(currentSelectedBuild.GetComponent<JobActivator>());
         allBuildings.Add(currentSelectedBuild);
         currentSelectedBuild = null;
     }
