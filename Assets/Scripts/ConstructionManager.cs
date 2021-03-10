@@ -64,6 +64,19 @@ public class ConstructionManager : MonoBehaviour
 
     public void AddNewJob(JobActivator newJob)
     {
+        for(int i = 0; i < allJobs.Count; i++)
+        {
+            if(newJob == allJobs[i])
+            {
+                //If the jobActivator gets clicked again then cancel the job
+                newJob.ToggleJobActiveObject(false);
+                newJob.RemoveAllWorkers();
+                allJobs.Remove(newJob);
+                return;
+            }
+        }
+
+        newJob.ToggleJobActiveObject(true);
         allJobs.Add(newJob);
         AssignSpecificJob(newJob);
     }

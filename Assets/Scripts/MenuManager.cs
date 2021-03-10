@@ -24,6 +24,7 @@ public class MenuManager : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private TextMeshProUGUI fpsCounter;
+    private float updateInterval;
 
     private void Start()
     {
@@ -57,6 +58,7 @@ public class MenuManager : MonoBehaviour
     {
         int current = (int)(1f / Time.unscaledDeltaTime);
         fpsCounter.text = current + " FPS";
+        updateInterval = Time.deltaTime + 60.0f;
     }
 
     public void QuitGame()

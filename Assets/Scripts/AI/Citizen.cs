@@ -29,6 +29,16 @@ public class Citizen : MonoBehaviour
         navmeshAgent.SetDestination(target);
     }
 
+    public void QuitJob()
+    {
+        //Stop the navmesh agent
+        navmeshAgent.SetDestination(transform.position);
+        targetObject = null;
+        //Reset the state machine to its idle state
+        animator.SetInteger("JobIndex", 0);
+        animator.ResetTrigger("DestinationReached");
+    }
+
     public bool HasActiveJob()
     {
         if(animator.GetInteger("JobIndex") == 0)
@@ -40,7 +50,7 @@ public class Citizen : MonoBehaviour
 
     public void GiveNewJob(JobActivator job)
     {
-        job.AddNewWorker();
+        job.AddNewWorker(gameObject);
         targetObject = job.transform;
         SetTransformTarget(job.transform);
         animator.SetInteger("JobIndex", job.GetJobIndex());

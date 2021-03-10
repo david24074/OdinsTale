@@ -3995,7 +3995,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.2588186, y: -0, z: -0, w: 0.965926}
-  m_LocalPosition: {x: 151.83, y: 23.72, z: 136.18}
+  m_LocalPosition: {x: 83.73, y: 23.72, z: 74.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5505,6 +5505,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rock (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1399159647189712177, guid: b59644a263f7e1f4eb2a2fd4ae75424e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b59644a263f7e1f4eb2a2fd4ae75424e, type: 3}
@@ -7397,6 +7402,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Citizen (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 527486501800498769, guid: 566f731ff752d6e42b4be1e684a33d68,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 527486501800498783, guid: 566f731ff752d6e42b4be1e684a33d68,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7927,6 +7937,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Citizen (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 527486501800498769, guid: 566f731ff752d6e42b4be1e684a33d68,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 527486501800498783, guid: 566f731ff752d6e42b4be1e684a33d68,
         type: 3}
