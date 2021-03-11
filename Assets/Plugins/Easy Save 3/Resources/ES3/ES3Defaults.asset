@@ -30,8 +30,10 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - Assembly-CSharp-firstpass
+    - NavMeshComponents
     - DOTween.Modules
     - Assembly-CSharp
+    - NavMeshComponentsEditor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
