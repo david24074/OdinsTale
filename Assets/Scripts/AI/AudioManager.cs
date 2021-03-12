@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     private static AudioManager audioManager;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource fxSource, musicSource;
     [SerializeField] private AudioClip[] musicClips;
 
     private void Start()
@@ -20,7 +20,6 @@ public class AudioManager : MonoBehaviour
         {
             audioManager = this;
             DontDestroyOnLoad(gameObject);
-            audioSource = GetComponent<AudioSource>();
             StartCoroutine(startNewMusicClip());
         }
     }
@@ -28,13 +27,13 @@ public class AudioManager : MonoBehaviour
     //We call this for when it doesnt matter from which 3D space the audio comes from
     public static void PlayAudioClipGlobal(AudioClip clip)
     {
-        audioManager.audioSource.PlayOneShot(clip);
+        audioManager.fxSource.PlayOneShot(clip);
     }
 
     private IEnumerator startNewMusicClip()
     {
         AudioClip musicClip = musicClips[Random.Range(0, musicClips.Length)];
-        audioSource.PlayOneShot(musicClip);
+        musicSource.PlayOneShot(musicClip);
         yield return new WaitForSeconds(musicClip.length);
         StartCoroutine(startNewMusicClip());
     }
