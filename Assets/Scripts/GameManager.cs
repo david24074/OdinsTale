@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ConstructionManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [Header("Building Settings")]
     [SerializeField] private float objectYPlacement;
@@ -23,7 +23,7 @@ public class ConstructionManager : MonoBehaviour
 
     private List<GameObject> allBuildings = new List<GameObject>();
     private List<Citizen> allCitizens = new List<Citizen>();
-    [SerializeField] private List<JobActivator> allJobs = new List<JobActivator>();
+    private List<JobActivator> allJobs = new List<JobActivator>();
 
     [Header("Audio")]
     [SerializeField] private AudioClip[] newJobSounds;
@@ -176,6 +176,14 @@ public class ConstructionManager : MonoBehaviour
             currentSelectedBuild.transform.position = new Vector3(currentSelectedBuild.transform.position.x, objectYPlacement, currentSelectedBuild.transform.position.z);
         }
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            currentSelectedBuild.transform.Rotate(transform.up * 90);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            currentSelectedBuild.transform.Rotate(-transform.up * 90);
+        }
         if (Input.GetButtonDown("Fire1"))
         {
             PlaceDownBuilding();

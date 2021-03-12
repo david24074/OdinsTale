@@ -26,7 +26,7 @@ public class ConstructionBuilding : MonoBehaviour
 
         if(buildHealth <= 0)
         {
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<ConstructionManager>().RemoveOldJob(GetComponent<JobActivator>());
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().RemoveOldJob(GetComponent<JobActivator>());
             Destroy(GetComponent<JobActivator>());
             transform.DOComplete();
             Destroy(this);
