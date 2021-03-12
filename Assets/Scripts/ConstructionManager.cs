@@ -25,6 +25,9 @@ public class ConstructionManager : MonoBehaviour
     private List<Citizen> allCitizens = new List<Citizen>();
     [SerializeField] private List<JobActivator> allJobs = new List<JobActivator>();
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip[] newJobSounds;
+
     private void Start()
     {
         gridObject = GetComponent<Grid>();
@@ -64,7 +67,9 @@ public class ConstructionManager : MonoBehaviour
 
     public void AddNewJob(JobActivator newJob)
     {
-        for(int i = 0; i < allJobs.Count; i++)
+        AudioManager.PlayAudioClipGlobal(newJobSounds[Random.Range(0, newJobSounds.Length)]);
+
+        for (int i = 0; i < allJobs.Count; i++)
         {
             if(newJob == allJobs[i])
             {

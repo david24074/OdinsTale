@@ -148,6 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51e005ad83ea47439a3f9b31bc06eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newJobSounds:
+  - {fileID: 8300000, guid: 69ffe4874c97a454388cc502ed00c019, type: 3}
+  - {fileID: 8300000, guid: 52d6011ca7a82a64e86b87765f997841, type: 3}
+  - {fileID: 8300000, guid: 5044e2918562cb8409a6f8fdca4e9c32, type: 3}
 --- !u!95 &1949253240
 Animator:
   serializedVersion: 3
