@@ -2953,7 +2953,6 @@ MonoBehaviour:
   checkForJobsInterval: 1
   woodText: {fileID: 1923903262}
   stoneText: {fileID: 719579322}
-  allJobs: []
   newJobSounds:
   - {fileID: 8300000, guid: 69ffe4874c97a454388cc502ed00c019, type: 3}
   - {fileID: 8300000, guid: 52d6011ca7a82a64e86b87765f997841, type: 3}
