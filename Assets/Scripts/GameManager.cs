@@ -28,10 +28,18 @@ public class GameManager : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip[] newJobSounds;
 
+    [Header("Time Settings")]
+    //Standard is 20 minutes
+    [SerializeField] private int dayLengthInSeconds = 1200;
+    [SerializeField] private TextMeshProUGUI timeText;
+    private float currentTimeIndex = 0;
+    private int currentDay = 1, currentYear;
+
     private void Start()
     {
         gridObject = GetComponent<Grid>();
         StartCoroutine(CheckIfJobsAvailable());
+        if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
     }
 
     //Check if theres jobs available every couple seconds
@@ -140,8 +148,29 @@ public class GameManager : MonoBehaviour
         currentSelectedBuild = Instantiate(newObject);
     }
 
+    private void NewDay()
+    {
+        currentDay += 1;
+
+        if(currentDay > 365)
+        {
+            currentDay = 1;
+            currentYear += 1;
+        }
+
+        if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
+    }
+
     private void Update()
     {
+        currentTimeIndex += 1 * Time.deltaTime;
+
+        if(currentTimeIndex >= dayLengthInSeconds)
+        {
+            currentTimeIndex = 0;
+            NewDay();
+        }
+
         if (currentSelectedBuild)
         {
             UpdateBuildingPlacement();
