@@ -8,9 +8,10 @@ public class ConstructionBuilding : MonoBehaviour
     //We want to move the mesh object downwards when the building is instantiated
     [SerializeField] private float moveDownYLevel, buildHealth = 100;
     private Transform meshObject;
-    [SerializeField] private float amountMoveEachHit;
+    private float amountMoveEachHit;
+    private bool isObstructed = false;
 
-    private void Start()
+    public void PlaceBuilding()
     {
         meshObject = transform.GetChild(0);
         meshObject.transform.localPosition = new Vector3(meshObject.localPosition.x, meshObject.localPosition.y - moveDownYLevel, meshObject.localPosition.z);
@@ -27,9 +28,44 @@ public class ConstructionBuilding : MonoBehaviour
         if(buildHealth <= 0)
         {
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().RemoveOldJob(GetComponent<JobActivator>());
-            Destroy(GetComponent<JobActivator>());
+            TryHandleComponents();
             transform.DOComplete();
             Destroy(this);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position + GetComponent<BoxCollider>().center, GetComponent<BoxCollider>().size);
+    }
+
+    public bool ObjectIsObstructed()
+    {
+        RaycastHit[] hits = Physics.BoxCastAll(transform.position + GetComponent<BoxCollider>().center, GetComponent<BoxCollider>().size / 2, transform.up, Quaternion.identity, 1);
+
+        for(int i = 0; i < hits.Length; i++)
+        {
+            if(hits[i].transform.tag == "Building")
+            {
+                if(hits[i].transform != transform)
+                {
+                    Debug.Log(hits[i].transform.name);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void TryHandleComponents()
+    {
+        Destroy(GetComponent<JobActivator>());
+
+        if (GetComponent<CitizenHouse>())
+        {
+            GetComponent<CitizenHouse>().enabled = true;
         }
     }
 

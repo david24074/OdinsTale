@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6297874910888987543}
   - component: {fileID: 6297874910888987541}
   - component: {fileID: 8218740507379234084}
-  - component: {fileID: -4769490944688969860}
+  - component: {fileID: 3903149011039704171}
+  - component: {fileID: 5277573282851125667}
   m_Layer: 0
-  m_Name: BaseBuilding
+  m_Name: SmallHouse
   m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +96,20 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.5, z: 0}
   m_TimeToStationary: 0.5
---- !u!54 &-4769490944688969860
+--- !u!114 &3903149011039704171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297874910888987545}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78a47fc4eaa7fd4f867a33a806da27c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCitizens: 2
+--- !u!54 &5277573282851125667
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

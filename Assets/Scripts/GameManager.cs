@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip[] newJobSounds;
 
     [Header("Time Settings")]
-    //Standard is 20 minutes
-    [SerializeField] private int dayLengthInSeconds = 1200;
+    //Default is 20 minutes
+    [SerializeField] private float dayLengthInSeconds = 1200;
     [SerializeField] private TextMeshProUGUI timeText;
     private float currentTimeIndex = 0;
     private int currentDay = 1, currentYear;
@@ -227,19 +227,13 @@ public class GameManager : MonoBehaviour
     private void PlaceDownBuilding()
     {
         //Check if an existing building is already located at this position
-        RaycastHit[] hits = Physics.BoxCastAll(currentSelectedBuild.transform.position, currentSelectedBuild.transform.localScale / 4, transform.up, transform.rotation, 1);
-        for(int i = 0; i < hits.Length; i++)
+        if (currentSelectedBuild.GetComponent<ConstructionBuilding>().ObjectIsObstructed())
         {
-            if(hits[i].transform.tag == "Building")
-            {
-                Debug.Log("Object was obstructed");
-                return;
-            }
+            return;
         }
 
         buildingsMenu.SetActive(true);
-        currentSelectedBuild.tag = "Building";
-        currentSelectedBuild.GetComponent<ConstructionBuilding>().enabled = true;
+        currentSelectedBuild.GetComponent<ConstructionBuilding>().PlaceBuilding();
         AddNewJob(currentSelectedBuild.GetComponent<JobActivator>());
         allBuildings.Add(currentSelectedBuild);
         currentSelectedBuild = null;
