@@ -36,8 +36,8 @@ public class ConstructionBuilding : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(transform.position + GetComponent<BoxCollider>().center, GetComponent<BoxCollider>().size);
+       // Gizmos.color = Color.red;
+       // Gizmos.DrawCube(transform.position + GetComponent<BoxCollider>().center, GetComponent<BoxCollider>().size);
     }
 
     public bool ObjectIsObstructed()
