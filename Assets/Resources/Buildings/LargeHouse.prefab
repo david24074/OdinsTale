@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDownYLevel: 1
-  buildHealth: 10
+  buildHealth: 1000
   colliderSize: {x: 8, y: 5, z: 8}
   drawDebug: 0
 --- !u!114 &6297874910888987543
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jobIndex: 2
-  maxJobWorkers: 3
+  maxJobWorkers: 9
   jobActiveObject: {fileID: 2980041632067802306}
 --- !u!208 &8218740507379234084
 NavMeshObstacle:

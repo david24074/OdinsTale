@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     private int currentStoneAmount = 0;
     private int currentFoodAmount = 0;
     private int currentBedsAmount = 0;
-    private int currentHappinessAmount = 100;
+    private float currentHappinessAmount = 100;
 
     private GameObject currentSelectedBuild;
     private Grid gridObject;
@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip[] newJobSounds;
 
     [Header("Time Settings")]
-    //Default is 20 minutes
     [SerializeField] private float dayLengthInSeconds = 1200;
     [SerializeField] private TextMeshProUGUI timeText;
     private float currentTimeIndex = 0;
@@ -181,11 +180,9 @@ public class GameManager : MonoBehaviour
     private void AddNewCitizens()
     {
         float bedsLeft = currentBedsAmount - allCitizens.Count;
-        if(bedsLeft <= 0)
-        {
-            return;
-        }
+        if(bedsLeft <= 0) { return; }
 
+        //How many citizens are added depends on the happiness of the people
         float citizensToAdd = citizensToAdd = bedsLeft / 100 * currentHappinessAmount;
         for(int i = 0; i < citizensToAdd; i++)
         {
