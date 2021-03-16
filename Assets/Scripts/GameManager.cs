@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI settings")]
     [SerializeField] private TextMeshProUGUI woodText;
-    [SerializeField] private TextMeshProUGUI stoneText;
+    [SerializeField] private TextMeshProUGUI stoneText, foodText;
     [SerializeField] private TextMeshProUGUI bedsText, citizensText;
 
     public enum resourceTypes { Wood, Stone, Metal };
@@ -68,6 +68,10 @@ public class GameManager : MonoBehaviour
             case "Stone":
                 currentStoneAmount += amount;
                 stoneText.text = currentStoneAmount + " Stone";
+                break;
+            case "Food":
+                currentFoodAmount += amount;
+                foodText.text = currentFoodAmount + " Food";
                 break;
         }
 

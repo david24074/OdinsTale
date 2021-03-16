@@ -7,6 +7,8 @@ public class ConstructionBuilding : MonoBehaviour
 {
     //We want to move the mesh object downwards when the building is instantiated
     [SerializeField] private float moveDownYLevel, buildHealth = 100;
+    [SerializeField] private Vector3 colliderSize;
+    [SerializeField] private bool drawDebug;
     private Transform meshObject;
     private float amountMoveEachHit;
     private bool isObstructed = false;
@@ -36,13 +38,16 @@ public class ConstructionBuilding : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-       // Gizmos.color = Color.red;
-       // Gizmos.DrawCube(transform.position + GetComponent<BoxCollider>().center, GetComponent<BoxCollider>().size);
+        if (drawDebug)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(transform.position + GetComponent<BoxCollider>().center, colliderSize / 4);
+        }
     }
 
     public bool ObjectIsObstructed()
     {
-        RaycastHit[] hits = Physics.BoxCastAll(transform.position + GetComponent<BoxCollider>().center, GetComponent<BoxCollider>().size / 2, transform.up, Quaternion.identity, 1);
+        RaycastHit[] hits = Physics.BoxCastAll(transform.position + GetComponent<BoxCollider>().center, colliderSize / 4, transform.up, Quaternion.identity, 1);
 
         for(int i = 0; i < hits.Length; i++)
         {
