@@ -51,8 +51,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDownYLevel: 1
-  buildHealth: 100
+  buildHealth: 10
   colliderSize: {x: 8, y: 5, z: 8}
+  drawDebug: 0
 --- !u!114 &6297874910888987543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78a47fc4eaa7fd4f867a33a806da27c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCitizens: 5
+  maxCitizens: 12
 --- !u!1 &6297874912234945263
 GameObject:
   m_ObjectHideFlags: 0

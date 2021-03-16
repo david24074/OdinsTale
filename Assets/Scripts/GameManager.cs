@@ -5,6 +5,8 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject citizen;
+
     [Header("Building Settings")]
     [SerializeField] private float objectYPlacement;
     [SerializeField] private GameObject buildingsMenu;
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour
     private int currentStoneAmount = 0;
     private int currentFoodAmount = 0;
     private int currentBedsAmount = 0;
+    private int currentHappinessAmount = 100;
 
     private GameObject currentSelectedBuild;
     private Grid gridObject;
@@ -44,6 +47,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckIfJobsAvailable());
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
         citizensText.text = allCitizens.Count + " Citizens";
+        CheckAvailableBeds();
     }
 
     //Check if theres jobs available every couple seconds
@@ -163,6 +167,8 @@ public class GameManager : MonoBehaviour
     {
         currentDay += 1;
 
+        AddNewCitizens();
+
         if(currentDay > 365)
         {
             currentDay = 1;
@@ -170,6 +176,23 @@ public class GameManager : MonoBehaviour
         }
 
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
+    }
+
+    private void AddNewCitizens()
+    {
+        float bedsLeft = currentBedsAmount - allCitizens.Count;
+        if(bedsLeft <= 0)
+        {
+            return;
+        }
+
+        float citizensToAdd = citizensToAdd = bedsLeft / 100 * currentHappinessAmount;
+        for(int i = 0; i < citizensToAdd; i++)
+        {
+            GameObject newCitizen = Instantiate(citizen, transform.position, Quaternion.identity);
+            allCitizens.Add(newCitizen.GetComponent<Citizen>());
+        }
+        citizensText.text = allCitizens.Count + " Citizens";
     }
 
     private void Update()

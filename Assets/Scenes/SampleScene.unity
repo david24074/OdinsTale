@@ -3743,7 +3743,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708170837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.55929375, y: 0.7602411, z: -9.960636}
+  m_LocalPosition: {x: 76.22, y: 14.57, z: 55.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3761,18 +3761,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb8517a79b26684abad1ec982e2f3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  citizen: {fileID: 527486501800498769, guid: 566f731ff752d6e42b4be1e684a33d68, type: 3}
   objectYPlacement: 14.3
   buildingsMenu: {fileID: 1283299100}
   checkForJobsInterval: 1
   woodText: {fileID: 1923903262}
   stoneText: {fileID: 719579322}
+  foodText: {fileID: 0}
   bedsText: {fileID: 728201176}
   citizensText: {fileID: 180027616}
   newJobSounds:
   - {fileID: 8300000, guid: 69ffe4874c97a454388cc502ed00c019, type: 3}
   - {fileID: 8300000, guid: 52d6011ca7a82a64e86b87765f997841, type: 3}
   - {fileID: 8300000, guid: 5044e2918562cb8409a6f8fdca4e9c32, type: 3}
-  dayLengthInSeconds: 1200
+  dayLengthInSeconds: 5
   timeText: {fileID: 633615739}
 --- !u!1001 &716051690
 PrefabInstance:
