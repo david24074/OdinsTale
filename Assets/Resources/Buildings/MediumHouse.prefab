@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8218740507379234084}
   - component: {fileID: 1336926685237112407}
   - component: {fileID: 421940541415807431}
+  - component: {fileID: -9113075696721540409}
   m_Layer: 0
   m_Name: MediumHouse
   m_TagString: Building
@@ -111,6 +112,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-9113075696721540409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297874910888987545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78a47fc4eaa7fd4f867a33a806da27c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCitizens: 5
 --- !u!1 &6297874912234945263
 GameObject:
   m_ObjectHideFlags: 0

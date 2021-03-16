@@ -13,10 +13,13 @@ public class GameManager : MonoBehaviour
     [Header("UI settings")]
     [SerializeField] private TextMeshProUGUI woodText;
     [SerializeField] private TextMeshProUGUI stoneText;
+    [SerializeField] private TextMeshProUGUI bedsText, citizensText;
 
     public enum resourceTypes { Wood, Stone, Metal };
     private int currentWoodAmount = 0;
     private int currentStoneAmount = 0;
+    private int currentFoodAmount = 0;
+    private int currentBedsAmount = 0;
 
     private GameObject currentSelectedBuild;
     private Grid gridObject;
@@ -40,6 +43,7 @@ public class GameManager : MonoBehaviour
         gridObject = GetComponent<Grid>();
         StartCoroutine(CheckIfJobsAvailable());
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
+        citizensText.text = allCitizens.Count + " Citizens";
     }
 
     //Check if theres jobs available every couple seconds
@@ -71,6 +75,21 @@ public class GameManager : MonoBehaviour
         {
             allJobs.Remove(optionalJobRemove);
         }
+    }
+
+    public void CheckAvailableBeds()
+    {
+        currentBedsAmount = 0;
+
+        for(int i = 0; i < allBuildings.Count; i++)
+        {
+            if (allBuildings[i].GetComponent<CitizenHouse>())
+            {
+                currentBedsAmount += allBuildings[i].GetComponent<CitizenHouse>().GetMaxCitizens();
+            }
+        }
+
+        bedsText.text = currentBedsAmount + " Beds";
     }
 
     public void AddNewJob(JobActivator newJob)
@@ -121,18 +140,6 @@ public class GameManager : MonoBehaviour
                 allCitizens[i].GetComponent<Citizen>().GiveNewJob(job);
             }
         }
-    }
-
-    public GameObject GetBuildingByID(string id)
-    {
-        for(int i = 0; i < allBuildings.Count; i++)
-        {
-            if(allBuildings[i].GetComponent<CitizenHouse>().GetBuildingID() == id)
-            {
-                return allBuildings[i];
-            }
-        }
-        return null;
     }
 
     //This function is called by a button that uses a string to determine what building to instantiate
