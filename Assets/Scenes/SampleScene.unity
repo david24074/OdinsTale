@@ -7268,6 +7268,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 778228130277807671, guid: b59644a263f7e1f4eb2a2fd4ae75424e,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000,
+        type: 0}
     - target: {fileID: 1399159647189712177, guid: b59644a263f7e1f4eb2a2fd4ae75424e,
         type: 3}
       propertyPath: m_IsActive
