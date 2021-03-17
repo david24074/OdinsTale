@@ -7,7 +7,6 @@ public class ConstructionBuilding : MonoBehaviour
 {
     //We want to move the mesh object downwards when the building is instantiated
     [SerializeField] private float moveDownYLevel, buildHealth = 100;
-    [SerializeField] private Vector3 colliderSize;
     [SerializeField] private Transform[] collisionCheckers;
     private Transform meshObject;
     private float amountMoveEachHit;
@@ -30,6 +29,8 @@ public class ConstructionBuilding : MonoBehaviour
         if(buildHealth <= 0)
         {
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().RemoveOldJob(GetComponent<JobActivator>());
+            if (GetComponent<MeshTile>()) { GetComponent<MeshTile>().CheckNeighbours(); }
+
             TryHandleComponents();
             transform.DOComplete();
             Destroy(this);
