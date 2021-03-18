@@ -29,7 +29,10 @@ public class ConstructionBuilding : MonoBehaviour
         if(buildHealth <= 0)
         {
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().RemoveOldJob(GetComponent<JobActivator>());
-            if (GetComponent<MeshTile>()) { GetComponent<MeshTile>().CheckNeighbours(); }
+            if (GetComponent<MeshTile>())
+            {
+                GetComponent<MeshTile>().enabled = true;
+            }
 
             TryHandleComponents();
             transform.DOComplete();
