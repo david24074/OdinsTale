@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CitizenSave
 {
-    private Vector3 CitizenPosition { get; set; }
-    private Quaternion CitizenRotation { get; set; }
-    private string CurrentJobName { get; set; }
+    public Vector3 CitizenPosition { get; set; }
+    public Quaternion CitizenRotation { get; set; }
+    public string CurrentJobName { get; set; }
 }

@@ -14,13 +14,17 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown graphicsDropdown;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private Toggle fullscreenToggle;
+    private Resolution[] resolutions;
 
     [Header("Scene Loading")]
     [SerializeField] private GameObject loadingScreen;
 
     [Header("Audio")]
     [SerializeField] private AudioMixer audioMixer;
-    private Resolution[] resolutions;
+
+    [Header("Main Menu")]
+    [SerializeField] private TMP_InputField saveGameInputField;
+    [SerializeField] private TextMeshProUGUI feedbackText;
 
     [Header("Debug")]
     [SerializeField] private TextMeshProUGUI fpsCounter;
@@ -59,6 +63,34 @@ public class MenuManager : MonoBehaviour
         int current = (int)(1f / Time.unscaledDeltaTime);
         fpsCounter.text = current + " FPS";
         updateInterval = Time.deltaTime + 60.0f;
+    }
+
+    public void StartNewGame()
+    {
+        if(saveGameInputField.text.Length <= 3)
+        {
+            feedbackText.text = "Save name needs to be longer than 3 characters";
+            return;
+        }
+
+        if (ES3.FileExists(saveGameInputField.text))
+        {
+            feedbackText.text = "A save with this name already exists";
+            return;
+        }
+
+        ES3.Save("CurrentSaveName", saveGameInputField.text);
+
+        SaveGame newSaveGame = new SaveGame();
+
+        newSaveGame.AllBuildings = new List<BuildingSave>();
+        newSaveGame.AllCitizens = new List<CitizenSave>();
+        newSaveGame.SaveGameName = saveGameInputField.text;
+        newSaveGame.AmountHappiness = 100;
+
+        ES3.Save("SaveGame", newSaveGame, saveGameInputField.text + ".es3");
+
+        StartCoroutine(LoadSceneAsync(1));
     }
 
     public void QuitGame()

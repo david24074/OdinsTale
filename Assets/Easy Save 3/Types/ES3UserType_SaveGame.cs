@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("SaveGameName", "AmountWood", "AmountStone", "AmountGold", "AmountHappiness")]
+	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AmountWood", "AmountStone", "AmountGold", "AmountHappiness")]
 	public class ES3UserType_SaveGame : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -17,6 +17,8 @@ namespace ES3Types
 			var instance = (SaveGame)obj;
 			
 			writer.WritePrivateProperty("SaveGameName", instance);
+			writer.WritePrivateProperty("AllBuildings", instance);
+			writer.WritePrivateProperty("AllCitizens", instance);
 			writer.WritePrivateProperty("AmountWood", instance);
 			writer.WritePrivateProperty("AmountStone", instance);
 			writer.WritePrivateProperty("AmountGold", instance);
@@ -33,6 +35,12 @@ namespace ES3Types
 					
 					case "SaveGameName":
 					reader.SetPrivateProperty("SaveGameName", reader.Read<System.String>(), instance);
+					break;
+					case "AllBuildings":
+					reader.SetPrivateProperty("AllBuildings", reader.Read<System.Collections.Generic.List<BuildingSave>>(), instance);
+					break;
+					case "AllCitizens":
+					reader.SetPrivateProperty("AllCitizens", reader.Read<System.Collections.Generic.List<CitizenSave>>(), instance);
 					break;
 					case "AmountWood":
 					reader.SetPrivateProperty("AmountWood", reader.Read<System.Int32>(), instance);

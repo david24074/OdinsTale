@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BuildingSave
 {
     //Used for loading in the right building
-    private string BuildingName { get; set; }
-    private Vector3 BuildingPosition { get; set; }
-    private Quaternion BuildingRotation { get; set; }
+    public string BuildingName { get; set; }
+    public Vector3 BuildingPosition { get; set; }
+    public Quaternion BuildingRotation { get; set; }
     //Has the building been fully built or not
-    private bool BuildFinished { get; set; }
+    public bool BuildFinished { get; set; }
     //Can either be for the build progress or for resource gathering progress
-    private float Progress { get; set; }
+    public float Progress { get; set; }
 }
