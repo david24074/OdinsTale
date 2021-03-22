@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CitizenSave : MonoBehaviour
+public class CitizenSave
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private Vector3 CitizenPosition { get; set; }
+    private Quaternion CitizenRotation { get; set; }
+    private string CurrentJobName { get; set; }
 }
