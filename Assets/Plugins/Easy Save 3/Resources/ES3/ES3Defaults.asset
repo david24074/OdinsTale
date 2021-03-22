@@ -31,8 +31,8 @@ MonoBehaviour:
     assemblyNames:
     - Assembly-CSharp-firstpass
     - NavMeshComponents
-    - DOTween.Modules
     - Assembly-CSharp
+    - DOTween.Modules
     - NavMeshComponentsEditor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0

@@ -8,25 +8,27 @@ public class ConstructionBuilding : MonoBehaviour
     //We want to move the mesh object downwards when the building is instantiated
     [SerializeField] private float moveDownYLevel, buildHealth = 100;
     [SerializeField] private Transform[] collisionCheckers;
+    private float currentHealth;
     private Transform meshObject;
     private float amountMoveEachHit;
     private bool isObstructed = false;
 
     public void PlaceBuilding()
     {
+        currentHealth = buildHealth;
         meshObject = transform.GetChild(0);
         meshObject.transform.localPosition = new Vector3(meshObject.localPosition.x, meshObject.localPosition.y - moveDownYLevel, meshObject.localPosition.z);
-        amountMoveEachHit = moveDownYLevel / buildHealth;
+        amountMoveEachHit = moveDownYLevel / currentHealth;
     }
 
     public void BuildObject(int amount)
     {
         transform.DOComplete();
         transform.DOShakeScale(.5f, .2f, 10, 90, true);
-        buildHealth -= amount;
+        currentHealth -= amount;
         meshObject.localPosition = new Vector3(meshObject.localPosition.x, meshObject.localPosition.y + amountMoveEachHit * amount, meshObject.localPosition.z);
 
-        if(buildHealth <= 0)
+        if(currentHealth <= 0)
         {
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().RemoveOldJob(GetComponent<JobActivator>());
             if (GetComponent<MeshTile>())
@@ -38,6 +40,11 @@ public class ConstructionBuilding : MonoBehaviour
             transform.DOComplete();
             Destroy(this);
         }
+    }
+
+    public float GetProgress()
+    {
+        return buildHealth - currentHealth;
     }
 
     public bool ObjectIsObstructed()

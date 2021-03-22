@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AmountWood", "AmountStone", "AmountGold", "AmountHappiness")]
+	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountHappiness", "Day", "Year")]
 	public class ES3UserType_SaveGame : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -16,13 +16,16 @@ namespace ES3Types
 		{
 			var instance = (SaveGame)obj;
 			
-			writer.WritePrivateProperty("SaveGameName", instance);
-			writer.WritePrivateProperty("AllBuildings", instance);
-			writer.WritePrivateProperty("AllCitizens", instance);
-			writer.WritePrivateProperty("AmountWood", instance);
-			writer.WritePrivateProperty("AmountStone", instance);
-			writer.WritePrivateProperty("AmountGold", instance);
-			writer.WritePrivateProperty("AmountHappiness", instance);
+			writer.WriteProperty("SaveGameName", instance.SaveGameName, ES3Type_string.Instance);
+			writer.WriteProperty("AllBuildings", instance.AllBuildings);
+			writer.WriteProperty("AllCitizens", instance.AllCitizens);
+			writer.WriteProperty("AmountWood", instance.AmountWood, ES3Type_int.Instance);
+			writer.WriteProperty("AmountStone", instance.AmountStone, ES3Type_int.Instance);
+			writer.WriteProperty("AmountGold", instance.AmountGold, ES3Type_int.Instance);
+			writer.WriteProperty("AmountFood", instance.AmountFood, ES3Type_int.Instance);
+			writer.WriteProperty("AmountHappiness", instance.AmountHappiness, ES3Type_int.Instance);
+			writer.WriteProperty("Day", instance.Day, ES3Type_int.Instance);
+			writer.WriteProperty("Year", instance.Year, ES3Type_int.Instance);
 		}
 
 		protected override void ReadObject<T>(ES3Reader reader, object obj)
@@ -34,26 +37,35 @@ namespace ES3Types
 				{
 					
 					case "SaveGameName":
-					reader.SetPrivateProperty("SaveGameName", reader.Read<System.String>(), instance);
-					break;
+						instance.SaveGameName = reader.Read<System.String>(ES3Type_string.Instance);
+						break;
 					case "AllBuildings":
-					reader.SetPrivateProperty("AllBuildings", reader.Read<System.Collections.Generic.List<BuildingSave>>(), instance);
-					break;
+						instance.AllBuildings = reader.Read<System.Collections.Generic.List<BuildingSave>>();
+						break;
 					case "AllCitizens":
-					reader.SetPrivateProperty("AllCitizens", reader.Read<System.Collections.Generic.List<CitizenSave>>(), instance);
-					break;
+						instance.AllCitizens = reader.Read<System.Collections.Generic.List<CitizenSave>>();
+						break;
 					case "AmountWood":
-					reader.SetPrivateProperty("AmountWood", reader.Read<System.Int32>(), instance);
-					break;
+						instance.AmountWood = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
 					case "AmountStone":
-					reader.SetPrivateProperty("AmountStone", reader.Read<System.Int32>(), instance);
-					break;
+						instance.AmountStone = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
 					case "AmountGold":
-					reader.SetPrivateProperty("AmountGold", reader.Read<System.Int32>(), instance);
-					break;
+						instance.AmountGold = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
+					case "AmountFood":
+						instance.AmountFood = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
 					case "AmountHappiness":
-					reader.SetPrivateProperty("AmountHappiness", reader.Read<System.Int32>(), instance);
-					break;
+						instance.AmountHappiness = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
+					case "Day":
+						instance.Day = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
+					case "Year":
+						instance.Year = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
 					default:
 						reader.Skip();
 						break;

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float objectYPlacement;
     [SerializeField] private GameObject buildingsMenu;
     [SerializeField] private float checkForJobsInterval = 1;
+    [SerializeField] private Transform buildingParent;
 
     [Header("UI settings")]
     [SerializeField] private TextMeshProUGUI woodText;
@@ -40,13 +41,98 @@ public class GameManager : MonoBehaviour
     private float currentTimeIndex = 0;
     private int currentDay = 1, currentYear;
 
+    private SaveGame currentSave;
+
     private void Start()
     {
         gridObject = GetComponent<Grid>();
         StartCoroutine(CheckIfJobsAvailable());
+
+        if (ES3.KeyExists("CurrentSaveName"))
+        {
+            string filePath = ES3.Load<string>("CurrentSaveName") + ".es3";
+            LoadSaveGame(ES3.Load<SaveGame>("SaveGame", filePath));
+        }
+
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
         citizensText.text = allCitizens.Count + " Citizens";
         CheckAvailableBeds();
+    }
+
+    private void LoadSaveGame(SaveGame save)
+    {
+        currentSave = save;
+        currentHappinessAmount = currentSave.AmountHappiness;
+        currentFoodAmount = currentSave.AmountFood;
+        currentStoneAmount = currentSave.AmountStone;
+        currentWoodAmount = currentSave.AmountWood;
+        currentYear = currentSave.Year;
+        currentDay = currentSave.Day;
+
+        for(int i = 0; i < currentSave.AllBuildings.Count; i++)
+        {
+            GameObject newObject = Instantiate(Resources.Load("Buildings/" + currentSave.AllBuildings[i].BuildingName) as GameObject);
+            newObject.transform.position = currentSave.AllBuildings[i].BuildingPosition;
+            newObject.transform.rotation = currentSave.AllBuildings[i].BuildingRotation;
+
+            if (currentSave.AllBuildings[i].BuildFinished)
+            {
+                //To be implemented: Job progress
+            }
+            else
+            {
+                newObject.GetComponent<ConstructionBuilding>().PlaceBuilding();
+                newObject.GetComponent<ConstructionBuilding>().BuildObject(Mathf.RoundToInt(currentSave.AllBuildings[i].Progress));
+            }
+        }
+    }
+
+    public void UpdateBuildingSaveProgress(Vector3 buildingPos, float newProgress)
+    {
+        for(int i = 0; i < currentSave.AllBuildings.Count; i++)
+        {
+            //We can identify which buildings save data to overwrite by their positions
+            if(currentSave.AllBuildings[i].BuildingPosition == buildingPos)
+            {
+                currentSave.AllBuildings[i].Progress = newProgress;
+                return;
+            }
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveTheGame(currentSave);
+    }
+
+    private GameObject GetBuildingByPosition(Vector3 pos)
+    {
+        foreach(Transform child in buildingParent)
+        {
+            if(child.position == pos)
+            {
+                return child.gameObject;
+            }
+        }
+        return null;
+    }
+
+    private void SaveTheGame(SaveGame saveGame, bool ignoreExtraSave = default)
+    {
+        if (ignoreExtraSave)
+        {
+            for (int i = 0; i < saveGame.AllBuildings.Count; i++)
+            {
+                GameObject buildingToSave = GetBuildingByPosition(saveGame.AllBuildings[i].BuildingPosition);
+                if (buildingToSave.GetComponent<ConstructionBuilding>())
+                {
+                    saveGame.AllBuildings[i].BuildFinished = false;
+                    saveGame.AllBuildings[i].Progress = buildingToSave.GetComponent<ConstructionBuilding>().GetProgress();
+                }
+            }
+        }
+
+        ES3.Save("SaveGame", saveGame, ES3.Load<string>("CurrentSaveName") + ".es3");
     }
 
     //Check if theres jobs available every couple seconds
@@ -267,6 +353,20 @@ public class GameManager : MonoBehaviour
         currentSelectedBuild.GetComponent<ConstructionBuilding>().PlaceBuilding();
         AddNewJob(currentSelectedBuild.GetComponent<JobActivator>());
         allBuildings.Add(currentSelectedBuild);
+        currentSelectedBuild.transform.SetParent(buildingParent);
+
+        //Unity names instantiated objects (Clone), lets remove that so its easier to save since the original names dont include (Clone)
+        currentSelectedBuild.transform.name = currentSelectedBuild.transform.name.Replace("(Clone)", "").Trim();
+        BuildingSave newBuildingSave = new BuildingSave();
+        newBuildingSave.BuildingName = currentSelectedBuild.transform.name;
+        newBuildingSave.BuildingPosition = currentSelectedBuild.transform.position;
+        newBuildingSave.BuildingRotation = currentSelectedBuild.transform.rotation;
+        newBuildingSave.BuildFinished = false;
+        newBuildingSave.Progress = 0;
+        currentSave.AllBuildings.Add(newBuildingSave);
+        SaveTheGame(currentSave, true);
+
+        currentSelectedBuild.transform.name = currentSelectedBuild.transform.name + " BUILT";
         currentSelectedBuild = null;
     }
 
