@@ -18,11 +18,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stoneText, foodText;
     [SerializeField] private TextMeshProUGUI bedsText, citizensText;
 
-    public enum resourceTypes { Wood, Stone, Metal };
+    public enum resourceTypes { Wood, Stone, Gold };
     private int currentWoodAmount = 0;
     private int currentStoneAmount = 0;
     private int currentFoodAmount = 0;
     private int currentBedsAmount = 0;
+    private int currentGoldAmount = 0;
     private float currentHappinessAmount = 100;
 
     private GameObject currentSelectedBuild;
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float dayLengthInSeconds = 1200;
     [SerializeField] private TextMeshProUGUI timeText;
     private float currentTimeIndex = 0;
-    private int currentDay = 1, currentYear;
+    private int currentDay = 1, currentYear = 0;
 
     private SaveGame currentSave;
 
@@ -69,14 +70,26 @@ public class GameManager : MonoBehaviour
         currentYear = currentSave.Year;
         currentDay = currentSave.Day;
 
-        for(int i = 0; i < currentSave.AllBuildings.Count; i++)
+        woodText.text = currentWoodAmount + " Wood";
+        stoneText.text = currentStoneAmount + " Stone";
+        foodText.text = currentFoodAmount + " Food";
+
+        for (int i = 0; i < currentSave.AllBuildings.Count; i++)
         {
             GameObject newObject = Instantiate(Resources.Load("Buildings/" + currentSave.AllBuildings[i].BuildingName) as GameObject);
             newObject.transform.position = currentSave.AllBuildings[i].BuildingPosition;
             newObject.transform.rotation = currentSave.AllBuildings[i].BuildingRotation;
+            allBuildings.Add(newObject);
+            newObject.transform.SetParent(buildingParent);
+            newObject.GetComponent<ObjectID>().SetID(currentSave.AllBuildings[i].BuildingID);
 
             if (currentSave.AllBuildings[i].BuildFinished)
             {
+                if (newObject.GetComponent<ConstructionBuilding>())
+                {
+                    Destroy(newObject.GetComponent<ConstructionBuilding>());
+                    Destroy(newObject.GetComponent<JobActivator>());
+                }
                 //To be implemented: Job progress
             }
             else
@@ -87,7 +100,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UpdateBuildingSaveProgress(Vector3 buildingPos, float newProgress)
+    public void UpdateBuildingSaveProgress(Vector3 buildingPos, int newProgress)
     {
         for(int i = 0; i < currentSave.AllBuildings.Count; i++)
         {
@@ -102,14 +115,14 @@ public class GameManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveTheGame(currentSave);
+        SaveTheGame(currentSave, true);
     }
 
-    private GameObject GetBuildingByPosition(Vector3 pos)
+    private GameObject GetBuildingByID(string id)
     {
         foreach(Transform child in buildingParent)
         {
-            if(child.position == pos)
+            if(child.GetComponent<ObjectID>().GetID() == id)
             {
                 return child.gameObject;
             }
@@ -117,17 +130,30 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    private void SaveTheGame(SaveGame saveGame, bool ignoreExtraSave = default)
+    private void SaveTheGame(SaveGame saveGame, bool useExtraSaves = default)
     {
-        if (ignoreExtraSave)
+        if (useExtraSaves)
         {
+            saveGame.AmountHappiness = currentHappinessAmount;
+            saveGame.AmountWood = currentWoodAmount;
+            saveGame.AmountStone = currentStoneAmount;
+            saveGame.AmountFood = currentFoodAmount;
+            saveGame.AmountGold = currentGoldAmount;
+            saveGame.Day = currentDay;
+            saveGame.Year = currentYear;
+
             for (int i = 0; i < saveGame.AllBuildings.Count; i++)
             {
-                GameObject buildingToSave = GetBuildingByPosition(saveGame.AllBuildings[i].BuildingPosition);
+                GameObject buildingToSave = GetBuildingByID(saveGame.AllBuildings[i].BuildingID);
                 if (buildingToSave.GetComponent<ConstructionBuilding>())
                 {
                     saveGame.AllBuildings[i].BuildFinished = false;
                     saveGame.AllBuildings[i].Progress = buildingToSave.GetComponent<ConstructionBuilding>().GetProgress();
+                }
+                else
+                {
+                    saveGame.AllBuildings[i].BuildFinished = true;
+                    //Todo: Implement saving of job progress if a job is available on this object
                 }
             }
         }
@@ -362,9 +388,10 @@ public class GameManager : MonoBehaviour
         newBuildingSave.BuildingPosition = currentSelectedBuild.transform.position;
         newBuildingSave.BuildingRotation = currentSelectedBuild.transform.rotation;
         newBuildingSave.BuildFinished = false;
+        newBuildingSave.BuildingID = System.Guid.NewGuid().ToString();
         newBuildingSave.Progress = 0;
         currentSave.AllBuildings.Add(newBuildingSave);
-        SaveTheGame(currentSave, true);
+        SaveTheGame(currentSave);
 
         currentSelectedBuild.transform.name = currentSelectedBuild.transform.name + " BUILT";
         currentSelectedBuild = null;

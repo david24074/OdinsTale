@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("BuildingName", "BuildingPosition", "BuildingRotation", "BuildFinished", "Progress")]
+	[ES3PropertiesAttribute("BuildingName", "BuildingID", "BuildingPosition", "BuildingRotation", "BuildFinished", "Progress")]
 	public class ES3UserType_BuildingSave : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -16,11 +16,12 @@ namespace ES3Types
 		{
 			var instance = (BuildingSave)obj;
 			
-			writer.WritePrivateProperty("BuildingName", instance);
-			writer.WritePrivateProperty("BuildingPosition", instance);
-			writer.WritePrivateProperty("BuildingRotation", instance);
-			writer.WritePrivateProperty("BuildFinished", instance);
-			writer.WritePrivateProperty("Progress", instance);
+			writer.WriteProperty("BuildingName", instance.BuildingName, ES3Type_string.Instance);
+			writer.WriteProperty("BuildingID", instance.BuildingID, ES3Type_string.Instance);
+			writer.WriteProperty("BuildingPosition", instance.BuildingPosition, ES3Type_Vector3.Instance);
+			writer.WriteProperty("BuildingRotation", instance.BuildingRotation, ES3Type_Quaternion.Instance);
+			writer.WriteProperty("BuildFinished", instance.BuildFinished, ES3Type_bool.Instance);
+			writer.WriteProperty("Progress", instance.Progress, ES3Type_float.Instance);
 		}
 
 		protected override void ReadObject<T>(ES3Reader reader, object obj)
@@ -32,20 +33,23 @@ namespace ES3Types
 				{
 					
 					case "BuildingName":
-					reader.SetPrivateProperty("BuildingName", reader.Read<System.String>(), instance);
-					break;
+						instance.BuildingName = reader.Read<System.String>(ES3Type_string.Instance);
+						break;
+					case "BuildingID":
+						instance.BuildingID = reader.Read<System.String>(ES3Type_string.Instance);
+						break;
 					case "BuildingPosition":
-					reader.SetPrivateProperty("BuildingPosition", reader.Read<UnityEngine.Vector3>(), instance);
-					break;
+						instance.BuildingPosition = reader.Read<UnityEngine.Vector3>(ES3Type_Vector3.Instance);
+						break;
 					case "BuildingRotation":
-					reader.SetPrivateProperty("BuildingRotation", reader.Read<UnityEngine.Quaternion>(), instance);
-					break;
+						instance.BuildingRotation = reader.Read<UnityEngine.Quaternion>(ES3Type_Quaternion.Instance);
+						break;
 					case "BuildFinished":
-					reader.SetPrivateProperty("BuildFinished", reader.Read<System.Boolean>(), instance);
-					break;
+						instance.BuildFinished = reader.Read<System.Boolean>(ES3Type_bool.Instance);
+						break;
 					case "Progress":
-					reader.SetPrivateProperty("Progress", reader.Read<System.Single>(), instance);
-					break;
+						instance.Progress = reader.Read<System.Single>(ES3Type_float.Instance);
+						break;
 					default:
 						reader.Skip();
 						break;

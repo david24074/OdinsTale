@@ -3862,7 +3862,7 @@ MonoBehaviour:
   buildingParent: {fileID: 1646697806}
   woodText: {fileID: 1923903262}
   stoneText: {fileID: 719579322}
-  foodText: {fileID: 0}
+  foodText: {fileID: 1266237123}
   bedsText: {fileID: 728201176}
   citizensText: {fileID: 180027616}
   newJobSounds:

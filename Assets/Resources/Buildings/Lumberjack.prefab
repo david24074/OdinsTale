@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 8218740507379234084}
   - component: {fileID: 1336926685237112407}
   - component: {fileID: 421940541415807431}
+  - component: {fileID: 542280886854879087}
   m_Layer: 0
   m_Name: Lumberjack
   m_TagString: Building
@@ -144,7 +145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveDownYLevel: 1
   buildHealth: 350
-  colliderSize: {x: 6, y: 4, z: 3}
   collisionCheckers: []
 --- !u!114 &6297874910888987543
 MonoBehaviour:
@@ -206,6 +206,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &542280886854879087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297874910888987545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b6488134996be46a232f3fd48dec77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6297874912234945263
 GameObject:
   m_ObjectHideFlags: 0

@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 8218740507379234084}
   - component: {fileID: -4769490944688969860}
   - component: {fileID: 4912872381581860946}
+  - component: {fileID: -5362572742128152461}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Building
@@ -294,6 +295,18 @@ MonoBehaviour:
   twoSidesObject: {fileID: 3185156908794655210}
   oneSideObject: {fileID: 1595733462709993547}
   zeroSideObject: {fileID: 3641795016352428359}
+--- !u!114 &-5362572742128152461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297874910888987545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b6488134996be46a232f3fd48dec77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6297874912234945263
 GameObject:
   m_ObjectHideFlags: 0

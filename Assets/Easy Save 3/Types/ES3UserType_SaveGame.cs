@@ -23,7 +23,7 @@ namespace ES3Types
 			writer.WriteProperty("AmountStone", instance.AmountStone, ES3Type_int.Instance);
 			writer.WriteProperty("AmountGold", instance.AmountGold, ES3Type_int.Instance);
 			writer.WriteProperty("AmountFood", instance.AmountFood, ES3Type_int.Instance);
-			writer.WriteProperty("AmountHappiness", instance.AmountHappiness, ES3Type_int.Instance);
+			writer.WriteProperty("AmountHappiness", instance.AmountHappiness, ES3Type_float.Instance);
 			writer.WriteProperty("Day", instance.Day, ES3Type_int.Instance);
 			writer.WriteProperty("Year", instance.Year, ES3Type_int.Instance);
 		}
@@ -58,7 +58,7 @@ namespace ES3Types
 						instance.AmountFood = reader.Read<System.Int32>(ES3Type_int.Instance);
 						break;
 					case "AmountHappiness":
-						instance.AmountHappiness = reader.Read<System.Int32>(ES3Type_int.Instance);
+						instance.AmountHappiness = reader.Read<System.Single>(ES3Type_float.Instance);
 						break;
 					case "Day":
 						instance.Day = reader.Read<System.Int32>(ES3Type_int.Instance);
