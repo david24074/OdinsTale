@@ -85,6 +85,7 @@ public class MenuManager : MonoBehaviour
 
         newSaveGame.AllBuildings = new List<BuildingSave>();
         newSaveGame.AllCitizens = new List<CitizenSave>();
+        newSaveGame.AllJobs = new List<string>();
         newSaveGame.SaveGameName = saveGameInputField.text;
         newSaveGame.AmountHappiness = 100;
 

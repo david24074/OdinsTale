@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("CitizenPosition", "CitizenRotation", "CurrentJobIndex", "CurrentJobID", "CitizenID")]
+	[ES3PropertiesAttribute("CitizenPosition", "CitizenRotation", "CurrentJobID", "CitizenID")]
 	public class ES3UserType_CitizenSave : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -18,7 +18,6 @@ namespace ES3Types
 			
 			writer.WriteProperty("CitizenPosition", instance.CitizenPosition, ES3Type_Vector3.Instance);
 			writer.WriteProperty("CitizenRotation", instance.CitizenRotation, ES3Type_Quaternion.Instance);
-			writer.WriteProperty("CurrentJobIndex", instance.CurrentJobIndex, ES3Type_int.Instance);
 			writer.WriteProperty("CurrentJobID", instance.CurrentJobID, ES3Type_string.Instance);
 			writer.WriteProperty("CitizenID", instance.CitizenID, ES3Type_string.Instance);
 		}
@@ -36,9 +35,6 @@ namespace ES3Types
 						break;
 					case "CitizenRotation":
 						instance.CitizenRotation = reader.Read<UnityEngine.Quaternion>(ES3Type_Quaternion.Instance);
-						break;
-					case "CurrentJobIndex":
-						instance.CurrentJobIndex = reader.Read<System.Int32>(ES3Type_int.Instance);
 						break;
 					case "CurrentJobID":
 						instance.CurrentJobID = reader.Read<System.String>(ES3Type_string.Instance);

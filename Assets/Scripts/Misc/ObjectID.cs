@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectID : MonoBehaviour
 {
-    private string objectID;
+    [SerializeField] private string objectID;
 
     public void SetID(string id)
     {

@@ -24,6 +24,11 @@ public class JobActivator : MonoBehaviour
         jobActiveObject.SetActive(value);
     }
 
+    public bool CheckIfJobActive()
+    {
+        return jobActiveObject.activeInHierarchy;
+    }
+
     public void RemoveAllWorkers()
     {
         for(int i = 0; i < currentWorkers.Count; i++)

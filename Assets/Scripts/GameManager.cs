@@ -79,7 +79,6 @@ public class GameManager : MonoBehaviour
             newSave.CitizenPosition = newCitizen.transform.position;
             newSave.CitizenRotation = newCitizen.transform.rotation;
             newSave.CurrentJobID = "";
-            newSave.CurrentJobIndex = newCitizen.GetComponent<Animator>().GetInteger("JobIndex");
             newSave.CitizenID = System.Guid.NewGuid().ToString();
             newCitizen.GetComponent<ObjectID>().SetID(newSave.CitizenID);
             currentSave.AllCitizens.Add(newSave);
@@ -126,13 +125,22 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        for(int i = 0; i < currentSave.AllJobs.Count; i++)
+        {
+            AddNewJob(GetBuildingByID(currentSave.AllJobs[i]).GetComponent<JobActivator>());
+        }
+
         for (int i = 0; i < currentSave.AllCitizens.Count; i++)
         {
             GameObject newCitizen = Instantiate(citizen, currentSave.AllCitizens[i].CitizenPosition, currentSave.AllCitizens[i].CitizenRotation);
-            newCitizen.GetComponent<Animator>().SetInteger("JobIndex", currentSave.AllCitizens[i].CurrentJobIndex);
             newCitizen.transform.SetParent(citizenParent);
             newCitizen.GetComponent<ObjectID>().SetID(currentSave.AllCitizens[i].CitizenID);
             allCitizens.Add(newCitizen.GetComponent<Citizen>());
+
+            if (currentSave.AllCitizens[i].CurrentJobID != "")
+            {
+                newCitizen.GetComponent<Citizen>().GiveNewJob(GetBuildingByID(currentSave.AllCitizens[i].CurrentJobID).GetComponent<JobActivator>());
+            }
         }
     }
 
@@ -189,6 +197,7 @@ public class GameManager : MonoBehaviour
             saveGame.AmountGold = currentGoldAmount;
             saveGame.Day = currentDay;
             saveGame.Year = currentYear;
+            saveGame.AllJobs = new List<string>();
 
             for (int i = 0; i < saveGame.AllBuildings.Count; i++)
             {
@@ -202,6 +211,14 @@ public class GameManager : MonoBehaviour
                 {
                     saveGame.AllBuildings[i].BuildFinished = true;
                     //Todo: Implement saving of job progress if a job is available on this object
+                }
+
+                if (buildingToSave.GetComponent<JobActivator>())
+                {
+                    if (buildingToSave.GetComponent<JobActivator>().CheckIfJobActive())
+                    {
+                        saveGame.AllJobs.Add(buildingToSave.GetComponent<ObjectID>().GetID());
+                    }
                 }
             }
 
