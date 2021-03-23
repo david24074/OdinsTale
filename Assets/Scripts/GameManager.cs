@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float objectYPlacement;
     [SerializeField] private GameObject buildingsMenu;
     [SerializeField] private float checkForJobsInterval = 1;
-    [SerializeField] private Transform buildingParent;
+    [SerializeField] private Transform buildingParent, citizenParent;
 
     [Header("UI settings")]
     [SerializeField] private TextMeshProUGUI woodText;
@@ -56,8 +56,35 @@ public class GameManager : MonoBehaviour
         }
 
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
+
+        //If there are no citizens it means the player started a new game, if this happends lets give him 3 citizens to start off with.
+        if (allCitizens.Count <= 0)
+        {
+            SpawnNewCitizen(3);
+        }
+
         citizensText.text = allCitizens.Count + " Citizens";
         CheckAvailableBeds();
+    }
+
+    private void SpawnNewCitizen(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject newCitizen = Instantiate(citizen, transform.position + new Vector3(Random.Range(-2, 2), 0, Random.Range(-2, 2)), transform.rotation);
+            newCitizen.transform.SetParent(citizenParent);
+            allCitizens.Add(newCitizen.GetComponent<Citizen>());
+
+            CitizenSave newSave = new CitizenSave();
+            newSave.CitizenPosition = newCitizen.transform.position;
+            newSave.CitizenRotation = newCitizen.transform.rotation;
+            newSave.CurrentJobID = "";
+            newSave.CurrentJobIndex = newCitizen.GetComponent<Animator>().GetInteger("JobIndex");
+            newSave.CitizenID = System.Guid.NewGuid().ToString();
+            newCitizen.GetComponent<ObjectID>().SetID(newSave.CitizenID);
+            currentSave.AllCitizens.Add(newSave);
+            SaveTheGame(currentSave);
+        }
     }
 
     private void LoadSaveGame(SaveGame save)
@@ -98,6 +125,15 @@ public class GameManager : MonoBehaviour
                 newObject.GetComponent<ConstructionBuilding>().BuildObject(Mathf.RoundToInt(currentSave.AllBuildings[i].Progress));
             }
         }
+
+        for (int i = 0; i < currentSave.AllCitizens.Count; i++)
+        {
+            GameObject newCitizen = Instantiate(citizen, currentSave.AllCitizens[i].CitizenPosition, currentSave.AllCitizens[i].CitizenRotation);
+            newCitizen.GetComponent<Animator>().SetInteger("JobIndex", currentSave.AllCitizens[i].CurrentJobIndex);
+            newCitizen.transform.SetParent(citizenParent);
+            newCitizen.GetComponent<ObjectID>().SetID(currentSave.AllCitizens[i].CitizenID);
+            allCitizens.Add(newCitizen.GetComponent<Citizen>());
+        }
     }
 
     public void UpdateBuildingSaveProgress(Vector3 buildingPos, int newProgress)
@@ -130,6 +166,18 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    private GameObject GetCitizenByID(string id)
+    {
+        foreach (Transform child in citizenParent)
+        {
+            if (child.GetComponent<ObjectID>().GetID() == id)
+            {
+                return child.gameObject;
+            }
+        }
+        return null;
+    }
+
     private void SaveTheGame(SaveGame saveGame, bool useExtraSaves = default)
     {
         if (useExtraSaves)
@@ -155,6 +203,13 @@ public class GameManager : MonoBehaviour
                     saveGame.AllBuildings[i].BuildFinished = true;
                     //Todo: Implement saving of job progress if a job is available on this object
                 }
+            }
+
+            for (int i = 0; i < saveGame.AllCitizens.Count; i++)
+            {
+                GameObject citizenToSave = GetCitizenByID(saveGame.AllCitizens[i].CitizenID);
+                saveGame.AllCitizens[i].CitizenPosition = citizenToSave.transform.position;
+                saveGame.AllCitizens[i].CitizenRotation = citizenToSave.transform.rotation;
             }
         }
 
