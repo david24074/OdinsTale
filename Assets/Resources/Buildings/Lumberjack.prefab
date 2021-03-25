@@ -145,7 +145,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveDownYLevel: 1
   buildHealth: 350
-  collisionCheckers: []
+  collisionCheckers:
+  - {fileID: 8838471393262331440}
+  - {fileID: 5133478172069577219}
 --- !u!114 &6297874910888987543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b6488134996be46a232f3fd48dec77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
 --- !u!1 &6297874912234945263
 GameObject:
   m_ObjectHideFlags: 0

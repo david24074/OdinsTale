@@ -24,7 +24,7 @@ public class MessageLog : MonoBehaviour
         }
     }
 
-    public List<string> GetAllMessages()
+    public  List<string> GetAllMessages()
     {
         List<string> allMessages = new List<string>();
 
