@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jobIndex: 2
-  maxJobWorkers: 6
+  maxJobWorkers: 2
   jobActiveObject: {fileID: 2980041632067802306}
 --- !u!208 &8218740507379234084
 NavMeshObstacle:
@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b6488134996be46a232f3fd48dec77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectID: 0
 --- !u!1 &6297874912234945263
 GameObject:
   m_ObjectHideFlags: 0

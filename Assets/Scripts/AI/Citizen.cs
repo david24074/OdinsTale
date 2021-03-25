@@ -10,7 +10,7 @@ public class Citizen : MonoBehaviour
     private Animator animator;
     private Transform targetObject;
 
-    private void Start()
+    private void Awake()
     {
         navmeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
