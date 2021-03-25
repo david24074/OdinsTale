@@ -4,7 +4,7 @@ public class BuildingSave
 {
     //Used for loading in the right building
     public string BuildingName { get; set; }
-    public string BuildingID { get; set; }
+    public int BuildingID { get; set; }
     public Vector3 BuildingPosition { get; set; }
     public Quaternion BuildingRotation { get; set; }
     //Has the building been fully built or not

@@ -47,7 +47,7 @@ namespace ES3Types
 						instance.AllCitizens = reader.Read<System.Collections.Generic.List<CitizenSave>>();
 						break;
 					case "AllJobs":
-						instance.AllJobs = reader.Read<System.Collections.Generic.List<System.String>>();
+						instance.AllJobs = reader.Read<System.Collections.Generic.List<System.Int32>>();
 						break;
 					case "AmountWood":
 						instance.AmountWood = reader.Read<System.Int32>(ES3Type_int.Instance);

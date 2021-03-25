@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ObjectID : MonoBehaviour
 {
-    [SerializeField] private string objectID;
+    [SerializeField] private int objectID;
 
-    public void SetID(string id)
+    public void SetID(int id)
     {
         objectID = id; 
     }
 
-    public string GetID()
+    public int GetID()
     {
         return objectID;
     }

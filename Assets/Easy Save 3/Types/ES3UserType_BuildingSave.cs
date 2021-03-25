@@ -17,7 +17,7 @@ namespace ES3Types
 			var instance = (BuildingSave)obj;
 			
 			writer.WriteProperty("BuildingName", instance.BuildingName, ES3Type_string.Instance);
-			writer.WriteProperty("BuildingID", instance.BuildingID, ES3Type_string.Instance);
+			writer.WriteProperty("BuildingID", instance.BuildingID, ES3Type_int.Instance);
 			writer.WriteProperty("BuildingPosition", instance.BuildingPosition, ES3Type_Vector3.Instance);
 			writer.WriteProperty("BuildingRotation", instance.BuildingRotation, ES3Type_Quaternion.Instance);
 			writer.WriteProperty("BuildFinished", instance.BuildFinished, ES3Type_bool.Instance);
@@ -36,7 +36,7 @@ namespace ES3Types
 						instance.BuildingName = reader.Read<System.String>(ES3Type_string.Instance);
 						break;
 					case "BuildingID":
-						instance.BuildingID = reader.Read<System.String>(ES3Type_string.Instance);
+						instance.BuildingID = reader.Read<System.Int32>(ES3Type_int.Instance);
 						break;
 					case "BuildingPosition":
 						instance.BuildingPosition = reader.Read<UnityEngine.Vector3>(ES3Type_Vector3.Instance);

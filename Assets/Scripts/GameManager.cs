@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour
             CitizenSave newSave = new CitizenSave();
             newSave.CitizenPosition = newCitizen.transform.position;
             newSave.CitizenRotation = newCitizen.transform.rotation;
-            newSave.CurrentJobID = "";
-            newSave.CitizenID = System.Guid.NewGuid().ToString();
+            newSave.CurrentJobID = 0;
+            newSave.CitizenID = GetRandomID();
             newCitizen.GetComponent<ObjectID>().SetID(newSave.CitizenID);
             currentSave.AllCitizens.Add(newSave);
             SaveTheGame(currentSave);
@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
             newCitizen.GetComponent<ObjectID>().SetID(currentSave.AllCitizens[i].CitizenID);
             allCitizens.Add(newCitizen.GetComponent<Citizen>());
 
-            if (currentSave.AllCitizens[i].CurrentJobID != "")
+            if (currentSave.AllCitizens[i].CurrentJobID > 0)
             {
                 newCitizen.GetComponent<Citizen>().GiveNewJob(GetBuildingByID(currentSave.AllCitizens[i].CurrentJobID).GetComponent<JobActivator>());
             }
@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
         SaveTheGame(currentSave, true);
     }
 
-    private GameObject GetBuildingByID(string id)
+    private GameObject GetBuildingByID(int id)
     {
         foreach(Transform child in buildingParent)
         {
@@ -174,7 +174,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    private GameObject GetCitizenByID(string id)
+    private GameObject GetCitizenByID(int id)
     {
         foreach (Transform child in citizenParent)
         {
@@ -197,11 +197,12 @@ public class GameManager : MonoBehaviour
             saveGame.AmountGold = currentGoldAmount;
             saveGame.Day = currentDay;
             saveGame.Year = currentYear;
-            saveGame.AllJobs = new List<string>();
+            saveGame.AllJobs = new List<int>();
 
             for (int i = 0; i < saveGame.AllBuildings.Count; i++)
             {
                 GameObject buildingToSave = GetBuildingByID(saveGame.AllBuildings[i].BuildingID);
+                Debug.Log(buildingToSave.name);
                 if (buildingToSave.GetComponent<ConstructionBuilding>())
                 {
                     saveGame.AllBuildings[i].BuildFinished = false;
@@ -460,13 +461,25 @@ public class GameManager : MonoBehaviour
         newBuildingSave.BuildingPosition = currentSelectedBuild.transform.position;
         newBuildingSave.BuildingRotation = currentSelectedBuild.transform.rotation;
         newBuildingSave.BuildFinished = false;
-        newBuildingSave.BuildingID = System.Guid.NewGuid().ToString();
+        newBuildingSave.BuildingID = GetRandomID();
+        currentSelectedBuild.GetComponent<ObjectID>().SetID(newBuildingSave.BuildingID);
         newBuildingSave.Progress = 0;
         currentSave.AllBuildings.Add(newBuildingSave);
         SaveTheGame(currentSave);
 
         currentSelectedBuild.transform.name = currentSelectedBuild.transform.name + " BUILT";
         currentSelectedBuild = null;
+    }
+
+    private int GetRandomID()
+    {
+        string IDToConvert = "";
+        for(int i = 0; i < 6; i++)
+        {
+            IDToConvert += Random.Range(0, 9);
+        }
+        Debug.Log(IDToConvert);
+        return int.Parse(IDToConvert);
     }
 
     private void ToggleBuildingsMenu()

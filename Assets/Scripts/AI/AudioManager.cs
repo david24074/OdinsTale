@@ -20,7 +20,7 @@ public class AudioManager : MonoBehaviour
         {
             audioManager = this;
             DontDestroyOnLoad(gameObject);
-            StartCoroutine(startNewMusicClip());
+            StartCoroutine(StartNewMusicClip());
         }
     }
 
@@ -30,11 +30,11 @@ public class AudioManager : MonoBehaviour
         audioManager.fxSource.PlayOneShot(clip);
     }
 
-    private IEnumerator startNewMusicClip()
+    private IEnumerator StartNewMusicClip()
     {
         AudioClip musicClip = musicClips[Random.Range(0, musicClips.Length)];
         musicSource.PlayOneShot(musicClip);
         yield return new WaitForSeconds(musicClip.length);
-        StartCoroutine(startNewMusicClip());
+        StartCoroutine(StartNewMusicClip());
     }
 }
