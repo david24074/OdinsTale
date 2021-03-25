@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jobIndex: 2
-  maxJobWorkers: 2
+  maxJobWorkers: 6
   jobActiveObject: {fileID: 2980041632067802306}
 --- !u!208 &8218740507379234084
 NavMeshObstacle:

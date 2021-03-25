@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI woodText;
     [SerializeField] private TextMeshProUGUI stoneText, foodText;
     [SerializeField] private TextMeshProUGUI bedsText, citizensText;
+    [SerializeField] private MessageLog messageLogger;
 
     public enum resourceTypes { Wood, Stone, Gold };
     private int currentWoodAmount = 0;
@@ -146,6 +147,11 @@ public class GameManager : MonoBehaviour
         {
             SpawnNewCitizen(currentSave.AllCitizens[i]);
         }
+
+        for(int i = 0; i < currentSave.MessageLogMessages.Count; i++)
+        {
+            MessageLog.AddNewMessage(currentSave.MessageLogMessages[i]);
+        }
     }
 
     public void UpdateBuildingSaveProgress(Vector3 buildingPos, int newProgress)
@@ -240,6 +246,8 @@ public class GameManager : MonoBehaviour
                     saveGame.AllCitizens[i].CurrentJobID = 0;
                 }
             }
+
+            saveGame.MessageLogMessages = messageLogger.GetAllMessages();
         }
 
         ES3.Save("SaveGame", saveGame, ES3.Load<string>("CurrentSaveName") + ".es3");
@@ -480,6 +488,7 @@ public class GameManager : MonoBehaviour
         currentSave.AllBuildings.Add(newBuildingSave);
         SaveTheGame(currentSave);
 
+        MessageLog.AddNewMessage("Placed " + currentSelectedBuild.transform.name);
         currentSelectedBuild.transform.name = currentSelectedBuild.transform.name + " BUILT";
         currentSelectedBuild = null;
     }
@@ -491,7 +500,6 @@ public class GameManager : MonoBehaviour
         {
             IDToConvert += Random.Range(0, 9);
         }
-        Debug.Log(IDToConvert);
         return int.Parse(IDToConvert);
     }
 

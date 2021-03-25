@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AllJobs", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountHappiness", "Day", "Year")]
+	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AllJobs", "MessageLogMessages", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountHappiness", "Day", "Year")]
 	public class ES3UserType_SaveGame : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -20,6 +20,7 @@ namespace ES3Types
 			writer.WriteProperty("AllBuildings", instance.AllBuildings);
 			writer.WriteProperty("AllCitizens", instance.AllCitizens);
 			writer.WriteProperty("AllJobs", instance.AllJobs);
+			writer.WriteProperty("MessageLogMessages", instance.MessageLogMessages);
 			writer.WriteProperty("AmountWood", instance.AmountWood, ES3Type_int.Instance);
 			writer.WriteProperty("AmountStone", instance.AmountStone, ES3Type_int.Instance);
 			writer.WriteProperty("AmountGold", instance.AmountGold, ES3Type_int.Instance);
@@ -48,6 +49,9 @@ namespace ES3Types
 						break;
 					case "AllJobs":
 						instance.AllJobs = reader.Read<System.Collections.Generic.List<System.Int32>>();
+						break;
+					case "MessageLogMessages":
+						instance.MessageLogMessages = reader.Read<System.Collections.Generic.List<System.String>>();
 						break;
 					case "AmountWood":
 						instance.AmountWood = reader.Read<System.Int32>(ES3Type_int.Instance);

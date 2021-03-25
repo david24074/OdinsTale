@@ -6,6 +6,7 @@ public class SaveGame
     public List<BuildingSave> AllBuildings { get; set; }
     public List<CitizenSave> AllCitizens { get; set; }
     public List<int> AllJobs { get; set; }
+    public List<string> MessageLogMessages { get; set; }
     public int AmountWood { get; set; }
     public int AmountStone { get; set; }
     public int AmountGold { get; set; }

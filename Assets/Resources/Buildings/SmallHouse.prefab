@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jobIndex: 2
-  maxJobWorkers: 1
+  maxJobWorkers: 3
   jobActiveObject: {fileID: 2980041632067802306}
 --- !u!65 &6297874910888987541
 BoxCollider:
