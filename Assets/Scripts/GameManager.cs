@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
                 }
                 if (newObject.GetComponent<ResourceGenerator>())
                 {
-                    newObject.GetComponent<ResourceGenerator>().StartGenerator(0);
+                    newObject.GetComponent<ResourceGenerator>().StartGenerator(currentSave.AllBuildings[i].Progress);
                 }
                 else
                 {
@@ -241,7 +241,10 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     saveGame.AllBuildings[i].BuildFinished = true;
-                    //Todo: Implement saving of job progress if a job is available on this object
+                    if (buildingToSave.GetComponent<ResourceGenerator>())
+                    {
+                        saveGame.AllBuildings[i].Progress = buildingToSave.GetComponent<ResourceGenerator>().GetProgress();
+                    }
                 }
 
                 if (buildingToSave.GetComponent<JobActivator>())
