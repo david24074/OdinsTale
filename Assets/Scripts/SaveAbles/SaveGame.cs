@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SaveGame
 {
@@ -14,4 +15,6 @@ public class SaveGame
     public float AmountHappiness { get; set; }
     public int Day { get; set; }
     public int Year { get; set; }
+    public Vector3 CameraPosition { get; set; }
+    public Quaternion CameraRotation { get; set; }
 }

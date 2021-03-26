@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private Toggle fullscreenToggle;
     private Resolution[] resolutions;
+    [SerializeField] private GameObject mainInGameUI, mainInGameEscapeMenu;
 
     [Header("Scene Loading")]
     [SerializeField] private GameObject loadingScreen;
@@ -25,6 +26,8 @@ public class MenuManager : MonoBehaviour
     [Header("Main Menu")]
     [SerializeField] private TMP_InputField saveGameInputField;
     [SerializeField] private TextMeshProUGUI feedbackText;
+    [SerializeField] private GameObject loadGameButton;
+    [SerializeField] private Transform loadGameContent;
 
     [Header("Debug")]
     [SerializeField] private TextMeshProUGUI fpsCounter;
@@ -56,6 +59,24 @@ public class MenuManager : MonoBehaviour
         }
 
         LoadSettings();
+
+        if(SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            SetLoadGameButtons();
+        }
+    }
+
+    public void SetLoadGameButtons()
+    {
+        string[] fileNames = ES3.GetFiles();
+        for(int i = 0; i < fileNames.Length; i++)
+        {
+            if (fileNames[i] != "SaveFile.es3" && fileNames[i].Contains(".es3"))
+            {
+                GameObject newButton = Instantiate(loadGameButton, loadGameContent);
+                newButton.GetComponent<LoadButton>().LoadSaveGameToButton(ES3.Load<SaveGame>("SaveGame", fileNames[i]));
+            }
+        }
     }
 
     private void Update()
@@ -63,6 +84,25 @@ public class MenuManager : MonoBehaviour
         int current = (int)(1f / Time.unscaledDeltaTime);
         fpsCounter.text = current + " FPS";
         updateInterval = Time.deltaTime + 60.0f;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            //If we are in the city building scene
+            if(SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                switch (mainInGameUI.activeInHierarchy)
+                {
+                    case true:
+                        mainInGameUI.SetActive(false);
+                        mainInGameEscapeMenu.SetActive(true);
+                        break;
+                    case false:
+                        mainInGameUI.SetActive(true);
+                        mainInGameEscapeMenu.SetActive(false);
+                        break;
+                }
+            }
+        }
     }
 
     public void StartNewGame()
@@ -79,10 +119,18 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
+        //Prevent overriding the main savefile for the settings
+        if(saveGameInputField.text == "SaveFile")
+        {
+            feedbackText.text = "Please choose another name";
+        }
+
         ES3.Save("CurrentSaveName", saveGameInputField.text);
 
         SaveGame newSaveGame = new SaveGame();
 
+        //Set the best starter location for the player
+        newSaveGame.CameraPosition = new Vector3(80, 23.50f, 75);
         newSaveGame.AllBuildings = new List<BuildingSave>();
         newSaveGame.AllCitizens = new List<CitizenSave>();
         newSaveGame.AllJobs = new List<int>();
@@ -103,6 +151,12 @@ public class MenuManager : MonoBehaviour
     public void LoadScene(int sceneIndex)
     {
         StartCoroutine(LoadSceneAsync(sceneIndex));
+    }
+
+    public void LoadSaveGame(string saveGameName)
+    {
+        ES3.Save("CurrentSaveName", saveGameName);
+        StartCoroutine(LoadSceneAsync(1));
     }
 
     private IEnumerator LoadSceneAsync(int sceneIndex)
@@ -158,10 +212,13 @@ public class MenuManager : MonoBehaviour
         if (ES3.KeyExists("ResolutionIndex"))
         {
             int index = ES3.Load<int>("ResolutionIndex");
-            Resolution resolution = resolutions[index];
-            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-            resolutionDropdown.SetValueWithoutNotify(index);
-            resolutionDropdown.RefreshShownValue();
+            if(index <= resolutions.Length)
+            {
+                Resolution resolution = resolutions[index];
+                Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+                resolutionDropdown.SetValueWithoutNotify(index);
+                resolutionDropdown.RefreshShownValue();
+            }
         }
     }
 

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stoneText, foodText;
     [SerializeField] private TextMeshProUGUI bedsText, citizensText;
     [SerializeField] private MessageLog messageLogger;
+    [SerializeField] private MenuManager menuManager;
 
     public enum resourceTypes { Wood, Stone, Gold };
     private int currentWoodAmount = 0;
@@ -109,6 +110,9 @@ public class GameManager : MonoBehaviour
         currentYear = currentSave.Year;
         currentDay = currentSave.Day;
 
+        Camera.main.transform.position = save.CameraPosition;
+        Camera.main.transform.rotation = save.CameraRotation;
+
         woodText.text = currentWoodAmount + " Wood";
         stoneText.text = currentStoneAmount + " Stone";
         foodText.text = currentFoodAmount + " Food";
@@ -196,6 +200,17 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    public void QuitToMenu()
+    {
+        SaveTheGame(currentSave, true);
+        menuManager.LoadScene(0);
+    }
+
+    public void SaveCurrentGame()
+    {
+        SaveTheGame(currentSave, true);
+    }
+
     private void SaveTheGame(SaveGame saveGame, bool useExtraSaves = default)
     {
         if (useExtraSaves)
@@ -248,9 +263,22 @@ public class GameManager : MonoBehaviour
             }
 
             saveGame.MessageLogMessages = messageLogger.GetAllMessages();
+
+            saveGame.CameraPosition = Camera.main.transform.position;
+            saveGame.CameraRotation = Camera.main.transform.rotation;
+
+            StartCoroutine(TakeScreenshot(saveGame.SaveGameName));
         }
 
         ES3.Save("SaveGame", saveGame, ES3.Load<string>("CurrentSaveName") + ".es3");
+    }
+
+    private IEnumerator TakeScreenshot(string fileName)
+    {
+        yield return new WaitForEndOfFrame();
+        Texture2D newTexture = ScreenCapture.CaptureScreenshotAsTexture();
+        ES3.SaveImage(newTexture, fileName + ".png");
+        Destroy(newTexture);
     }
 
     //Check if theres jobs available every couple seconds

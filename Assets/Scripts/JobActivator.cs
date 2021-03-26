@@ -38,10 +38,10 @@ public class JobActivator : MonoBehaviour
         currentWorkers.Clear();
     }
 
-    public void RemoveWorker(GameObject newWorker)
+    public void RemoveWorker(GameObject oldWorker)
     {
-        newWorker.GetComponent<Citizen>().QuitJob();
-        currentWorkers.Remove(newWorker);
+        oldWorker.GetComponent<Citizen>().QuitJob();
+        currentWorkers.Remove(oldWorker);
     }
 
     public int GetCurrentWorkers()

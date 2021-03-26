@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AllJobs", "MessageLogMessages", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountHappiness", "Day", "Year")]
+	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AllJobs", "MessageLogMessages", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountHappiness", "Day", "Year", "CameraPosition", "CameraRotation")]
 	public class ES3UserType_SaveGame : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -28,6 +28,8 @@ namespace ES3Types
 			writer.WriteProperty("AmountHappiness", instance.AmountHappiness, ES3Type_float.Instance);
 			writer.WriteProperty("Day", instance.Day, ES3Type_int.Instance);
 			writer.WriteProperty("Year", instance.Year, ES3Type_int.Instance);
+			writer.WriteProperty("CameraPosition", instance.CameraPosition, ES3Type_Vector3.Instance);
+			writer.WriteProperty("CameraRotation", instance.CameraRotation, ES3Type_Quaternion.Instance);
 		}
 
 		protected override void ReadObject<T>(ES3Reader reader, object obj)
@@ -73,6 +75,12 @@ namespace ES3Types
 						break;
 					case "Year":
 						instance.Year = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
+					case "CameraPosition":
+						instance.CameraPosition = reader.Read<UnityEngine.Vector3>(ES3Type_Vector3.Instance);
+						break;
+					case "CameraRotation":
+						instance.CameraRotation = reader.Read<UnityEngine.Quaternion>(ES3Type_Quaternion.Instance);
 						break;
 					default:
 						reader.Skip();
