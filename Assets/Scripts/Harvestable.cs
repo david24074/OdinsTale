@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class Harvestable : MonoBehaviour
 {
-    private enum resourceTypes { Wood, Stone, Metal };
+    private enum resourceTypes { Wood, Stone, Gold };
 
     [SerializeField] private resourceTypes activeResource;
     [SerializeField] private int resourceHealth = 50;

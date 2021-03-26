@@ -35,6 +35,10 @@ public class ConstructionBuilding : MonoBehaviour
             {
                 GetComponent<MeshTile>().enabled = true;
             }
+            if (GetComponent<ResourceGenerator>())
+            {
+                GetComponent<ResourceGenerator>().StartGenerator(0);
+            }
 
             TryHandleComponents();
             transform.DOComplete();

@@ -131,9 +131,15 @@ public class GameManager : MonoBehaviour
                 if (newObject.GetComponent<ConstructionBuilding>())
                 {
                     Destroy(newObject.GetComponent<ConstructionBuilding>());
+                }
+                if (newObject.GetComponent<ResourceGenerator>())
+                {
+                    newObject.GetComponent<ResourceGenerator>().StartGenerator(0);
+                }
+                else
+                {
                     Destroy(newObject.GetComponent<JobActivator>());
                 }
-                //To be implemented: Job progress
             }
             else
             {

@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 1336926685237112407}
   - component: {fileID: 421940541415807431}
   - component: {fileID: 542280886854879087}
+  - component: {fileID: 4464604090790383082}
   m_Layer: 0
   m_Name: Lumberjack
   m_TagString: Building
@@ -221,6 +222,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectID: 0
+--- !u!114 &4464604090790383082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297874910888987545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263051334009bee448363c74dfc524e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeResource: 0
+  generateCountdown: 5
+  minAmount: 1
+  maxAmount: 3
 --- !u!1 &6297874912234945263
 GameObject:
   m_ObjectHideFlags: 0
