@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour
     private List<Citizen> allCitizens = new List<Citizen>();
     private List<JobActivator> allJobs = new List<JobActivator>();
 
+    [Header("Attacking Settings")]
+    [SerializeField] private Transform enemyShipInstantiateContent;
+    [SerializeField] private GameObject[] enemyShips;
+
     [Header("Audio")]
     [SerializeField] private AudioClip[] newJobSounds;
 
@@ -45,6 +49,30 @@ public class GameManager : MonoBehaviour
     private int currentDay = 1, currentYear = 0;
 
     private SaveGame currentSave;
+
+    private void SpawnEnemyShips()
+    {
+        int maxAmount = Mathf.RoundToInt(allCitizens.Count / 100);
+        if (maxAmount < 1) { maxAmount = 1; }
+
+        int amountToSpawn = Random.Range(1, maxAmount);
+
+        List<Transform> randomSpawnPoints = new List<Transform>();
+
+        int childCount = enemyShipInstantiateContent.childCount;
+        for (int i = 0; i < childCount; ++i)
+        {
+            randomSpawnPoints.Add(enemyShipInstantiateContent.GetChild(childCount));
+        }
+
+        for (int i = 0; i < amountToSpawn; i++)
+        {
+            Transform randomSpawnPoint = randomSpawnPoints[Random.Range(0, randomSpawnPoints.Count)];
+            randomSpawnPoints.Remove(randomSpawnPoint);
+
+            GameObject newShip = Instantiate(enemyShips[Random.Range(0, enemyShips.Length)], randomSpawnPoint.position, randomSpawnPoint.rotation);
+        }
+    }
 
     private void Start()
     {

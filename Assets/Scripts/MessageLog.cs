@@ -8,6 +8,7 @@ public class MessageLog : MonoBehaviour
     [SerializeField] private int maxMessages = 30;
     [SerializeField] private GameObject messageObject;
     [SerializeField] private Transform messageContent;
+    [SerializeField] private TextMeshProUGUI notificationText;
     private static MessageLog messageLogger;
     private List<GameObject> currentMessageObjects = new List<GameObject>();
 
@@ -42,6 +43,18 @@ public class MessageLog : MonoBehaviour
         {
             AddNewMessage("New test message number: " + Random.Range(0, 300));
         }
+    }
+
+    public static void SetNotificationMessage(string newText, int timer)
+    {
+        messageLogger.notificationText.text = newText;
+        messageLogger.StartCoroutine(messageLogger.SetNotificationTimer(timer));
+    }
+
+    private IEnumerator SetNotificationTimer(int time)
+    {
+        yield return new WaitForSeconds(time);
+        notificationText.text = "";
     }
 
     public static void AddNewMessage(string newText)
