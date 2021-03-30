@@ -89,12 +89,10 @@ GameObject:
   m_Component:
   - component: {fileID: 527486501800498783}
   - component: {fileID: 527486501800498782}
-  - component: {fileID: 5113005353641928635}
   - component: {fileID: 1949253240}
-  - component: {fileID: -2805306822453970447}
   m_Layer: 0
-  m_Name: Citizen
-  m_TagString: Untagged
+  m_Name: Enemy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,18 +135,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5113005353641928635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527486501800498769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c51e005ad83ea47439a3f9b31bc06eaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &1949253240
 Animator:
   serializedVersion: 3
@@ -159,7 +145,7 @@ Animator:
   m_GameObject: {fileID: 527486501800498769}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1353604aa0f1171479c42b50318be536, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0006ea8c2f7a8014fb0d22157e830d80, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -168,19 +154,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-2805306822453970447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527486501800498769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83b6488134996be46a232f3fd48dec77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: 0
 --- !u!1 &527486502618366609
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6898949197688900095}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0.045, y: 0.68, z: 0.005}
+  m_LocalPosition: {x: 0.042, y: 0.68, z: 0.005}
   m_LocalScale: {x: 10.718719, y: 5.293552, z: 4.692495}
   m_Children:
   - {fileID: 527486502618366622}
@@ -270,17 +243,17 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6629797300637803691, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
-  - {fileID: -2813467912831258332, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
-  - {fileID: 3016479151454471876, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
-  - {fileID: 1886820026795636259, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
-  - {fileID: 3780671244086486322, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
+  - {fileID: 2100000, guid: 204f8c29738a02546aae80eac25a7993, type: 2}
+  - {fileID: 2100000, guid: 7b390a62f34236e4c947664682da4817, type: 2}
+  - {fileID: 2100000, guid: 7b390a62f34236e4c947664682da4817, type: 2}
+  - {fileID: 2100000, guid: 533fd1d9d3c4c70459ff0dbad980b371, type: 2}
+  - {fileID: 2100000, guid: 204f8c29738a02546aae80eac25a7993, type: 2}
   - {fileID: -3522955778539423533, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
-  - {fileID: -8274133419916619345, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
-  - {fileID: 6699446615349125189, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
-  - {fileID: 880774007180850119, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
+  - {fileID: 2100000, guid: 204f8c29738a02546aae80eac25a7993, type: 2}
+  - {fileID: 2100000, guid: 533fd1d9d3c4c70459ff0dbad980b371, type: 2}
+  - {fileID: 2100000, guid: 204f8c29738a02546aae80eac25a7993, type: 2}
   - {fileID: 9185737683893222716, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
-  - {fileID: -6087771358165109452, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
+  - {fileID: 2100000, guid: 533fd1d9d3c4c70459ff0dbad980b371, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     [Header("Attacking Settings")]
     [SerializeField] private Transform enemyShipInstantiateContent;
     [SerializeField] private GameObject[] enemyShips;
+    [SerializeField] private int chanceToSpawnEnemy = 5;
 
     [Header("Audio")]
     [SerializeField] private AudioClip[] newJobSounds;
@@ -52,6 +53,11 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemyShips()
     {
+        if (GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            return;
+        }
+
         int maxAmount = Mathf.RoundToInt(allCitizens.Count / 100);
         if (maxAmount < 1) { maxAmount = 1; }
 
@@ -62,7 +68,7 @@ public class GameManager : MonoBehaviour
         int childCount = enemyShipInstantiateContent.childCount;
         for (int i = 0; i < childCount; ++i)
         {
-            randomSpawnPoints.Add(enemyShipInstantiateContent.GetChild(childCount));
+            randomSpawnPoints.Add(enemyShipInstantiateContent.GetChild(i));
         }
 
         for (int i = 0; i < amountToSpawn; i++)
@@ -207,6 +213,12 @@ public class GameManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        if (GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            MessageLog.SetNotificationMessage("Cannot save the game while you are being attacked", 7);
+            return;
+        }
+
         SaveTheGame(currentSave, true);
     }
 
@@ -236,6 +248,12 @@ public class GameManager : MonoBehaviour
 
     public void QuitToMenu()
     {
+        if (GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            MessageLog.SetNotificationMessage("Cannot save the game while you are being attacked", 7);
+            return;
+        }
+
         SaveTheGame(currentSave, true);
         menuManager.LoadScene(0);
     }
@@ -247,6 +265,12 @@ public class GameManager : MonoBehaviour
 
     private void SaveTheGame(SaveGame saveGame, bool useExtraSaves = default)
     {
+        if (GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            MessageLog.SetNotificationMessage("Cannot save the game while you are being attacked", 7);
+            return;
+        }
+
         if (useExtraSaves)
         {
             saveGame.AmountHappiness = currentHappinessAmount;
@@ -424,6 +448,12 @@ public class GameManager : MonoBehaviour
     //This function is called by a button that uses a string to determine what building to instantiate
     public void SpawnNewBuilding(string buildingName)
     {
+        if (GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            MessageLog.SetNotificationMessage("Cannot build while you are being attacked!", 7);
+            return;
+        }
+
         if (currentSelectedBuild)
         {
             Destroy(currentSelectedBuild);
@@ -446,11 +476,25 @@ public class GameManager : MonoBehaviour
             currentYear += 1;
         }
 
+        //We want to give the player a headstart before we start attacking him
+        if(currentDay >= 10)
+        {
+            if(Random.Range(0, 100) <= chanceToSpawnEnemy)
+            {
+                SpawnEnemyShips();
+            }
+        }
+
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
     }
 
     private void AddNewCitizens()
     {
+        if (GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            return;
+        }
+
         float bedsLeft = currentBedsAmount - allCitizens.Count;
         if(bedsLeft <= 0) { return; }
 
