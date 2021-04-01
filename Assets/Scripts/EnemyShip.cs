@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyShip : MonoBehaviour
 {
     private Rigidbody rigidbody;
-    private bool troopsDeployed = false;
+    private bool troopsDeployed = false, troopsDefeated = false;
     [SerializeField] private float movementSpeed = 1;
     [SerializeField] private NavMeshAgent troops;
 
@@ -17,7 +17,7 @@ public class EnemyShip : MonoBehaviour
 
     private void Update()
     {
-        if (!troopsDeployed && !rigidbody.isKinematic)
+        if (!rigidbody.isKinematic || !troopsDefeated)
         {
             rigidbody.velocity = transform.right * movementSpeed;
         }
@@ -38,12 +38,20 @@ public class EnemyShip : MonoBehaviour
         troops.transform.SetParent(null);
         troops.enabled = true;
 
+        Vector3 troopLocalPosition = troops.transform.localPosition;
         Vector3 point;
         if (RandomPoint(transform.position, 3, out point))
         {
             troops.Warp(point);
         }
-        troops.GetComponent<Enemy>().SetupEnemy();
+        troops.GetComponent<Enemy>().SetupEnemy(transform, troopLocalPosition);
+    }
+
+    public void PullBack()
+    {
+        transform.Rotate(transform.up * 180);
+        rigidbody.isKinematic = false;
+        Destroy(gameObject, 30);
     }
 
     //Find closest point on the navmesh to spawn the troops on
@@ -63,8 +71,9 @@ public class EnemyShip : MonoBehaviour
         return false;
     }
 
-    private void SinkShip()
+    public void SinkShip()
     {
+        troopsDefeated = true;
         rigidbody.isKinematic = false;
         Destroy(gameObject, 5);
     }

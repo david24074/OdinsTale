@@ -6,16 +6,22 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     private float health = 100;
+    private bool finishedRaiding = false;
     private Transform currentTarget;
     private NavMeshAgent navmeshAgent;
     private List<Transform> allBuildings = new List<Transform>();
     private List<Transform> allWalls = new List<Transform>();
+    private Transform enemyShip;
+    private Vector3 shipLocalPosition;
 
-    public void SetupEnemy()
+    public void SetupEnemy(Transform ship, Vector3 oldPosition)
     {
         navmeshAgent = GetComponent<NavMeshAgent>();
         SetAllReachableBuildings();
         FindNewTarget();
+        enemyShip = ship;
+        shipLocalPosition = oldPosition;
+        StartCoroutine(TimeUntilFlee());
     }
 
     private void SetAllReachableBuildings()
@@ -73,31 +79,69 @@ public class Enemy : MonoBehaviour
         return bestTarget;
     }
 
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if(health <= 0)
+        {
+            enemyShip.GetComponent<EnemyShip>().SinkShip();
+            Destroy(gameObject);
+        }
+    }
+
     private void Update()
     {
         if (!navmeshAgent) { return; }
 
-        if (currentTarget)
+        if (finishedRaiding)
         {
-            if (!navmeshAgent.pathPending)
+            if (reachedDestination())
             {
-                if (navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance)
-                {
-                    if (!navmeshAgent.hasPath || navmeshAgent.velocity.sqrMagnitude == 0f)
-                    {
-                        if (!currentTarget.GetComponent<Burnable>().IsBurning())
-                        {
-                            currentTarget.GetComponent<Burnable>().ToggleFire(true);
-                        }
-                    }
-                }
+                navmeshAgent.enabled = false;
+                transform.SetParent(enemyShip);
+                transform.position = shipLocalPosition;
+                enemyShip.GetComponent<EnemyShip>().PullBack();
             }
         }
         else
         {
-            SetAllReachableBuildings();
-            FindNewTarget();
+            if (currentTarget)
+            {
+                if (reachedDestination())
+                {
+                    if (!currentTarget.GetComponent<Burnable>().IsBurning())
+                    {
+                        currentTarget.GetComponent<Burnable>().ToggleFire(true);
+                    }
+                }
+            }
+            else
+            {
+                SetAllReachableBuildings();
+                FindNewTarget();
+            }
         }
+    }
+
+    private bool reachedDestination()
+    {
+        if (!navmeshAgent)
+        {
+            return false;
+        }
+
+        if (!navmeshAgent.pathPending)
+        {
+            if (navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance)
+            {
+                if (!navmeshAgent.hasPath || navmeshAgent.velocity.sqrMagnitude == 0f)
+                {
+                    return true;
+
+                }
+            }
+        }
+        return false;
     }
 
     private void AbandonCurrentTarget()
@@ -109,6 +153,15 @@ public class Enemy : MonoBehaviour
                 currentTarget.GetComponent<Burnable>().ToggleFire(false);
             }
         }
+    }
+
+    private IEnumerator TimeUntilFlee()
+    {
+        //The enemy will be satisfied if it survived 3 minutes of raiding and it will return to its ship
+        yield return new WaitForSeconds(30);
+        AbandonCurrentTarget();
+        finishedRaiding = true;
+        navmeshAgent.SetDestination(enemyShip.transform.position);
     }
 
     public void FindNewTarget()

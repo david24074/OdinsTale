@@ -6,7 +6,7 @@ public class Trap : MonoBehaviour
 {
     private Animator animator;
     private bool trapActivated = false;
-    [SerializeField] private int destroyTimer;
+    [SerializeField] private int destroyTimer = 3;
 
     private void Start()
     {
@@ -19,6 +19,8 @@ public class Trap : MonoBehaviour
         {
             trapActivated = true;
             animator.Play("ActivateTrap");
+            other.GetComponent<Enemy>().TakeDamage(100);
+            GameManager.RemoveBuildingFromSave(GetComponent<ObjectID>().GetID());
             Destroy(gameObject, destroyTimer);
         }
     }
