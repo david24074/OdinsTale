@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private GameObject[] allUnits;
     private float health = 100;
     private bool finishedRaiding = false;
     private Transform currentTarget;
@@ -84,6 +85,15 @@ public class Enemy : MonoBehaviour
         health -= damage;
         if(health <= 0)
         {
+            Destroy(GetComponent<Collider>());
+            for(int i = 0; i < allUnits.Length; i++)
+            {
+                allUnits[i].transform.SetParent(null);
+                allUnits[i].AddComponent<Rigidbody>();
+                allUnits[i].AddComponent<BoxCollider>();
+                Destroy(allUnits[i], 10);
+            }
+
             enemyShip.GetComponent<EnemyShip>().SinkShip();
             Destroy(gameObject);
         }
@@ -158,7 +168,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator TimeUntilFlee()
     {
         //The enemy will be satisfied if it survived 3 minutes of raiding and it will return to its ship
-        yield return new WaitForSeconds(30);
+        yield return new WaitForSeconds(180);
         AbandonCurrentTarget();
         finishedRaiding = true;
         navmeshAgent.SetDestination(enemyShip.transform.position);
