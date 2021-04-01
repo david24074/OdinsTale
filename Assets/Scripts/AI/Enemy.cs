@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     {
         navmeshAgent = GetComponent<NavMeshAgent>();
         SetAllReachableBuildings();
+        FindNewTarget();
     }
 
     private void SetAllReachableBuildings()
@@ -67,6 +68,33 @@ public class Enemy : MonoBehaviour
         }
 
         return bestTarget;
+    }
+
+    private void Update()
+    {
+        if (!navmeshAgent) { return; }
+
+        if (currentTarget)
+        {
+            if (!navmeshAgent.pathPending)
+            {
+                if (navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance)
+                {
+                    if (!navmeshAgent.hasPath || navmeshAgent.velocity.sqrMagnitude == 0f)
+                    {
+                        if (!currentTarget.GetComponent<Burnable>().IsBurning())
+                        {
+                            currentTarget.GetComponent<Burnable>().ToggleFire(true);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            SetAllReachableBuildings();
+            FindNewTarget();
+        }
     }
 
     public void FindNewTarget()

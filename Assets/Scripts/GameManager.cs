@@ -115,6 +115,22 @@ public class GameManager : MonoBehaviour
         return gameManager.allBuildings;
     }
 
+    public static void RemoveBuildingFromSave(int buildingID)
+    {
+        SaveGame tempSave = gameManager.currentSave;
+
+        for(int i = 0; i < tempSave.AllBuildings.Count; i++)
+        {
+            if(buildingID == tempSave.AllBuildings[i].BuildingID)
+            {
+                tempSave.AllBuildings.Remove(tempSave.AllBuildings[i]);
+            }
+        }
+        gameManager.allBuildings.Remove(gameManager.GetBuildingByID(buildingID));
+
+        gameManager.currentSave = tempSave;
+    }
+
     private void SpawnNewCitizen(CitizenSave optionalSave = default)
     {
         GameObject newCitizen = Instantiate(citizen, transform.position + new Vector3(Random.Range(-2, 2), 0, Random.Range(-2, 2)), transform.rotation);

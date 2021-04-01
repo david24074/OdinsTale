@@ -381,7 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f515dba5fab134a42b6278bcf578a228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingHealth: 300
+  buildingHealth: 30
   fireParticles: {fileID: 7107690996583750127}
 --- !u!1 &6297874912234945263
 GameObject:
