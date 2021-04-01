@@ -5,6 +5,9 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    //Used for most of the static functions
+    private static GameManager gameManager;
+
     [SerializeField] private GameObject citizen;
 
     [Header("Building Settings")]
@@ -84,6 +87,7 @@ public class GameManager : MonoBehaviour
     {
         gridObject = GetComponent<Grid>();
         StartCoroutine(CheckIfJobsAvailable());
+        gameManager = this;
 
         if (ES3.KeyExists("CurrentSaveName"))
         {
@@ -104,6 +108,11 @@ public class GameManager : MonoBehaviour
 
         citizensText.text = allCitizens.Count + " Citizens";
         CheckAvailableBeds();
+    }
+
+    public static List<GameObject> GetBuildings()
+    {
+        return gameManager.allBuildings;
     }
 
     private void SpawnNewCitizen(CitizenSave optionalSave = default)

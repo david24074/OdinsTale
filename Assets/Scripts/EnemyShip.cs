@@ -43,7 +43,7 @@ public class EnemyShip : MonoBehaviour
         {
             troops.Warp(point);
         }
-        troops.SetDestination(GameObject.FindGameObjectWithTag("GameManager").transform.position);
+        troops.GetComponent<Enemy>().FindNewTarget();
     }
 
     //Find closest point on the navmesh to spawn the troops on

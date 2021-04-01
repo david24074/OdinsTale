@@ -5240,7 +5240,7 @@ MonoBehaviour:
   enemyShipInstantiateContent: {fileID: 1005921330}
   enemyShips:
   - {fileID: 4787097739687838382, guid: c07f0727ee7b6a249b03223cc06fea33, type: 3}
-  chanceToSpawnEnemy: 0
+  chanceToSpawnEnemy: 100
   newJobSounds:
   - {fileID: 8300000, guid: 69ffe4874c97a454388cc502ed00c019, type: 3}
   - {fileID: 8300000, guid: 52d6011ca7a82a64e86b87765f997841, type: 3}
