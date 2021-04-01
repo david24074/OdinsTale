@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    private float health = 100;
     private Transform currentTarget;
     private NavMeshAgent navmeshAgent;
     private List<Transform> allBuildings = new List<Transform>();
@@ -19,6 +20,8 @@ public class Enemy : MonoBehaviour
 
     private void SetAllReachableBuildings()
     {
+        allBuildings.Clear();
+        allWalls.Clear();
         List<GameObject> allObjects = new List<GameObject>();
         allObjects = GameManager.GetBuildings();
 
@@ -94,6 +97,17 @@ public class Enemy : MonoBehaviour
         {
             SetAllReachableBuildings();
             FindNewTarget();
+        }
+    }
+
+    private void AbandonCurrentTarget()
+    {
+        if (currentTarget)
+        {
+            if (currentTarget.GetComponent<Burnable>().IsBurning())
+            {
+                currentTarget.GetComponent<Burnable>().ToggleFire(false);
+            }
         }
     }
 
