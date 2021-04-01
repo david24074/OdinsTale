@@ -5,6 +5,7 @@ using UnityEngine;
 public class MeshTile : MonoBehaviour
 {
     private enum objectType { Wall, Road }
+    [SerializeField] private bool ignoreCurrentMeshChange = false;
     [SerializeField] private objectType activeObjectType;
     [SerializeField] private Transform topChecker, downChecker, leftChecker, rightChecker, meshObject;
     [SerializeField] private Transform[] allSideCheckers;
@@ -24,7 +25,7 @@ public class MeshTile : MonoBehaviour
 
     public void CheckNeighbours()
     {
-        if (!canBeChecked)
+        if (!canBeChecked || ignoreCurrentMeshChange)
         {
             return;
         }
