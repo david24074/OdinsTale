@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [Header("UI settings")]
     [SerializeField] private TextMeshProUGUI woodText;
     [SerializeField] private TextMeshProUGUI stoneText, foodText;
-    [SerializeField] private TextMeshProUGUI bedsText, citizensText;
+    [SerializeField] private TextMeshProUGUI bedsText, citizensText, happinessText;
     [SerializeField] private MessageLog messageLogger;
     [SerializeField] private MenuManager menuManager;
 
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     private Grid gridObject;
 
     private List<GameObject> allBuildings = new List<GameObject>();
-    private List<Citizen> allCitizens = new List<Citizen>();
+    [SerializeField] private List<Citizen> allCitizens = new List<Citizen>();
     private List<JobActivator> allJobs = new List<JobActivator>();
 
     [Header("Attacking Settings")]
@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        allCitizens.Clear();
         gridObject = GetComponent<Grid>();
         StartCoroutine(CheckIfJobsAvailable());
         gameManager = this;
@@ -96,17 +97,17 @@ public class GameManager : MonoBehaviour
         }
 
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
-
-        //If there are no citizens it means the player started a new game, if this happens lets give him 3 citizens to start off with.
+        //If there are no citizens it means the player started a new game, if this happens lets give him 3 citizens and some food to start off with.
         if (allCitizens.Count <= 0)
         {
+            Debug.Log("Started new game");
+            currentFoodAmount = 50;
             for(int i = 0; i < 3; i++)
             {
                 SpawnNewCitizen();
             }
         }
-
-        citizensText.text = allCitizens.Count + " Citizens";
+        citizensText.text = allCitizens.Count.ToString();
         CheckAvailableBeds();
     }
 
@@ -143,6 +144,7 @@ public class GameManager : MonoBehaviour
             newSave.CitizenPosition = newCitizen.transform.position;
             newSave.CitizenRotation = newCitizen.transform.rotation;
             newSave.CurrentJobID = 0;
+            newSave.isHappy = true;
             newSave.CitizenID = GetRandomID();
             newCitizen.GetComponent<ObjectID>().SetID(newSave.CitizenID);
             currentSave.AllCitizens.Add(newSave);
@@ -153,10 +155,12 @@ public class GameManager : MonoBehaviour
         newCitizen.transform.position = optionalSave.CitizenPosition;
         newCitizen.transform.rotation = optionalSave.CitizenRotation;
         newCitizen.GetComponent<ObjectID>().SetID(optionalSave.CitizenID);
+        newCitizen.GetComponent<Citizen>().ToggleHappy(optionalSave.isHappy);
         if(optionalSave.CurrentJobID != 0)
         {
             newCitizen.GetComponent<Citizen>().GiveNewJob(GetBuildingByID(optionalSave.CurrentJobID).GetComponent<JobActivator>());
         }
+        citizensText.text = allCitizens.Count.ToString();
     }
 
     private void LoadSaveGame(SaveGame save)
@@ -172,9 +176,9 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = save.CameraPosition;
         Camera.main.transform.rotation = save.CameraRotation;
 
-        woodText.text = currentWoodAmount + " Wood";
-        stoneText.text = currentStoneAmount + " Stone";
-        foodText.text = currentFoodAmount + " Food";
+        woodText.text = currentWoodAmount.ToString();
+        stoneText.text = currentStoneAmount.ToString();
+        foodText.text = currentFoodAmount.ToString();
 
         for (int i = 0; i < currentSave.AllBuildings.Count; i++)
         {
@@ -217,10 +221,12 @@ public class GameManager : MonoBehaviour
             SpawnNewCitizen(currentSave.AllCitizens[i]);
         }
 
-        for(int i = 0; i < currentSave.MessageLogMessages.Count; i++)
+        for (int i = 0; i < currentSave.MessageLogMessages.Count; i++)
         {
             MessageLog.AddNewMessage(currentSave.MessageLogMessages[i]);
         }
+
+        CheckHappiness();
     }
 
     public void UpdateBuildingSaveProgress(Vector3 buildingPos, int newProgress)
@@ -338,6 +344,7 @@ public class GameManager : MonoBehaviour
                 GameObject citizenToSave = GetCitizenByID(saveGame.AllCitizens[i].CitizenID);
                 saveGame.AllCitizens[i].CitizenPosition = citizenToSave.transform.position;
                 saveGame.AllCitizens[i].CitizenRotation = citizenToSave.transform.rotation;
+                saveGame.AllCitizens[i].isHappy = citizenToSave.GetComponent<Citizen>().IsHappy();
                 if(citizenToSave.GetComponent<Citizen>().GetCurrentTarget() != null)
                 {
                     saveGame.AllCitizens[i].CurrentJobID = citizenToSave.GetComponent<Citizen>().GetCurrentTarget().GetComponent<ObjectID>().GetID();
@@ -414,7 +421,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        bedsText.text = currentBedsAmount + " Beds";
+        bedsText.text = currentBedsAmount.ToString();
     }
 
     public void AddNewJob(JobActivator newJob, bool ignoreAudio = default)
@@ -446,11 +453,6 @@ public class GameManager : MonoBehaviour
         oldJob.ToggleJobActiveObject(false);
         oldJob.RemoveAllWorkers();
         allJobs.Remove(oldJob);
-    }
-
-    public void AddNewCitizen(Citizen citizen)
-    {
-        allCitizens.Add(citizen);
     }
 
     private void AssignSpecificJob(JobActivator job)
@@ -501,8 +503,25 @@ public class GameManager : MonoBehaviour
             currentYear += 1;
         }
 
+        int peopleUnfed = 0;
+        for(int i = 0; i < allCitizens.Count; i++)
+        {
+            currentFoodAmount -= 1;
+            if (currentFoodAmount <= 0)
+            {
+                peopleUnfed = allCitizens.Count - i;
+                for(int c = 0; c < peopleUnfed; c++)
+                {
+                    allCitizens[c].ToggleHappy(false);
+                }
+                break;
+            }
+        }
+
+        CheckHappiness();
+
         //We want to give the player a headstart before we start attacking him
-        if(currentDay >= 10)
+        if(currentDay > 10)
         {
             if(Random.Range(0, 100) <= chanceToSpawnEnemy)
             {
@@ -513,6 +532,22 @@ public class GameManager : MonoBehaviour
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
     }
 
+    private void CheckHappiness()
+    {
+        int happinessPerCitizen = 100 / allCitizens.Count;
+        currentHappinessAmount = 0;
+
+        for(int i = 0; i < allCitizens.Count; i++)
+        {
+            if (allCitizens[i].IsHappy())
+            {
+                currentHappinessAmount += happinessPerCitizen;
+            }
+        }
+
+        happinessText.text = currentHappinessAmount.ToString() + "%";
+    }
+
     private void AddNewCitizens()
     {
         if (GameObject.FindGameObjectWithTag("Enemy"))
@@ -520,16 +555,21 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        float bedsLeft = currentBedsAmount - allCitizens.Count;
-        if(bedsLeft <= 0) { return; }
+        int bedsLeft = currentBedsAmount - allCitizens.Count;
+        if(bedsLeft <= 0) { MessageLog.AddNewMessage("Some people tried to join your town but there were no beds available, perhaps we should build more houses");  return; }
 
         //How many citizens are added depends on the happiness of the people
-        float citizensToAdd = citizensToAdd = bedsLeft / 100 * currentHappinessAmount;
+        int citizensToAdd = Mathf.RoundToInt(bedsLeft / 100 * currentHappinessAmount);
         for(int i = 0; i < citizensToAdd; i++)
         {
             SpawnNewCitizen();
         }
-        citizensText.text = allCitizens.Count + " Citizens";
+        if (currentHappinessAmount >= 100) { MessageLog.AddNewMessage(citizensToAdd.ToString() + " decided to join your town!"); } else
+        {
+            int citizensLeft = citizensToAdd - bedsLeft;
+            MessageLog.AddNewMessage(citizensToAdd.ToString() + " decided to join your town out of " + citizensLeft.ToString());
+        }
+        citizensText.text = allCitizens.Count.ToString();
     }
 
     private void Update()

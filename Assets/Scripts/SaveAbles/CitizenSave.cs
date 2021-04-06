@@ -6,4 +6,5 @@ public class CitizenSave
     public Quaternion CitizenRotation { get; set; }
     public int CurrentJobID { get; set; }
     public int CitizenID { get; set; }
+    public bool isHappy { get; set; }
 }

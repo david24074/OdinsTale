@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("CitizenPosition", "CitizenRotation", "CurrentJobID", "CitizenID")]
+	[ES3PropertiesAttribute("CitizenPosition", "CitizenRotation", "CurrentJobID", "CitizenID", "isHappy")]
 	public class ES3UserType_CitizenSave : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -20,6 +20,7 @@ namespace ES3Types
 			writer.WriteProperty("CitizenRotation", instance.CitizenRotation, ES3Type_Quaternion.Instance);
 			writer.WriteProperty("CurrentJobID", instance.CurrentJobID, ES3Type_int.Instance);
 			writer.WriteProperty("CitizenID", instance.CitizenID, ES3Type_int.Instance);
+			writer.WriteProperty("isHappy", instance.isHappy, ES3Type_bool.Instance);
 		}
 
 		protected override void ReadObject<T>(ES3Reader reader, object obj)
@@ -41,6 +42,9 @@ namespace ES3Types
 						break;
 					case "CitizenID":
 						instance.CitizenID = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
+					case "isHappy":
+						instance.isHappy = reader.Read<System.Boolean>(ES3Type_bool.Instance);
 						break;
 					default:
 						reader.Skip();

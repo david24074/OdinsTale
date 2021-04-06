@@ -9,13 +9,12 @@ public class Citizen : MonoBehaviour
     private GameObject citizenHouse;
     private Animator animator;
     private Transform targetObject;
+    private bool isHappy = true;
 
     private void Awake()
     {
         navmeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().AddNewCitizen(this);
     }
 
     public Transform GetCurrentTarget()
@@ -42,6 +41,16 @@ public class Citizen : MonoBehaviour
         //Reset the state machine to its idle state
         animator.SetInteger("JobIndex", 0);
         animator.ResetTrigger("DestinationReached");
+    }
+
+    public bool IsHappy()
+    {
+        return isHappy;
+    }
+
+    public void ToggleHappy(bool t)
+    {
+        isHappy = t;
     }
 
     public bool HasActiveJob()
