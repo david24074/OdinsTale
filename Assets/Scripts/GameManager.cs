@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
 
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
 
-        //If there are no citizens it means the player started a new game, if this happends lets give him 3 citizens to start off with.
+        //If there are no citizens it means the player started a new game, if this happens lets give him 3 citizens to start off with.
         if (allCitizens.Count <= 0)
         {
             for(int i = 0; i < 3; i++)
@@ -384,15 +384,15 @@ public class GameManager : MonoBehaviour
         {
             case "Wood":
                 currentWoodAmount += amount;
-                woodText.text = currentWoodAmount + " Wood";
+                woodText.text = currentWoodAmount.ToString();
                 break;
             case "Stone":
                 currentStoneAmount += amount;
-                stoneText.text = currentStoneAmount + " Stone";
+                stoneText.text = currentStoneAmount.ToString();
                 break;
             case "Food":
                 currentFoodAmount += amount;
-                foodText.text = currentFoodAmount + " Food";
+                foodText.text = currentFoodAmount.ToString(); ;
                 break;
         }
 
