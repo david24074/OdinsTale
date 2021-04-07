@@ -85,7 +85,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        allCitizens.Clear();
         gridObject = GetComponent<Grid>();
         StartCoroutine(CheckIfJobsAvailable());
         gameManager = this;
@@ -97,16 +96,6 @@ public class GameManager : MonoBehaviour
         }
 
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
-        //If there are no citizens it means the player started a new game, if this happens lets give him 3 citizens and some food to start off with.
-        if (allCitizens.Count <= 0)
-        {
-            Debug.Log("Started new game");
-            currentFoodAmount = 50;
-            for(int i = 0; i < 3; i++)
-            {
-                SpawnNewCitizen();
-            }
-        }
         citizensText.text = allCitizens.Count.ToString();
         CheckAvailableBeds();
     }
@@ -114,6 +103,54 @@ public class GameManager : MonoBehaviour
     public static List<GameObject> GetBuildings()
     {
         return gameManager.allBuildings;
+    }
+
+    public bool CheckResourcesForBuild(int woodAmount, int stoneAmount, int citizenAmount)
+    {
+        bool canBePlaced = true;
+        if (woodAmount > currentWoodAmount) { canBePlaced = false; }
+        if (stoneAmount > currentStoneAmount) { canBePlaced = false; }
+        if (citizenAmount > allCitizens.Count) { canBePlaced = false; }
+
+        if (canBePlaced)
+        {
+            currentWoodAmount -= woodAmount;
+            currentStoneAmount -= stoneAmount;
+            DeleteCitizen(citizenAmount);
+
+            woodText.text = currentWoodAmount.ToString();
+            stoneText.text = currentStoneAmount.ToString();
+            foodText.text = currentFoodAmount.ToString();
+            citizensText.text = allCitizens.Count.ToString();
+        }
+        else
+        {
+            MessageLog.SetNotificationMessage("Not enough resources", 5);
+        }
+
+        return canBePlaced;
+    }
+
+    private void DeleteCitizen(int amount)
+    {
+        for(int i = 0; i < amount; i++)
+        {
+            if (allCitizens[i].HasActiveJob()) { allCitizens[i].QuitJob(); }
+            currentSave.AllCitizens.Remove(GetCititzenSaveByID(allCitizens[i].gameObject.GetComponent<ObjectID>().GetID()));
+            Destroy(allCitizens[i].gameObject);
+        }
+    }
+
+    private CitizenSave GetCititzenSaveByID(int id)
+    {
+        for(int i = 0; i < currentSave.AllCitizens.Count; i++)
+        {
+            if(currentSave.AllCitizens[i].CitizenID == id)
+            {
+                return currentSave.AllCitizens[i];
+            }
+        }
+        return null;
     }
 
     public static void RemoveBuildingFromSave(int buildingID)
@@ -224,6 +261,17 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < currentSave.MessageLogMessages.Count; i++)
         {
             MessageLog.AddNewMessage(currentSave.MessageLogMessages[i]);
+        }
+
+        //If there are no citizens it means the player started a new game, if this happens lets give him 3 citizens and some food to start off with.
+        if (allCitizens.Count < 1)
+        {
+            Debug.Log("Started new game");
+            currentFoodAmount = 50;
+            for (int i = 0; i < 3; i++)
+            {
+                SpawnNewCitizen();
+            }
         }
 
         CheckHappiness();
@@ -518,6 +566,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        foodText.text = currentFoodAmount.ToString();
+
         CheckHappiness();
 
         //We want to give the player a headstart before we start attacking him
@@ -534,7 +584,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckHappiness()
     {
-        int happinessPerCitizen = 100 / allCitizens.Count;
+        float happinessPerCitizen = 100 / allCitizens.Count;
         currentHappinessAmount = 0;
 
         for(int i = 0; i < allCitizens.Count; i++)
@@ -545,7 +595,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        happinessText.text = currentHappinessAmount.ToString() + "%";
+        happinessText.text = Mathf.RoundToInt(currentHappinessAmount).ToString() + "%";
     }
 
     private void AddNewCitizens()
@@ -555,7 +605,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        int bedsLeft = currentBedsAmount - allCitizens.Count;
+        float bedsLeft = currentBedsAmount - allCitizens.Count;
+        Debug.Log(bedsLeft);
         if(bedsLeft <= 0) { MessageLog.AddNewMessage("Some people tried to join your town but there were no beds available, perhaps we should build more houses");  return; }
 
         //How many citizens are added depends on the happiness of the people
@@ -564,10 +615,10 @@ public class GameManager : MonoBehaviour
         {
             SpawnNewCitizen();
         }
-        if (currentHappinessAmount >= 100) { MessageLog.AddNewMessage(citizensToAdd.ToString() + " decided to join your town!"); } else
+        if (currentHappinessAmount >= 100) { MessageLog.AddNewMessage("Its a new day and " + citizensToAdd.ToString() + " decided to join your town!"); } else
         {
-            int citizensLeft = citizensToAdd - bedsLeft;
-            MessageLog.AddNewMessage(citizensToAdd.ToString() + " decided to join your town out of " + citizensLeft.ToString());
+            float citizensLeft = bedsLeft - citizensToAdd;
+            MessageLog.AddNewMessage("Its a new day and " + citizensToAdd.ToString() + " decided to join your town but " + citizensLeft.ToString() + " refused");
         }
         citizensText.text = allCitizens.Count.ToString();
     }

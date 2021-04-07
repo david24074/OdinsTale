@@ -23,6 +23,10 @@ public class MenuManager : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioMixer audioMixer;
 
+    [Header("Resource cost menu")]
+    [SerializeField] private GameObject resourceMenu;
+    [SerializeField] private GameObject woodText, stoneText, citizensText;
+
     [Header("Main Menu")]
     [SerializeField] private TMP_InputField saveGameInputField;
     [SerializeField] private TextMeshProUGUI feedbackText;
@@ -64,6 +68,34 @@ public class MenuManager : MonoBehaviour
         {
             SetLoadGameButtons();
         }
+    }
+
+    public void SetResourcesMenu(int woodAmount, int stoneAmount, int citizenAmount)
+    {
+        resourceMenu.SetActive(true);
+        if (woodAmount > 0)
+        {
+            woodText.SetActive(true);
+            woodText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = woodAmount.ToString();
+        }
+        else { woodText.SetActive(false); }
+        if (stoneAmount > 0)
+        {
+            stoneText.SetActive(true);
+            stoneText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = stoneAmount.ToString();
+        }
+        else { stoneText.SetActive(false); }
+        if (citizenAmount > 0)
+        {
+            citizensText.SetActive(true);
+            citizensText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = citizenAmount.ToString();
+        }
+        else { citizensText.SetActive(false); }
+    }
+
+    public void DisableResourceMenu()
+    {
+        resourceMenu.SetActive(false);
     }
 
     public void SetLoadGameButtons()
