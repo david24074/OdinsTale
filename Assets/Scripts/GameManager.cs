@@ -135,9 +135,22 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < amount; i++)
         {
-            if (allCitizens[i].HasActiveJob()) { allCitizens[i].QuitJob(); }
-            currentSave.AllCitizens.Remove(GetCititzenSaveByID(allCitizens[i].gameObject.GetComponent<ObjectID>().GetID()));
-            Destroy(allCitizens[i].gameObject);
+            if (allCitizens[0].HasActiveJob()) { allCitizens[0].QuitJob(); }
+            currentSave.AllCitizens.Remove(GetCititzenSaveByID(allCitizens[0].gameObject.GetComponent<ObjectID>().GetID()));
+            DeleteCitizenFromList(allCitizens[0].gameObject);
+            // Destroy(GetCitizenByID(allCitizens[i].gameObject.GetComponent<ObjectID>().GetID()));
+        }
+    }
+
+    private void DeleteCitizenFromList(GameObject citizen)
+    {
+        for(int i = 0; i < allCitizens.Count; i++)
+        {
+            if(allCitizens[i].gameObject == citizen)
+            {
+                allCitizens.Remove(allCitizens[i]);
+                Destroy(citizen);
+            }
         }
     }
 
