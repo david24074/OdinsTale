@@ -52,6 +52,9 @@ public class GameManager : MonoBehaviour
     private float currentTimeIndex = 0;
     private int currentDay = 1, currentYear = 0;
 
+    //Current selected building resource cost
+    private int woodBuildCost, stoneBuildCost, citizenBuildCost;
+
     private SaveGame currentSave;
 
     private void SpawnEnemyShips()
@@ -534,13 +537,17 @@ public class GameManager : MonoBehaviour
     }
 
     //This function is called by a button that uses a string to determine what building to instantiate
-    public void SpawnNewBuilding(string buildingName)
+    public void SpawnNewBuilding(string buildingName, int woodCost, int stoneCost, int citizenCost)
     {
         if (GameObject.FindGameObjectWithTag("Enemy"))
         {
             MessageLog.SetNotificationMessage("Cannot build while you are being attacked!", 7);
             return;
         }
+
+        woodBuildCost = woodCost;
+        stoneBuildCost = stoneCost;
+        citizenBuildCost = citizenCost;
 
         if (currentSelectedBuild)
         {
@@ -704,6 +711,11 @@ public class GameManager : MonoBehaviour
         //Check if an existing building is already located at this position
         if (currentSelectedBuild.GetComponent<ConstructionBuilding>().ObjectIsObstructed())
         {
+            return;
+        }
+
+        if (!CheckResourcesForBuild(woodBuildCost, stoneBuildCost, citizenBuildCost))
+        { 
             return;
         }
 

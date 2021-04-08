@@ -12,10 +12,7 @@ public class ResourceButton : MonoBehaviour
 
     public void SpawnBuilding()
     {
-        if(gamemanager.CheckResourcesForBuild(woodAmount, stoneAmount, citizenAmount))
-        {
-            gamemanager.SpawnNewBuilding(buildingName);
-        }
+        gamemanager.SpawnNewBuilding(buildingName, woodAmount, stoneAmount, citizenAmount);
     }
 
     public void SetResources()

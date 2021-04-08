@@ -10331,6 +10331,10 @@ PrefabInstance:
       propertyPath: buildingName
       value: MediumHouse
       objectReference: {fileID: 0}
+    - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
+      propertyPath: citizenAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3945072822490956807, guid: f05c21b8cae3af1428d9f98e2ac86e71,
         type: 3}
       propertyPath: m_text
