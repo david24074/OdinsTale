@@ -92,6 +92,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckIfJobsAvailable());
         gameManager = this;
 
+        //Needed for water shader
+        Camera.main.depthTextureMode = DepthTextureMode.Depth;
+
         if (ES3.KeyExists("CurrentSaveName"))
         {
             string filePath = ES3.Load<string>("CurrentSaveName") + ".es3";
