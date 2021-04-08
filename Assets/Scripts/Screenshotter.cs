@@ -5,10 +5,12 @@ public class Screenshotter : MonoBehaviour
 {
     public bool UseSimple = false;
 
+    [SerializeField] private Transform displayParent;
     [SerializeField] private int width = 300, height = 300;
 
-    void OnEnable()
+    private void Start()
     {
+        SetLayerForChildren(displayParent);
         var cam = Camera.main;
         // Set a mask to only draw only elements in this layer. e.g., capture your player with a transparent background.
         cam.cullingMask = LayerMask.GetMask("Player");
@@ -21,6 +23,20 @@ public class Screenshotter : MonoBehaviour
         else
         {
             CaptureScreenshot.CaptureTransparentScreenshot(cam, width, height, filename);
+        }
+    }
+
+    private void SetLayerForChildren(Transform obj)
+    {
+        //Set to player layer
+        obj.gameObject.layer = 9;
+
+        if(obj.childCount > 0)
+        {
+            for (int i = 0; i < obj.childCount; i++)
+            {
+                SetLayerForChildren(obj.GetChild(i));
+            }
         }
     }
 }
