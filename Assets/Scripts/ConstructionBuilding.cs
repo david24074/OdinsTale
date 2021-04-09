@@ -30,7 +30,7 @@ public class ConstructionBuilding : MonoBehaviour
 
         if(currentHealth <= 0)
         {
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().RemoveOldJob(GetComponent<JobActivator>());
+            GameManager.GetManager().RemoveOldJob(GetComponent<JobActivator>());
             if (GetComponent<MeshTile>())
             {
                 GetComponent<MeshTile>().enabled = true;

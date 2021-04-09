@@ -19,7 +19,7 @@ public class ResourceGenerator : MonoBehaviour
 
     private void Start()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gameManager = GameManager.GetManager();
     }
 
     public void StartGenerator(float beginNumber)

@@ -8,7 +8,7 @@ public class CitizenHouse : MonoBehaviour
 
     private void Start()
     {
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().CheckAvailableBeds();
+        GameManager.GetManager().CheckAvailableBeds();
     }
 
     public int GetMaxCitizens()

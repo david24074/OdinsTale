@@ -111,6 +111,11 @@ public class GameManager : MonoBehaviour
         return gameManager.allBuildings;
     }
 
+    public static GameManager GetManager()
+    {
+        return gameManager;
+    }
+
     public bool CheckResourcesForBuild(int woodAmount, int stoneAmount, int citizenAmount)
     {
         bool canBePlaced = true;
