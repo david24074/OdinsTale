@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI settings")]
     [SerializeField] private TextMeshProUGUI woodText;
-    [SerializeField] private TextMeshProUGUI stoneText, foodText;
+    [SerializeField] private TextMeshProUGUI stoneText, foodText, waterText;
     [SerializeField] private TextMeshProUGUI bedsText, citizensText, happinessText;
     [SerializeField] private MessageLog messageLogger;
     [SerializeField] private MenuManager menuManager;
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     private int currentWoodAmount = 0;
     private int currentStoneAmount = 0;
     private int currentFoodAmount = 0;
+    private int currentWaterAmount = 0;
     private int currentBedsAmount = 0;
     private int currentGoldAmount = 0;
     private float currentHappinessAmount = 100;
@@ -231,6 +232,7 @@ public class GameManager : MonoBehaviour
         currentFoodAmount = currentSave.AmountFood;
         currentStoneAmount = currentSave.AmountStone;
         currentWoodAmount = currentSave.AmountWood;
+        currentWaterAmount = currentSave.AmountWater;
         currentYear = currentSave.Year;
         currentDay = currentSave.Day;
 
@@ -381,6 +383,7 @@ public class GameManager : MonoBehaviour
             saveGame.AmountStone = currentStoneAmount;
             saveGame.AmountFood = currentFoodAmount;
             saveGame.AmountGold = currentGoldAmount;
+            saveGame.AmountWater = currentWaterAmount;
             saveGame.Day = currentDay;
             saveGame.Year = currentYear;
             saveGame.AllJobs = new List<int>();
@@ -472,6 +475,10 @@ public class GameManager : MonoBehaviour
             case "Food":
                 currentFoodAmount += amount;
                 foodText.text = currentFoodAmount.ToString(); ;
+                break;
+            case "Water":
+                currentWaterAmount += amount;
+                waterText.text = currentFoodAmount.ToString(); ;
                 break;
         }
 

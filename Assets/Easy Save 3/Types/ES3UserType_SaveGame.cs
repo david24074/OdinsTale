@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AllJobs", "MessageLogMessages", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountHappiness", "Day", "Year", "CameraPosition", "CameraRotation")]
+	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AllJobs", "MessageLogMessages", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountWater", "AmountHappiness", "Day", "Year", "CameraPosition", "CameraRotation")]
 	public class ES3UserType_SaveGame : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -25,6 +25,7 @@ namespace ES3Types
 			writer.WriteProperty("AmountStone", instance.AmountStone, ES3Type_int.Instance);
 			writer.WriteProperty("AmountGold", instance.AmountGold, ES3Type_int.Instance);
 			writer.WriteProperty("AmountFood", instance.AmountFood, ES3Type_int.Instance);
+			writer.WriteProperty("AmountWater", instance.AmountWater, ES3Type_int.Instance);
 			writer.WriteProperty("AmountHappiness", instance.AmountHappiness, ES3Type_float.Instance);
 			writer.WriteProperty("Day", instance.Day, ES3Type_int.Instance);
 			writer.WriteProperty("Year", instance.Year, ES3Type_int.Instance);
@@ -66,6 +67,9 @@ namespace ES3Types
 						break;
 					case "AmountFood":
 						instance.AmountFood = reader.Read<System.Int32>(ES3Type_int.Instance);
+						break;
+					case "AmountWater":
+						instance.AmountWater = reader.Read<System.Int32>(ES3Type_int.Instance);
 						break;
 					case "AmountHappiness":
 						instance.AmountHappiness = reader.Read<System.Single>(ES3Type_float.Instance);

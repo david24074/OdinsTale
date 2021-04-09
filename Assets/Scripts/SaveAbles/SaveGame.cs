@@ -12,6 +12,7 @@ public class SaveGame
     public int AmountStone { get; set; }
     public int AmountGold { get; set; }
     public int AmountFood { get; set; }
+    public int AmountWater { get; set; }
     public float AmountHappiness { get; set; }
     public int Day { get; set; }
     public int Year { get; set; }

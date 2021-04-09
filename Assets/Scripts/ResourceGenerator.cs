@@ -6,7 +6,7 @@ using DG.Tweening;
 public class ResourceGenerator : MonoBehaviour
 {
     private GameManager gameManager;
-    private enum resourceTypes { Wood, Stone, Gold, Food };
+    private enum resourceTypes { Wood, Stone, Gold, Food, Water};
 
     [SerializeField] private resourceTypes activeResource;
     [SerializeField] private float generateCountdown;
