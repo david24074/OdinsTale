@@ -237,9 +237,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeResource: 0
-  generateCountdown: 60
-  minAmount: 1
-  maxAmount: 3
+  generateCountdown: 120
+  minAmount: 4
+  maxAmount: 12
+  useJiggle: 1
 --- !u!114 &6944536682269801299
 MonoBehaviour:
   m_ObjectHideFlags: 0

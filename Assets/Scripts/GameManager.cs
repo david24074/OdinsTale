@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private int currentWaterAmount = 0;
     private int currentBedsAmount = 0;
     private int currentGoldAmount = 0;
+    private int currentCitizenAmount = 0;
     private float currentHappinessAmount = 100;
 
     private GameObject currentSelectedBuild;
@@ -70,6 +71,8 @@ public class GameManager : MonoBehaviour
 
         int amountToSpawn = Random.Range(1, maxAmount);
 
+        MessageLog.AddNewMessage("ATTACK! " + amountToSpawn + " enemy ships have been spotted, get ready!");
+
         List<Transform> randomSpawnPoints = new List<Transform>();
 
         int childCount = enemyShipInstantiateContent.childCount;
@@ -103,7 +106,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
-        citizensText.text = allCitizens.Count.ToString();
+        citizensText.text = currentCitizenAmount + allCitizens.Count.ToString();
         CheckAvailableBeds();
     }
 
@@ -133,7 +136,8 @@ public class GameManager : MonoBehaviour
             woodText.text = currentWoodAmount.ToString();
             stoneText.text = currentStoneAmount.ToString();
             foodText.text = currentFoodAmount.ToString();
-            citizensText.text = allCitizens.Count.ToString();
+            waterText.text = currentWaterAmount.ToString();
+            citizensText.text = currentCitizenAmount + allCitizens.Count.ToString();
         }
         else
         {
@@ -222,7 +226,7 @@ public class GameManager : MonoBehaviour
         {
             newCitizen.GetComponent<Citizen>().GiveNewJob(GetBuildingByID(optionalSave.CurrentJobID).GetComponent<JobActivator>());
         }
-        citizensText.text = allCitizens.Count.ToString();
+        citizensText.text = currentCitizenAmount + allCitizens.Count.ToString();
     }
 
     private void LoadSaveGame(SaveGame save)
@@ -242,6 +246,7 @@ public class GameManager : MonoBehaviour
         woodText.text = currentWoodAmount.ToString();
         stoneText.text = currentStoneAmount.ToString();
         foodText.text = currentFoodAmount.ToString();
+        waterText.text = currentWaterAmount.ToString();
 
         for (int i = 0; i < currentSave.AllBuildings.Count; i++)
         {
@@ -293,7 +298,7 @@ public class GameManager : MonoBehaviour
         if (allCitizens.Count < 1)
         {
             Debug.Log("Started new game");
-            currentFoodAmount = 50;
+            currentFoodAmount = 20;
             for (int i = 0; i < 3; i++)
             {
                 SpawnNewCitizen();
@@ -478,7 +483,7 @@ public class GameManager : MonoBehaviour
                 break;
             case "Water":
                 currentWaterAmount += amount;
-                waterText.text = currentFoodAmount.ToString(); ;
+                waterText.text = currentWaterAmount.ToString(); ;
                 break;
         }
 
@@ -590,18 +595,28 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < allCitizens.Count; i++)
         {
             currentFoodAmount -= 1;
+            currentWaterAmount -= 1;
             if (currentFoodAmount <= 0)
             {
-                peopleUnfed = allCitizens.Count - i;
-                for(int c = 0; c < peopleUnfed; c++)
-                {
-                    allCitizens[c].ToggleHappy(false);
-                }
-                break;
+                currentFoodAmount = 0;
+                peopleUnfed += 1;
+            }
+            else if (currentWaterAmount <= 0)
+            {
+                currentWaterAmount = 0;
+                peopleUnfed += 1;
             }
         }
 
+        for (int c = 0; c < peopleUnfed; c++)
+        {
+            allCitizens[c].ToggleHappy(false);
+        }
+
+        MessageLog.AddNewMessage(peopleUnfed + " are unhappy because they dont have water or thirst!");
+
         foodText.text = currentFoodAmount.ToString();
+        waterText.text = currentWaterAmount.ToString();
 
         CheckHappiness();
 
@@ -655,7 +670,7 @@ public class GameManager : MonoBehaviour
             float citizensLeft = bedsLeft - citizensToAdd;
             MessageLog.AddNewMessage("Its a new day and " + citizensToAdd.ToString() + " decided to join your town but " + citizensLeft.ToString() + " refused");
         }
-        citizensText.text = allCitizens.Count.ToString();
+        citizensText.text = currentCitizenAmount + allCitizens.Count.ToString();
     }
 
     private void Update()
@@ -753,7 +768,6 @@ public class GameManager : MonoBehaviour
         currentSave.AllBuildings.Add(newBuildingSave);
         SaveTheGame(currentSave);
 
-        MessageLog.AddNewMessage("Placed " + currentSelectedBuild.transform.name);
         currentSelectedBuild.transform.name = currentSelectedBuild.transform.name + " BUILT";
         currentSelectedBuild = null;
     }

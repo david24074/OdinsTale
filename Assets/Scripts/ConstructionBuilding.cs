@@ -8,6 +8,8 @@ public class ConstructionBuilding : MonoBehaviour
     //We want to move the mesh object downwards when the building is instantiated
     [SerializeField] private float moveDownYLevel, buildHealth = 100;
     [SerializeField] private Transform[] collisionCheckers;
+
+    [Header("On finish build")]
     private float currentHealth;
     private Transform meshObject;
     private float amountMoveEachHit;
