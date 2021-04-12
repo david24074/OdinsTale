@@ -10,6 +10,7 @@ public class ConstructionBuilding : MonoBehaviour
     [SerializeField] private Transform[] collisionCheckers;
 
     [Header("On finish build")]
+    [SerializeField] private GameObject[] enableOnFinish;
     private float currentHealth;
     private Transform meshObject;
     private float amountMoveEachHit;
@@ -40,6 +41,11 @@ public class ConstructionBuilding : MonoBehaviour
             if (GetComponent<ResourceGenerator>())
             {
                 GetComponent<ResourceGenerator>().StartGenerator(0);
+            }
+
+            for(int i = 0; i < enableOnFinish.Length; i++)
+            {
+                enableOnFinish[i].SetActive(true);
             }
 
             TryHandleComponents();
