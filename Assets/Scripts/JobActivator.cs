@@ -33,7 +33,10 @@ public class JobActivator : MonoBehaviour
     {
         for(int i = 0; i < currentWorkers.Count; i++)
         {
-           currentWorkers[i].GetComponent<Citizen>().QuitJob();
+            if (currentWorkers[i])
+            {
+                currentWorkers[i].GetComponent<Citizen>().QuitJob();
+            }
         }
         currentWorkers.Clear();
     }

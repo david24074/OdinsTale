@@ -85,9 +85,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDownYLevel: 1
-  buildHealth: 5
+  buildHealth: 25
   collisionCheckers:
   - {fileID: 5577565671472045357}
+  enableOnFinish: []
 --- !u!114 &6297874910888987543
 MonoBehaviour:
   m_ObjectHideFlags: 0

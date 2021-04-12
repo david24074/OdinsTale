@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 436210955863583588}
   - component: {fileID: 8008438640997697257}
   - component: {fileID: 1015731154997506487}
+  - component: {fileID: -1925928720662375939}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -67,10 +68,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeResource: 1
-  resourceHealth: 50
+  resourceHealth: 20
   jiggleStrength: 5
-  minAmount: 5
-  maxAmount: 10
+  minAmount: 2
+  maxAmount: 6
   randomMeshPossibilities:
   - {fileID: 258844465111796463}
   - {fileID: 5602814902006458568}
@@ -107,6 +108,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &-1925928720662375939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778228130277807671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b6488134996be46a232f3fd48dec77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: 0
 --- !u!1001 &17087379292238781
 PrefabInstance:
   m_ObjectHideFlags: 0

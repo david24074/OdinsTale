@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDownYLevel: 0.5
-  buildHealth: 1000
+  buildHealth: 150
   collisionCheckers:
   - {fileID: 6373212848647960880}
   - {fileID: 6803419312177590101}

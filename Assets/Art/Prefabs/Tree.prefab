@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 737220523070135292}
   - component: {fileID: 1226868417294533131}
   - component: {fileID: 1260341252}
+  - component: {fileID: -8543667481695431379}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -65,10 +66,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeResource: 0
-  resourceHealth: 50
+  resourceHealth: 20
   jiggleStrength: 5
-  minAmount: 5
-  maxAmount: 10
+  minAmount: 2
+  maxAmount: 6
   randomMeshPossibilities:
   - {fileID: 2761961273598826902}
   - {fileID: 567497554015430186}
@@ -107,6 +108,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &-8543667481695431379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8459374174972845991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83b6488134996be46a232f3fd48dec77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectID: 0
 --- !u!1001 &801994592302078843
 PrefabInstance:
   m_ObjectHideFlags: 0
