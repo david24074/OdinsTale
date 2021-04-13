@@ -12,7 +12,14 @@ public class ResourceButton : MonoBehaviour
 
     public void SpawnBuilding()
     {
-        gamemanager.SpawnNewBuilding(buildingName, woodAmount, stoneAmount, citizenAmount);
+        if (!GameManager.UnitSelected())
+        {
+            gamemanager.SpawnNewBuilding(buildingName, woodAmount, stoneAmount, citizenAmount);
+        }
+        else
+        {
+            MessageLog.SetNotificationMessage("You've still got a unit selected", 5);
+        }
     }
 
     public void SetResources()

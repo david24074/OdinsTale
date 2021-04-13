@@ -827,6 +827,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &4402975868683920115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4661487104121274214}
+  m_Layer: 0
+  m_Name: spawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4661487104121274214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4402975868683920115}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8909142337532569399}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4433024263693184836
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,8 +906,10 @@ MonoBehaviour:
   timerLength: 120
   trainingText: Training melee unit...
   barracksText: {fileID: 7011161360365639482}
-  troopsToSpawn: {fileID: 0}
+  troopsToSpawn: {fileID: 2366417327099776661, guid: 26ed306a6d5d8d541843802957dcb280,
+    type: 3}
   buttonObj: {fileID: 1928344630933197749}
+  troopSpawnLocation: {fileID: 4661487104121274214}
 --- !u!114 &2216330710276999603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1816,15 +1848,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0006441b5aa46b46954a92a9979d9b9, type: 3}
---- !u!4 &7107690996583750126 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4798128774619620510, guid: d0006441b5aa46b46954a92a9979d9b9,
-    type: 3}
-  m_PrefabInstance: {fileID: 2321033858865544560}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &7107690996583750127 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 4798128774619620511, guid: d0006441b5aa46b46954a92a9979d9b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2321033858865544560}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7107690996583750126 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4798128774619620510, guid: d0006441b5aa46b46954a92a9979d9b9,
     type: 3}
   m_PrefabInstance: {fileID: 2321033858865544560}
   m_PrefabAsset: {fileID: 0}
@@ -2292,15 +2324,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a1a7c5b456d90447943f299bb9f5dde, type: 3}
---- !u!1 &6397770383900895531 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9a1a7c5b456d90447943f299bb9f5dde,
-    type: 3}
-  m_PrefabInstance: {fileID: 6055120028093666426}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6017551173536265105 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9a1a7c5b456d90447943f299bb9f5dde,
+    type: 3}
+  m_PrefabInstance: {fileID: 6055120028093666426}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6397770383900895531 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9a1a7c5b456d90447943f299bb9f5dde,
     type: 3}
   m_PrefabInstance: {fileID: 6055120028093666426}
   m_PrefabAsset: {fileID: 0}
@@ -2369,7 +2401,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4473e0e3021648f409767adf8d1d87b9,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.4
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4473e0e3021648f409767adf8d1d87b9,
         type: 3}

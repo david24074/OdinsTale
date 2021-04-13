@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private int currentEmployedAmount = 0;
     private float currentHappinessAmount = 100;
 
-    private GameObject currentSelectedBuild;
+    private GameObject currentSelectedBuild, currentSelectedUnit;
     private Grid gridObject;
 
     private List<GameObject> allBuildings = new List<GameObject>();
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform enemyShipInstantiateContent;
     [SerializeField] private GameObject[] enemyShips;
     [SerializeField] private int chanceToSpawnEnemy = 5;
+    [SerializeField] private ParticleSystem unitSetGoalParticle;
 
     [Header("Audio")]
     [SerializeField] private AudioClip[] newJobSounds;
@@ -106,8 +107,82 @@ public class GameManager : MonoBehaviour
         }
 
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
-        citizensText.text = currentEmployedAmount + allCitizens.Count.ToString();
+        citizensText.text = (currentEmployedAmount + allCitizens.Count).ToString();
         CheckAvailableBeds();
+    }
+
+
+    private void Update()
+    {
+        currentTimeIndex += 1 * Time.deltaTime;
+
+        if (currentTimeIndex >= dayLengthInSeconds)
+        {
+            currentTimeIndex = 0;
+            NewDay();
+        }
+
+        if (currentSelectedBuild)
+        {
+            UpdateBuildingPlacement();
+            return;
+        }
+
+        if (currentSelectedUnit)
+        {
+            UpdateSelectedUnit();
+            return;
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (hit.transform.tag == "Unit")
+                {
+                    currentSelectedUnit = hit.transform.gameObject;
+                    currentSelectedUnit.GetComponent<MeleeUnit>().SelectUnit();
+                    return;
+                }
+
+                if (hit.transform.GetComponent<JobActivator>())
+                {
+                    AddNewJob(hit.transform.GetComponent<JobActivator>());
+                }
+            }
+        }
+    }
+
+    private void UpdateSelectedUnit()
+    {
+        if (currentSelectedUnit)
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    Vector3 newPos = gridObject.GetNearestPointOnGrid(new Vector3(hit.point.x, objectYPlacement, hit.point.z));
+                    Instantiate(unitSetGoalParticle, newPos + Vector3.up * 0.2f, Quaternion.identity);
+                    currentSelectedUnit.GetComponent<MeleeUnit>().SetTargetPosition(newPos);
+                }
+                if (Input.GetButtonDown("Fire2"))
+                {
+                    currentSelectedUnit.GetComponent<MeleeUnit>().DeselectUnit();
+                    currentSelectedUnit = null;
+                }
+            }
+        }
+    }
+
+    public static bool UnitSelected()
+    {
+        if (gameManager.currentSelectedUnit) { return true; } else { return false; }
     }
 
     public static List<GameObject> GetBuildings()
@@ -138,7 +213,7 @@ public class GameManager : MonoBehaviour
             stoneText.text = currentStoneAmount.ToString();
             foodText.text = currentFoodAmount.ToString();
             waterText.text = currentWaterAmount.ToString();
-            citizensText.text = currentEmployedAmount + allCitizens.Count.ToString();
+            citizensText.text = (currentEmployedAmount + allCitizens.Count).ToString();
         }
         else
         {
@@ -227,7 +302,7 @@ public class GameManager : MonoBehaviour
         {
             newCitizen.GetComponent<Citizen>().GiveNewJob(GetBuildingByID(optionalSave.CurrentJobID).GetComponent<JobActivator>());
         }
-        citizensText.text = currentEmployedAmount + allCitizens.Count.ToString();
+        citizensText.text = (currentEmployedAmount + allCitizens.Count).ToString();
     }
 
     private void LoadSaveGame(SaveGame save)
@@ -608,9 +683,18 @@ public class GameManager : MonoBehaviour
             }
             else if (currentWaterAmount <= 0)
             {
-                currentWaterAmount = 0;
                 peopleUnfed += 1;
             }
+
+            if (currentWaterAmount <= 0) { currentWaterAmount = 0; }
+        }
+
+        if (peopleUnfed > 1)
+        {
+            MessageLog.AddNewMessage(peopleUnfed + " citizens are unhappy because they dont have food or water!");
+        }else if(peopleUnfed > 0)
+        {
+            MessageLog.AddNewMessage(peopleUnfed + " citizen is unhappy because they dont have food or water!");
         }
 
         for (int c = 0; c < allCitizens.Count; c++)
@@ -630,11 +714,6 @@ public class GameManager : MonoBehaviour
                     allCitizens[c].ToggleHappy(true);
                 }
             }
-        }
-
-        if(peopleUnfed > 0)
-        {
-            MessageLog.AddNewMessage(peopleUnfed + " are unhappy because they dont have food or water!");
         }
 
         foodText.text = currentFoodAmount.ToString();
@@ -693,38 +772,7 @@ public class GameManager : MonoBehaviour
             float citizensLeft = bedsLeft - citizensToAdd;
             MessageLog.AddNewMessage("Its a new day and " + citizensToAdd.ToString() + " decided to join your town but " + citizensLeft.ToString() + " refused");
         }
-        citizensText.text = currentEmployedAmount + allCitizens.Count.ToString();
-    }
-
-    private void Update()
-    {
-        currentTimeIndex += 1 * Time.deltaTime;
-
-        if(currentTimeIndex >= dayLengthInSeconds)
-        {
-            currentTimeIndex = 0;
-            NewDay();
-        }
-
-        if (currentSelectedBuild)
-        {
-            UpdateBuildingPlacement();
-            return;
-        }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-            {
-                if (hit.transform.GetComponent<JobActivator>())
-                {
-                    AddNewJob(hit.transform.GetComponent<JobActivator>());
-                }
-            }
-        }
+        citizensText.text = (currentEmployedAmount + allCitizens.Count).ToString();
     }
 
     private void UpdateBuildingPlacement()
@@ -803,6 +851,11 @@ public class GameManager : MonoBehaviour
             IDToConvert += Random.Range(0, 9);
         }
         return int.Parse(IDToConvert);
+    }
+
+    public static float GetDistanceBetween(Vector3 pos1, Vector3 pos2)
+    {
+        return (pos1 - pos2).sqrMagnitude;
     }
 
     private void ToggleBuildingsMenu()

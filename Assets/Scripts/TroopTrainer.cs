@@ -14,6 +14,7 @@ public class TroopTrainer : MonoBehaviour
     [SerializeField] private string trainingText;
     [SerializeField] private TextMeshProUGUI barracksText;
     [SerializeField] private GameObject troopsToSpawn, buttonObj;
+    [SerializeField] private Transform troopSpawnLocation;
 
     private void Start()
     {
@@ -65,6 +66,7 @@ public class TroopTrainer : MonoBehaviour
     private void SpawnTroops()
     {
         Debug.Log("Spawned troops");
+        Instantiate(troopsToSpawn, troopSpawnLocation.position, Quaternion.identity);
     }
 
     public bool TrainingTroops()
