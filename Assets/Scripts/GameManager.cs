@@ -167,6 +167,12 @@ public class GameManager : MonoBehaviour
             {
                 if (Input.GetButtonDown("Fire1"))
                 {
+                    if(hit.transform.tag == "Enemy")
+                    {
+                        currentSelectedUnit.GetComponent<MeleeUnit>().SetNewTarget(hit.transform);
+                        Instantiate(unitSetGoalParticle, hit.transform.position, Quaternion.identity);
+                        return;
+                    }
                     Vector3 newPos = gridObject.GetNearestPointOnGrid(new Vector3(hit.point.x, objectYPlacement, hit.point.z));
                     Instantiate(unitSetGoalParticle, newPos + Vector3.up * 0.2f, Quaternion.identity);
                     currentSelectedUnit.GetComponent<MeleeUnit>().SetTargetPosition(newPos);

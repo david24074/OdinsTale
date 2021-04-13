@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private GameObject[] allUnits;
+    [SerializeField] private ParticleSystem hitParticles;
     private float health = 100;
     private bool finishedRaiding = false;
     private Transform currentTarget;
@@ -83,6 +84,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
+        if (hitParticles) { Instantiate(hitParticles, transform.position + Vector3.up * 1.5f, transform.rotation); }
         if(health <= 0)
         {
             Destroy(GetComponent<Collider>());
@@ -94,7 +96,7 @@ public class Enemy : MonoBehaviour
                 Destroy(allUnits[i], 10);
             }
 
-            enemyShip.GetComponent<EnemyShip>().SinkShip();
+            if (enemyShip) { enemyShip.GetComponent<EnemyShip>().SinkShip(); } 
             Destroy(gameObject);
         }
     }

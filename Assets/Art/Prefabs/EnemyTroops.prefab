@@ -99,6 +99,8 @@ MonoBehaviour:
   - {fileID: 2847741887311333586}
   - {fileID: 2847741888200762099}
   - {fileID: 2847741888874274166}
+  hitParticles: {fileID: 3703074337993895219, guid: c66ec3c68f360aa4492fd5c8aea1cb87,
+    type: 3}
 --- !u!1001 &2366417325358468883
 PrefabInstance:
   m_ObjectHideFlags: 0

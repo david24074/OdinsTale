@@ -67,7 +67,7 @@ public class MeleeUnit : MonoBehaviour
             agent.SetDestination(currentTarget.position);
 
             //More optimized than vector3.distance
-            if(GameManager.GetDistanceBetween(transform.position, currentTarget.position) < agent.remainingDistance * agent.remainingDistance)
+            if(GameManager.GetDistanceBetween(transform.position, currentTarget.position) <= agent.stoppingDistance * agent.stoppingDistance)
             {
                 currentAttackInterval -= 1 * Time.deltaTime;
                 if(currentAttackInterval <= 0)
