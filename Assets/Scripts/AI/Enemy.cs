@@ -174,6 +174,15 @@ public class Enemy : MonoBehaviour
         navmeshAgent.SetDestination(enemyShip.transform.position);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Arrow")
+        {
+            TakeDamage(int.Parse(other.name));
+            Destroy(other.gameObject);
+        }
+    }
+
     public void FindNewTarget()
     {
         currentTarget = GetClosestObject(allBuildings);

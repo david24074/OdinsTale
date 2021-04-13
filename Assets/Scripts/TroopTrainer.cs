@@ -22,15 +22,6 @@ public class TroopTrainer : MonoBehaviour
         timerObj.maxValue = timerLength;
     }
 
-    private void OnDisable()
-    {
-        if (TrainingTroops())
-        {
-            gameObject.SetActive(true);
-            return;
-        }
-    }
-
     public void TrainTroops()
     {
         if (TrainingTroops())
@@ -65,7 +56,7 @@ public class TroopTrainer : MonoBehaviour
 
     private void SpawnTroops()
     {
-        Debug.Log("Spawned troops");
+        MessageLog.AddNewMessage("A unit has finished training!");
         Instantiate(troopsToSpawn, troopSpawnLocation.position, Quaternion.identity);
     }
 
