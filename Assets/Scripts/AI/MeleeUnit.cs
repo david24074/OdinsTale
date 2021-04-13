@@ -13,18 +13,27 @@ public class MeleeUnit : MonoBehaviour
     [SerializeField] private GameObject selectedObject;
 
     [Header("Attack options")]
+    [SerializeField] private float health = 100;
     [SerializeField] private float attackInterval = 1;
     [SerializeField] private float damagePerAttack = 10;
     private float currentAttackInterval;
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        if (!agent) { agent = GetComponent<NavMeshAgent>(); }
 
         for(int i = 0; i < transform.childCount; i++)
         {
             unitAnims.Add(transform.GetChild(i).GetComponent<Animator>());
         }
+    }
+
+    public void SetData(UnitSave unitSave)
+    {
+        health = unitSave.CurrentHealth;
+        transform.position = unitSave.UnitPosition;
+        transform.rotation = unitSave.UnitRotation;
+        GetComponent<ObjectID>().SetID(unitSave.UnitID);
     }
 
     public Transform GetCurrentTarget()

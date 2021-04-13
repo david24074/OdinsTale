@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     //Used for most of the static functions
     private static GameManager gameManager;
 
-    [SerializeField] private GameObject citizen;
+    [SerializeField] private GameObject citizen, meleeUnit;
 
     [Header("Building Settings")]
     [SerializeField] private float objectYPlacement;
@@ -37,8 +37,9 @@ public class GameManager : MonoBehaviour
     private Grid gridObject;
 
     private List<GameObject> allBuildings = new List<GameObject>();
-    [SerializeField] private List<Citizen> allCitizens = new List<Citizen>();
+    private List<Citizen> allCitizens = new List<Citizen>();
     private List<JobActivator> allJobs = new List<JobActivator>();
+    private List<UnitSave> allUnits = new List<UnitSave>();
 
     [Header("Attacking Settings")]
     [SerializeField] private Transform enemyShipInstantiateContent;
@@ -110,7 +111,6 @@ public class GameManager : MonoBehaviour
         citizensText.text = (currentEmployedAmount + allCitizens.Count).ToString();
         CheckAvailableBeds();
     }
-
 
     private void Update()
     {
@@ -372,6 +372,11 @@ public class GameManager : MonoBehaviour
             SpawnNewCitizen(currentSave.AllCitizens[i]);
         }
 
+        for (int i = 0; i < currentSave.AllUnits.Count; i++)
+        {
+            SpawnNewMeleeUnit(Vector3.zero, currentSave.AllUnits[i]);
+        }
+
         for (int i = 0; i < currentSave.MessageLogMessages.Count; i++)
         {
             MessageLog.AddNewMessage(currentSave.MessageLogMessages[i]);
@@ -390,6 +395,29 @@ public class GameManager : MonoBehaviour
         }
 
         CheckHappiness();
+    }
+
+    public void SpawnNewMeleeUnit(Vector3 optionalPosition = default, UnitSave optionalSave = default)
+    {
+        GameObject newUnit;
+        if (optionalPosition == null) { newUnit = Instantiate(meleeUnit); } else { newUnit = Instantiate(meleeUnit, optionalPosition, Quaternion.identity); }
+
+        newUnit.transform.SetParent(citizenParent);
+        if (optionalSave != null)
+        {
+            newUnit.GetComponent<MeleeUnit>().SetData(optionalSave);
+            return;
+        }
+
+        UnitSave newSave = new UnitSave();
+        newSave.CurrentHealth = 100;
+        newSave.IsMelee = true;
+        newSave.UnitPosition = newUnit.transform.position;
+        newSave.UnitID = GetRandomID();
+        newSave.UnitRotation = newUnit.transform.rotation;
+        newUnit.GetComponent<MeleeUnit>().SetData(newSave);
+        currentSave.AllUnits.Add(newSave);
+        SaveTheGame(currentSave);
     }
 
     public void UpdateBuildingSaveProgress(Vector3 buildingPos, int newProgress)
@@ -518,6 +546,13 @@ public class GameManager : MonoBehaviour
                 {
                     saveGame.AllCitizens[i].CurrentJobID = 0;
                 }
+            }
+
+            for (int i = 0; i < saveGame.AllUnits.Count; i++)
+            {
+                GameObject unitToSave = GetCitizenByID(saveGame.AllUnits[i].UnitID);
+                saveGame.AllUnits[i].UnitPosition = unitToSave.transform.position;
+                saveGame.AllUnits[i].UnitRotation = unitToSave.transform.rotation;
             }
 
             saveGame.MessageLogMessages = messageLogger.GetAllMessages();
@@ -849,7 +884,7 @@ public class GameManager : MonoBehaviour
         currentSelectedBuild = null;
     }
 
-    private int GetRandomID()
+    public static int GetRandomID()
     {
         string IDToConvert = "";
         for(int i = 0; i < 6; i++)

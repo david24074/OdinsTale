@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ES3Types
 {
 	[UnityEngine.Scripting.Preserve]
-	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "CitizenAmount", "AllJobs", "MessageLogMessages", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountWater", "AmountHappiness", "Day", "Year", "CameraPosition", "CameraRotation")]
+	[ES3PropertiesAttribute("SaveGameName", "AllBuildings", "AllCitizens", "AllUnits", "CitizenAmount", "AllJobs", "MessageLogMessages", "AmountWood", "AmountStone", "AmountGold", "AmountFood", "AmountWater", "AmountHappiness", "Day", "Year", "CameraPosition", "CameraRotation")]
 	public class ES3UserType_SaveGame : ES3ObjectType
 	{
 		public static ES3Type Instance = null;
@@ -19,6 +19,7 @@ namespace ES3Types
 			writer.WriteProperty("SaveGameName", instance.SaveGameName, ES3Type_string.Instance);
 			writer.WriteProperty("AllBuildings", instance.AllBuildings);
 			writer.WriteProperty("AllCitizens", instance.AllCitizens);
+			writer.WriteProperty("AllUnits", instance.AllUnits);
 			writer.WriteProperty("CitizenAmount", instance.CitizenAmount, ES3Type_int.Instance);
 			writer.WriteProperty("AllJobs", instance.AllJobs);
 			writer.WriteProperty("MessageLogMessages", instance.MessageLogMessages);
@@ -50,6 +51,9 @@ namespace ES3Types
 						break;
 					case "AllCitizens":
 						instance.AllCitizens = reader.Read<System.Collections.Generic.List<CitizenSave>>();
+						break;
+					case "AllUnits":
+						instance.AllUnits = reader.Read<System.Collections.Generic.List<UnitSave>>();
 						break;
 					case "CitizenAmount":
 						instance.CitizenAmount = reader.Read<System.Int32>(ES3Type_int.Instance);

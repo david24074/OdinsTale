@@ -13,7 +13,7 @@ public class TroopTrainer : MonoBehaviour
     private string standardText;
     [SerializeField] private string trainingText;
     [SerializeField] private TextMeshProUGUI barracksText;
-    [SerializeField] private GameObject troopsToSpawn, buttonObj;
+    [SerializeField] private GameObject buttonObj;
     [SerializeField] private Transform troopSpawnLocation;
 
     private void Start()
@@ -57,7 +57,7 @@ public class TroopTrainer : MonoBehaviour
     private void SpawnTroops()
     {
         MessageLog.AddNewMessage("A unit has finished training!");
-        Instantiate(troopsToSpawn, troopSpawnLocation.position, Quaternion.identity);
+        GameManager.GetManager().SpawnNewMeleeUnit(troopSpawnLocation.position);
     }
 
     public bool TrainingTroops()
