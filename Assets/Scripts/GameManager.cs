@@ -589,10 +589,9 @@ public class GameManager : MonoBehaviour
 
             saveGame.CameraPosition = Camera.main.transform.position;
             saveGame.CameraRotation = Camera.main.transform.rotation;
-
-            StartCoroutine(TakeScreenshot(saveGame.SaveGameName));
         }
 
+        StartCoroutine(TakeScreenshot(saveGame.SaveGameName));
         ES3.Save("SaveGame", saveGame, ES3.Load<string>("CurrentSaveName") + ".es3");
     }
 
