@@ -6,6 +6,7 @@ using TMPro;
 
 public class TroopTrainer : MonoBehaviour
 {
+    [SerializeField] private bool isMeleeTrainer = true;
     [SerializeField] private Slider timerObj;
     [SerializeField] private float timerLength = 120;
     private float currentTimer = 0;
@@ -57,7 +58,14 @@ public class TroopTrainer : MonoBehaviour
     private void SpawnTroops()
     {
         MessageLog.AddNewMessage("A unit has finished training!");
-        GameManager.GetManager().SpawnNewMeleeUnit(troopSpawnLocation.position);
+        if (isMeleeTrainer)
+        {
+            GameManager.GetManager().SpawnNewMeleeUnit(troopSpawnLocation.position);
+        }
+        else
+        {
+            GameManager.GetManager().SpawnNewRangedUnit(troopSpawnLocation.position);
+        }
     }
 
     public bool TrainingTroops()

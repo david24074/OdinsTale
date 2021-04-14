@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MeleeUnit : MonoBehaviour
+public class FriendlyTroops : MonoBehaviour
 {
     private Transform currentTarget;
     private Vector3 currentTargetPosition;
@@ -13,9 +13,11 @@ public class MeleeUnit : MonoBehaviour
     [SerializeField] private GameObject selectedObject;
 
     [Header("Attack options")]
+    [SerializeField] private bool isMelee;
+    [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private float health = 100;
     [SerializeField] private float attackInterval = 1;
-    [SerializeField] private float damagePerAttack = 10;
+    [SerializeField] private float damagePerAttack = 10, arrowFireSpeed = 10;
     private float currentAttackInterval;
 
     private void Start()
@@ -24,7 +26,10 @@ public class MeleeUnit : MonoBehaviour
 
         for(int i = 0; i < transform.childCount; i++)
         {
-            unitAnims.Add(transform.GetChild(i).GetComponent<Animator>());
+            if (transform.GetChild(i).GetComponent<Animator>())
+            {
+                unitAnims.Add(transform.GetChild(i).GetComponent<Animator>());
+            }
         }
     }
 
@@ -81,9 +86,30 @@ public class MeleeUnit : MonoBehaviour
                 currentAttackInterval -= 1 * Time.deltaTime;
                 if(currentAttackInterval <= 0)
                 {
-                    currentTarget.GetComponent<Enemy>().TakeDamage(damagePerAttack);
-                    currentAttackInterval = attackInterval;
+                    Attack();
                 }
+            }
+        }
+    }
+
+    private void Attack()
+    {
+        currentAttackInterval = attackInterval;
+        if (isMelee)
+        {
+            currentTarget.GetComponent<Enemy>().TakeDamage(damagePerAttack);
+        }
+        else
+        {
+            for(int i = 0; i < unitAnims.Count; i++)
+            {
+                GameObject newArrow = Instantiate(arrowPrefab, unitAnims[i].transform.position + Vector3.up * 0.75f, unitAnims[i].transform.rotation);
+                //Make the arrow face forward
+                newArrow.transform.Rotate(Vector3.up * 90);
+                newArrow.GetComponent<Rigidbody>().AddForce((currentTarget.position - (unitAnims[i].transform.position + Vector3.up * 2)) * arrowFireSpeed);
+                //We can pass the damage simply via the name
+                newArrow.name = damagePerAttack.ToString();
+                Destroy(newArrow, 3);
             }
         }
     }

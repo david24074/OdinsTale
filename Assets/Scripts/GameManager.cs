@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     //Used for most of the static functions
     private static GameManager gameManager;
 
-    [SerializeField] private GameObject citizen, meleeUnit;
+    [SerializeField] private GameObject citizen, meleeUnit, rangedUnit;
 
     [Header("Building Settings")]
     [SerializeField] private float objectYPlacement;
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
                 if (hit.transform.tag == "Unit")
                 {
                     currentSelectedUnit = hit.transform.gameObject;
-                    currentSelectedUnit.GetComponent<MeleeUnit>().SelectUnit();
+                    currentSelectedUnit.GetComponent<FriendlyTroops>().SelectUnit();
                     return;
                 }
 
@@ -169,17 +169,17 @@ public class GameManager : MonoBehaviour
                 {
                     if(hit.transform.tag == "Enemy")
                     {
-                        currentSelectedUnit.GetComponent<MeleeUnit>().SetNewTarget(hit.transform);
+                        currentSelectedUnit.GetComponent<FriendlyTroops>().SetNewTarget(hit.transform);
                         Instantiate(unitSetGoalParticle, hit.transform.position, Quaternion.identity);
                         return;
                     }
                     Vector3 newPos = gridObject.GetNearestPointOnGrid(new Vector3(hit.point.x, objectYPlacement, hit.point.z));
                     Instantiate(unitSetGoalParticle, newPos + Vector3.up * 0.2f, Quaternion.identity);
-                    currentSelectedUnit.GetComponent<MeleeUnit>().SetTargetPosition(newPos);
+                    currentSelectedUnit.GetComponent<FriendlyTroops>().SetTargetPosition(newPos);
                 }
                 if (Input.GetButtonDown("Fire2"))
                 {
-                    currentSelectedUnit.GetComponent<MeleeUnit>().DeselectUnit();
+                    currentSelectedUnit.GetComponent<FriendlyTroops>().DeselectUnit();
                     currentSelectedUnit = null;
                 }
             }
@@ -374,7 +374,14 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < currentSave.AllUnits.Count; i++)
         {
-            SpawnNewMeleeUnit(Vector3.zero, currentSave.AllUnits[i]);
+            if (currentSave.AllUnits[i].IsMelee)
+            {
+                SpawnNewMeleeUnit(Vector3.zero, currentSave.AllUnits[i]);
+            }
+            else
+            {
+                SpawnNewRangedUnit(Vector3.zero, currentSave.AllUnits[i]);
+            }
         }
 
         for (int i = 0; i < currentSave.MessageLogMessages.Count; i++)
@@ -405,7 +412,7 @@ public class GameManager : MonoBehaviour
         newUnit.transform.SetParent(citizenParent);
         if (optionalSave != null)
         {
-            newUnit.GetComponent<MeleeUnit>().SetData(optionalSave);
+            newUnit.GetComponent<FriendlyTroops>().SetData(optionalSave);
             return;
         }
 
@@ -415,7 +422,30 @@ public class GameManager : MonoBehaviour
         newSave.UnitPosition = newUnit.transform.position;
         newSave.UnitID = GetRandomID();
         newSave.UnitRotation = newUnit.transform.rotation;
-        newUnit.GetComponent<MeleeUnit>().SetData(newSave);
+        newUnit.GetComponent<FriendlyTroops>().SetData(newSave);
+        currentSave.AllUnits.Add(newSave);
+        SaveTheGame(currentSave);
+    }
+
+    public void SpawnNewRangedUnit(Vector3 optionalPosition = default, UnitSave optionalSave = default)
+    {
+        GameObject newUnit;
+        if (optionalPosition == null) { newUnit = Instantiate(rangedUnit); } else { newUnit = Instantiate(rangedUnit, optionalPosition, Quaternion.identity); }
+
+        newUnit.transform.SetParent(citizenParent);
+        if (optionalSave != null)
+        {
+            newUnit.GetComponent<FriendlyTroops>().SetData(optionalSave);
+            return;
+        }
+
+        UnitSave newSave = new UnitSave();
+        newSave.CurrentHealth = 100;
+        newSave.IsMelee = false;
+        newSave.UnitPosition = newUnit.transform.position;
+        newSave.UnitID = GetRandomID();
+        newSave.UnitRotation = newUnit.transform.rotation;
+        newUnit.GetComponent<FriendlyTroops>().SetData(newSave);
         currentSave.AllUnits.Add(newSave);
         SaveTheGame(currentSave);
     }

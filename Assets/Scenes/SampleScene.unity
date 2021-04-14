@@ -8928,6 +8928,180 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 533580107}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &205317100
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 538735187}
+    m_Modifications:
+    - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
+      propertyPath: menuManager
+      value: 
+      objectReference: {fileID: 837763083}
+    - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
+      propertyPath: gamemanager
+      value: 
+      objectReference: {fileID: 708170840}
+    - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
+      propertyPath: buildingName
+      value: RangedBarracks
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
+      propertyPath: woodAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
+      propertyPath: stoneAmount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
+      propertyPath: citizenAmount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072822490956807, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_text
+      value: Ranged Barracks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072822490956807, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072822490956807, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072822490956807, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177155, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_Name
+      value: BuildingButton (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 762.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -41.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945072823513177158, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.27058825
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
+--- !u!224 &205317101 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3945072823513177156, guid: f05c21b8cae3af1428d9f98e2ac86e71,
+    type: 3}
+  m_PrefabInstance: {fileID: 205317100}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &207811689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15243,7 +15417,7 @@ PrefabInstance:
       objectReference: {fileID: 708170840}
     - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
       propertyPath: buildingName
-      value: Barracks
+      value: MeleeBarracks
       objectReference: {fileID: 0}
     - target: {fileID: 2002032210, guid: f05c21b8cae3af1428d9f98e2ac86e71, type: 3}
       propertyPath: woodAmount
@@ -15260,7 +15434,7 @@ PrefabInstance:
     - target: {fileID: 3945072822490956807, guid: f05c21b8cae3af1428d9f98e2ac86e71,
         type: 3}
       propertyPath: m_text
-      value: Barracks
+      value: Melee Barracks
       objectReference: {fileID: 0}
     - target: {fileID: 3945072822490956807, guid: f05c21b8cae3af1428d9f98e2ac86e71,
         type: 3}
@@ -21359,6 +21533,7 @@ RectTransform:
   - {fileID: 1017718312}
   - {fileID: 696427985}
   - {fileID: 367824712}
+  - {fileID: 205317101}
   m_Father: {fileID: 897483518}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29317,6 +29492,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   citizen: {fileID: 527486501800498769, guid: 566f731ff752d6e42b4be1e684a33d68, type: 3}
   meleeUnit: {fileID: 2366417327099776661, guid: 26ed306a6d5d8d541843802957dcb280,
+    type: 3}
+  rangedUnit: {fileID: 2366417327099776661, guid: 9f8192d4c6cc1144e90772471ab9e883,
     type: 3}
   objectYPlacement: 14.3
   buildingsMenu: {fileID: 1283299100}
