@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bedsText, citizensText, happinessText, goldText;
     [SerializeField] private MessageLog messageLogger;
     [SerializeField] private MenuManager menuManager;
+    [SerializeField] private GameObject loseMenu;
 
     public enum resourceTypes { Wood, Stone, Gold };
     private int currentWoodAmount = 0;
@@ -855,7 +856,8 @@ public class GameManager : MonoBehaviour
 
     private void CheckHappiness()
     {
-        float happinessPerCitizen = 100 / allCitizens.Count;
+        float happinessPerCitizen = 0;
+        if (allCitizens.Count > 0) { happinessPerCitizen = 100 / allCitizens.Count; }
         currentHappinessAmount = 0;
 
         for(int i = 0; i < allCitizens.Count; i++)
@@ -864,6 +866,33 @@ public class GameManager : MonoBehaviour
             {
                 currentHappinessAmount += happinessPerCitizen;
             }
+        }
+
+        if(currentHappinessAmount <= 0)
+        {
+            if(allCitizens.Count > 0)
+            {
+                int citizensToLeave = Random.Range(3, allCitizens.Count / 100 * 50);
+                if (citizensToLeave > allCitizens.Count) { citizensToLeave = allCitizens.Count; }
+                DeleteCitizen(citizensToLeave);
+                MessageLog.AddNewMessage("Your people are unhappy! " + citizensToLeave.ToString() + " left your city!");
+            }
+            else if(currentEmployedAmount > 0)
+            {
+                int citizensToLeave = Random.Range(3, currentEmployedAmount / 100 * 50);
+                if (citizensToLeave > currentEmployedAmount) { citizensToLeave = currentEmployedAmount; }
+                currentEmployedAmount -= citizensToLeave;
+                MessageLog.AddNewMessage("Your people are unhappy! " + citizensToLeave.ToString() + " left your city!");
+            }
+
+            int allCitizensLeft = allCitizens.Count + currentEmployedAmount;
+            if(allCitizensLeft <= 0)
+            {
+                Time.timeScale = 0;
+                ES3.DeleteFile(ES3.Load<string>("CurrentSaveName"));
+                loseMenu.SetActive(true);
+            }
+            citizensText.text = allCitizensLeft.ToString();
         }
 
         happinessText.text = Mathf.RoundToInt(currentHappinessAmount).ToString() + "%";
