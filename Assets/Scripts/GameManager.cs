@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [Header("UI settings")]
     [SerializeField] private TextMeshProUGUI woodText;
     [SerializeField] private TextMeshProUGUI stoneText, foodText, waterText;
-    [SerializeField] private TextMeshProUGUI bedsText, citizensText, happinessText;
+    [SerializeField] private TextMeshProUGUI bedsText, citizensText, happinessText, goldText;
     [SerializeField] private MessageLog messageLogger;
     [SerializeField] private MenuManager menuManager;
 
@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     private int currentGoldAmount = 0;
     private int currentEmployedAmount = 0;
     private float currentHappinessAmount = 100;
+
+    private int goldPerCitizen = 2;
 
     private GameObject currentSelectedBuild, currentSelectedUnit;
     private Grid gridObject;
@@ -320,6 +322,7 @@ public class GameManager : MonoBehaviour
         currentWoodAmount = currentSave.AmountWood;
         currentWaterAmount = currentSave.AmountWater;
         currentEmployedAmount = currentSave.CitizenAmount;
+        currentGoldAmount = currentSave.AmountGold;
         currentYear = currentSave.Year;
         currentDay = currentSave.Day;
 
@@ -330,6 +333,7 @@ public class GameManager : MonoBehaviour
         stoneText.text = currentStoneAmount.ToString();
         foodText.text = currentFoodAmount.ToString();
         waterText.text = currentWaterAmount.ToString();
+        goldText.text = currentGoldAmount.ToString();
 
         for (int i = 0; i < currentSave.AllBuildings.Count; i++)
         {
@@ -413,10 +417,12 @@ public class GameManager : MonoBehaviour
         if (optionalSave != null)
         {
             newUnit.GetComponent<FriendlyTroops>().SetData(optionalSave);
+            allUnits.Add(optionalSave);
             return;
         }
 
         UnitSave newSave = new UnitSave();
+        allUnits.Add(newSave);
         newSave.CurrentHealth = 100;
         newSave.IsMelee = true;
         newSave.UnitPosition = newUnit.transform.position;
@@ -734,6 +740,8 @@ public class GameManager : MonoBehaviour
 
         AddNewCitizens();
 
+        HandleTaxes();
+
         if(currentDay > 365)
         {
             currentDay = 1;
@@ -801,6 +809,46 @@ public class GameManager : MonoBehaviour
         }
 
         if (currentYear > 0) { timeText.text = "Year: " + currentYear + " - Day: " + currentDay; } else { timeText.text = "Day: " + currentDay; }
+    }
+
+    private void HandleTaxes()
+    {
+        int allCitizensCount = allCitizens.Count + currentEmployedAmount;
+        int goldEarned = 0;
+
+        for(int i = 0; i < allCitizensCount; i++)
+        {
+            goldEarned += goldPerCitizen;
+        }
+
+        currentGoldAmount += goldEarned;
+
+        if(allUnits.Count > 0)
+        {
+            int goldSpent = 0;
+            for (int i = 0; i < allUnits.Count; i++)
+            {
+                //Units cost 5 gold per warrior, every unit has 9 warriors
+                goldSpent += 45;
+            }
+
+            currentGoldAmount -= goldSpent;
+            if(currentGoldAmount <= 0)
+            {
+                currentGoldAmount = 0;
+                MessageLog.AddNewMessage("Tax report! You earned " + goldEarned.ToString() + " today and you paid your all troops " + goldSpent.ToString() + "! You dont have any money left, your citizens are unhappy");
+            }
+            else
+            {
+                MessageLog.AddNewMessage("Tax report! You earned " + goldEarned.ToString() + " today and you paid your all troops " + goldSpent.ToString() + "!");
+            }
+        }
+        else
+        {
+            MessageLog.AddNewMessage("Tax report! You earned " + goldEarned.ToString() + " from your citizens");
+        }
+
+        goldText.text = currentGoldAmount.ToString();
     }
 
     private void CheckHappiness()

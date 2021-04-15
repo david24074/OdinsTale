@@ -5,10 +5,11 @@ using UnityEngine;
 public class ResourceButton : MonoBehaviour
 {
     [SerializeField] private string buildingName;
+    [SerializeField] private string buildingDescription;
     [Space]
     [SerializeField] private MenuManager menuManager;
     [SerializeField] private GameManager gamemanager;
-    [SerializeField] private int woodAmount, stoneAmount, citizenAmount;
+    [SerializeField] private int woodAmount, stoneAmount, citizenAmount, goldAmount;
 
     public void SpawnBuilding()
     {
@@ -24,7 +25,7 @@ public class ResourceButton : MonoBehaviour
 
     public void SetResources()
     {
-        menuManager.SetResourcesMenu(woodAmount, stoneAmount, citizenAmount);
+        menuManager.SetResourcesMenu(woodAmount, stoneAmount, citizenAmount, goldAmount, buildingDescription);
     }
 
     public void DisableMenu()
