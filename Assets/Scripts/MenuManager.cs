@@ -25,7 +25,8 @@ public class MenuManager : MonoBehaviour
 
     [Header("Resource cost menu")]
     [SerializeField] private GameObject resourceMenu;
-    [SerializeField] private GameObject woodText, stoneText, citizensText, descriptionText, goldCostText;
+    [SerializeField] private GameObject woodText, stoneText, citizensText, goldCostText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
 
     [Header("Main Menu")]
     [SerializeField] private TMP_InputField saveGameInputField;
@@ -93,11 +94,11 @@ public class MenuManager : MonoBehaviour
         if (goldCost > 0)
         {
             goldCostText.SetActive(true);
-            goldCostText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = citizenAmount.ToString();
+            goldCostText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = goldCost.ToString();
         }
         else { goldCostText.SetActive(false); }
 
-        descriptionText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = description;
+        descriptionText.text = description;
     }
 
     public void DisableResourceMenu()

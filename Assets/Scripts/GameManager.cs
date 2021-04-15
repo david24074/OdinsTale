@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip[] newJobSounds;
+    [SerializeField] private AudioClip attackSound, objectPlaceSound;
 
     [Header("Time Settings")]
     [SerializeField] private float dayLengthInSeconds = 1200;
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        AudioManager.PlayAudioClipGlobal(attackSound);
         int maxAmount = Mathf.RoundToInt(allCitizens.Count / 100);
         if (maxAmount < 1) { maxAmount = 1; }
 
@@ -876,7 +878,6 @@ public class GameManager : MonoBehaviour
 
         int allCurrentCitizens = allCitizens.Count + currentEmployedAmount;
         float bedsLeft = currentBedsAmount - allCurrentCitizens;
-        Debug.Log(bedsLeft);
         if(bedsLeft <= 0) { MessageLog.AddNewMessage("Some people tried to join your town but there were no beds available, perhaps we should build more houses");  return; }
 
         //How many citizens are added depends on the happiness of the people
@@ -959,6 +960,8 @@ public class GameManager : MonoBehaviour
 
         currentSelectedBuild.transform.name = currentSelectedBuild.transform.name + " BUILT";
         currentSelectedBuild = null;
+
+        AudioManager.PlayAudioClipGlobal(objectPlaceSound);
     }
 
     public static int GetRandomID()
