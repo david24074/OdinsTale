@@ -778,10 +778,13 @@ public class GameManager : MonoBehaviour
             MessageLog.AddNewMessage(peopleUnfed + " citizen is unhappy because they dont have food or water!");
         }
 
+        int unhappyPeople = peopleUnfed;
+        if (unhappyPeople > allCitizens.Count) { unhappyPeople = allCitizens.Count; }
+        Debug.Log(unhappyPeople);
         for (int c = 0; c < allCitizens.Count; c++)
         {
-            peopleUnfed -= 1;
-            if(peopleUnfed > 0)
+            unhappyPeople -= 1;
+            if(unhappyPeople > -1)
             {
                 if (allCitizens[c])
                 {
@@ -803,7 +806,7 @@ public class GameManager : MonoBehaviour
         CheckHappiness();
 
         //We want to give the player a headstart before we start attacking him
-        if(currentDay > 10)
+        if(currentDay > 10 && allBuildings.Count > 3)
         {
             if(Random.Range(0, 100) <= chanceToSpawnEnemy)
             {
@@ -868,7 +871,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if(currentHappinessAmount <= 0)
+        if(currentHappinessAmount <= 5)
         {
             if(allCitizens.Count > 0)
             {
@@ -889,7 +892,8 @@ public class GameManager : MonoBehaviour
             if(allCitizensLeft <= 0)
             {
                 Time.timeScale = 0;
-                ES3.DeleteFile(ES3.Load<string>("CurrentSaveName"));
+                ES3.DeleteFile(ES3.Load<string>("CurrentSaveName") + ".es3");
+                ES3.DeleteFile(ES3.Load<string>("CurrentSaveName") + ".png");
                 loseMenu.SetActive(true);
             }
             citizensText.text = allCitizensLeft.ToString();
