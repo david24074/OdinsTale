@@ -11,6 +11,7 @@ public class ConstructionBuilding : MonoBehaviour
 
     [Header("On finish build")]
     [SerializeField] private GameObject[] enableOnFinish;
+    [SerializeField] private bool enableTaxesOnFinsish = false;
     private float currentHealth;
     private Transform meshObject;
     private float amountMoveEachHit;
@@ -48,10 +49,21 @@ public class ConstructionBuilding : MonoBehaviour
                 enableOnFinish[i].SetActive(true);
             }
 
+            if (enableTaxesOnFinsish)
+            {
+                GameManager.GetManager().ToggleTaxesEnabled(enableTaxesOnFinsish);
+                Debug.Log("Enabled taxes");
+            }
+
             TryHandleComponents();
             transform.DOComplete();
             Destroy(this);
         }
+    }
+
+    public bool GetTaxesEnabled()
+    {
+        return enableTaxesOnFinsish;
     }
 
     public float GetProgress()

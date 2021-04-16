@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     private float currentHappinessAmount = 100;
 
     private int goldPerCitizen = 2;
+    private bool taxesEnabled = false;
 
     private GameObject currentSelectedBuild, currentSelectedUnit;
     private Grid gridObject;
@@ -245,6 +246,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ToggleTaxesEnabled(bool b)
+    {
+        taxesEnabled = b;
+    }
+
     private void DeleteCitizenFromList(GameObject citizen)
     {
         for(int i = 0; i < allCitizens.Count; i++)
@@ -351,7 +357,15 @@ public class GameManager : MonoBehaviour
             {
                 if (newObject.GetComponent<ConstructionBuilding>())
                 {
+                    if (newObject.GetComponent<ConstructionBuilding>().GetTaxesEnabled())
+                    {
+                        ToggleTaxesEnabled(true);
+                    }
                     Destroy(newObject.GetComponent<ConstructionBuilding>());
+                }
+                if (newObject.GetComponent<CitizenHouse>())
+                {
+                    newObject.GetComponent<CitizenHouse>().enabled = true;
                 }
                 if (newObject.GetComponent<ResourceGenerator>())
                 {
@@ -408,6 +422,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        CheckAvailableBeds();
         CheckHappiness();
     }
 
@@ -608,6 +623,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TakeScreenshot(string fileName)
     {
+        //Wait 1 frame so the ui disables itself before we take a screenshot
         yield return new WaitForEndOfFrame();
         Texture2D newTexture = ScreenCapture.CaptureScreenshotAsTexture();
         ES3.SaveImage(newTexture, fileName + ".png");
@@ -665,7 +681,10 @@ public class GameManager : MonoBehaviour
         {
             if (allBuildings[i].GetComponent<CitizenHouse>())
             {
-                currentBedsAmount += allBuildings[i].GetComponent<CitizenHouse>().GetMaxCitizens();
+                if (allBuildings[i].GetComponent<CitizenHouse>().enabled)
+                {
+                    currentBedsAmount += allBuildings[i].GetComponent<CitizenHouse>().GetMaxCitizens();
+                }
             }
         }
 
@@ -824,6 +843,11 @@ public class GameManager : MonoBehaviour
 
     private void HandleTaxes()
     {
+        if (!taxesEnabled)
+        {
+            return;
+        }
+
         int allCitizensCount = allCitizens.Count + currentEmployedAmount;
         int goldEarned = 0;
 
