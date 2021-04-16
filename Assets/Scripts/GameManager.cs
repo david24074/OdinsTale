@@ -479,17 +479,19 @@ public class GameManager : MonoBehaviour
             MessageLog.SetNotificationMessage("Cannot save the game while you are being attacked", 7);
             return;
         }
-
-        SaveTheGame(currentSave, true);
+        if (!loseMenu.activeInHierarchy)
+        {
+            SaveTheGame(currentSave, true);
+        }
     }
 
     private GameObject GetBuildingByID(int id)
     {
-        foreach(Transform child in buildingParent)
+        for(int i = 0; i < buildingParent.childCount; i++)
         {
-            if(child.GetComponent<ObjectID>().GetID() == id)
+            if(buildingParent.GetChild(i).GetComponent<ObjectID>().GetID() == id)
             {
-                return child.gameObject;
+                return buildingParent.GetChild(i).gameObject;
             }
         }
         return null;
@@ -497,11 +499,11 @@ public class GameManager : MonoBehaviour
 
     private GameObject GetCitizenByID(int id)
     {
-        foreach (Transform child in citizenParent)
+        for(int i = 0; i < citizenParent.childCount; i++)
         {
-            if (child.GetComponent<ObjectID>().GetID() == id)
+            if (citizenParent.GetChild(i).GetComponent<ObjectID>().GetID() == id)
             {
-                return child.gameObject;
+                return citizenParent.GetChild(i).gameObject;
             }
         }
         return null;
@@ -623,23 +625,27 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckIfJobsAvailable());
     }
 
-    public void AddResource(int amount, string resourceType, JobActivator optionalJobRemove = default)
+    //1 = Wood
+    //2 = Stone
+    //3 = Food
+    //4 = Water
+    public void AddResource(int amount, int resourceIndex, JobActivator optionalJobRemove = default)
     {
-        switch (resourceType)
+        switch (resourceIndex)
         {
-            case "Wood":
+            case 1:
                 currentWoodAmount += amount;
                 woodText.text = currentWoodAmount.ToString();
                 break;
-            case "Stone":
+            case 2:
                 currentStoneAmount += amount;
                 stoneText.text = currentStoneAmount.ToString();
                 break;
-            case "Food":
+            case 3:
                 currentFoodAmount += amount;
                 foodText.text = currentFoodAmount.ToString(); ;
                 break;
-            case "Water":
+            case 4:
                 currentWaterAmount += amount;
                 waterText.text = currentWaterAmount.ToString(); ;
                 break;
@@ -780,7 +786,6 @@ public class GameManager : MonoBehaviour
 
         int unhappyPeople = peopleUnfed;
         if (unhappyPeople > allCitizens.Count) { unhappyPeople = allCitizens.Count; }
-        Debug.Log(unhappyPeople);
         for (int c = 0; c < allCitizens.Count; c++)
         {
             unhappyPeople -= 1;

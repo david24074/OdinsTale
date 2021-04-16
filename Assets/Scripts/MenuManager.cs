@@ -121,10 +121,6 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        int current = (int)(1f / Time.unscaledDeltaTime);
-        fpsCounter.text = current + " FPS";
-        updateInterval = Time.deltaTime + 60.0f;
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             //If we are in the city building scene

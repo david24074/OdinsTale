@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263051334009bee448363c74dfc524e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeResource: 4
+  activeResource: 3
   generateCountdown: 120
   minAmount: 9
   maxAmount: 12

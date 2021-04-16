@@ -33,7 +33,7 @@ public class Harvestable : MonoBehaviour
 
         if(resourceHealth <= 0)
         {
-            GameManager.GetManager().AddResource(Random.Range(minAmount, maxAmount), activeResource.ToString(), GetComponent<JobActivator>());
+            GameManager.GetManager().AddResource(Random.Range(minAmount, maxAmount), (int)activeResource, GetComponent<JobActivator>());
             Destroy(gameObject);
         }
     }

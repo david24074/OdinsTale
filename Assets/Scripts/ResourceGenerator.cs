@@ -6,7 +6,7 @@ using DG.Tweening;
 public class ResourceGenerator : MonoBehaviour
 {
     private GameManager gameManager;
-    private enum resourceTypes { Wood, Stone, Gold, Food, Water};
+    private enum resourceTypes { Wood, Stone, Food, Water, Gold};
 
     [SerializeField] private resourceTypes activeResource;
     [SerializeField] private float generateCountdown;
@@ -48,7 +48,7 @@ public class ResourceGenerator : MonoBehaviour
             if(currentTimer <= 0)
             {
                 currentTimer = generateCountdown;
-                gameManager.AddResource(Random.Range(minAmount, maxAmount), activeResource.ToString());
+                gameManager.AddResource(Random.Range(minAmount, maxAmount), (int)activeResource);
                 if (useJiggle)
                 {
                     transform.DOComplete();
