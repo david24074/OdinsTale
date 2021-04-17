@@ -641,27 +641,27 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckIfJobsAvailable());
     }
 
-    //1 = Wood
-    //2 = Stone
-    //3 = Food
-    //4 = Water
+    //0 = Wood
+    //1 = Stone
+    //2 = Food
+    //3 = Water
     public void AddResource(int amount, int resourceIndex, JobActivator optionalJobRemove = default)
     {
         switch (resourceIndex)
         {
-            case 1:
+            case 0:
                 currentWoodAmount += amount;
                 woodText.text = currentWoodAmount.ToString();
                 break;
-            case 2:
+            case 1:
                 currentStoneAmount += amount;
                 stoneText.text = currentStoneAmount.ToString();
                 break;
-            case 3:
+            case 2:
                 currentFoodAmount += amount;
                 foodText.text = currentFoodAmount.ToString(); ;
                 break;
-            case 4:
+            case 3:
                 currentWaterAmount += amount;
                 waterText.text = currentWaterAmount.ToString(); ;
                 break;

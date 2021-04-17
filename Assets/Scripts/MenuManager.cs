@@ -173,7 +173,7 @@ public class MenuManager : MonoBehaviour
         newSaveGame.MessageLogMessages = new List<string>();
         newSaveGame.SaveGameName = saveGameInputField.text;
         newSaveGame.AmountHappiness = 100;
-        newSaveGame.Day = 0;
+        newSaveGame.Day = 1;
         newSaveGame.AllUnits = new List<UnitSave>();
         newSaveGame.AmountWood = 5;
         newSaveGame.AmountStone = 5;
