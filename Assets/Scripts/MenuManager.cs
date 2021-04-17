@@ -178,6 +178,7 @@ public class MenuManager : MonoBehaviour
         newSaveGame.AmountWood = 5;
         newSaveGame.AmountStone = 5;
         newSaveGame.AmountFood = 30;
+        newSaveGame.AmountWater = 30;
 
         ES3.Save("SaveGame", newSaveGame, saveGameInputField.text + ".es3");
 
