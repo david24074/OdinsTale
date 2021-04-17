@@ -104,9 +104,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CheckIfJobsAvailable());
         gameManager = this;
 
-        //Needed for water shader
-        Camera.main.depthTextureMode = DepthTextureMode.Depth;
-
         if (ES3.KeyExists("CurrentSaveName"))
         {
             string filePath = ES3.Load<string>("CurrentSaveName") + ".es3";
@@ -413,9 +410,6 @@ public class GameManager : MonoBehaviour
         //If there are no citizens it means the player started a new game, if this happens lets give him 3 citizens and some food to start off with.
         if (allCitizens.Count < 1)
         {
-            Debug.Log("Started new game");
-            currentFoodAmount = 20;
-            currentWaterAmount = 20;
             for (int i = 0; i < 3; i++)
             {
                 SpawnNewCitizen();
